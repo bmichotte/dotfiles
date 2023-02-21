@@ -1,0 +1,26 @@
+{
+  "name": "bmichotte",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "typescriptreact"
+        ],
+        "path": "./typescriptreact.json"
+      },
+      {
+        "language": [
+          "typescript",
+          "javascript"
+        ],
+        "path": "./javascript.json"
+      },
+      {
+        "language": [
+          "typescript"
+        ],
+        "path": "./typescript.json"
+      }
+    ]
+  }
+}
