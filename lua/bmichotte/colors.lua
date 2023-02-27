@@ -2,7 +2,7 @@
 
 -- vim.cmd('colorscheme zephyr')
 
-require("nightfox").setup({
+--[[require("nightfox").setup({
 	options = {
 		modules = {
 			nvimtree = true,
@@ -22,30 +22,32 @@ require("nightfox").setup({
 			virtual_text = "NONE", -- Style that is applied to virtual text
 		},
 	},
-})
+})]]
 --vim.cmd("colorscheme terafox")
 
-require("rose-pine").setup({
+--[[require("rose-pine").setup({
 	--- @usage 'main' | 'moon'
 	dark_variant = "main",
-})
+})]]
 --vim.cmd("colorscheme rose-pine")
 
-vim.g.tokyodark_transparent_background = false
+--[[vim.g.tokyodark_transparent_background = false
 vim.g.tokyodark_enable_italic_comment = true
 vim.g.tokyodark_enable_italic = true
 vim.g.tokyodark_color_gamma = "1.0"
+]]
 --vim.cmd("colorscheme tokyodark")
 
-vim.g.everforest_background = "hard"
+--[[vim.g.everforest_background = "hard"
 vim.g.everforest_enable_italic = true
 vim.g.everforest_better_performance = true
 vim.g.everforest_enable_italic = true
+]]
 --vim.cmd("colorscheme everforest")
 
 require("colorbuddy").colorscheme("cobalt2")
 
-require("catppuccin").setup({
+--[[require("catppuccin").setup({
 	flavour = "mocha",
-})
+})]]
 --vim.cmd.colorscheme("catppuccin")

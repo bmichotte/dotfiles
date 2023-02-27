@@ -29,22 +29,22 @@ return packer.startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 	})
-	use("nvim-treesitter/playground")
+	--use("nvim-treesitter/playground")
 
 	-- auto closing
 	use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
 	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
 
 	-- color scheme
-	use("EdenEast/nightfox.nvim")
-	use("tiagovla/tokyodark.nvim")
-	use({
-		"rose-pine/neovim",
-		as = "rose-pine",
-	})
-	use("sainnhe/everforest")
+	--use("EdenEast/nightfox.nvim")
+	--use("tiagovla/tokyodark.nvim")
+	--use({
+	--	"rose-pine/neovim",
+	--	as = "rose-pine",
+	--})
+	--use("sainnhe/everforest")
 	use({ "lalitmee/cobalt2.nvim", requires = "tjdevries/colorbuddy.nvim" })
-	use({ "catppuccin/nvim", as = "catppuccin" })
+	--use({ "catppuccin/nvim", as = "catppuccin" })
 
 	-- telescope, file search/open
 	use({
@@ -78,9 +78,6 @@ return packer.startup(function(use)
 	-- comments
 	use({
 		"numToStr/Comment.nvim",
-		config = function()
-			require("Comment").setup()
-		end,
 	})
 	use("JoosepAlviste/nvim-ts-context-commentstring")
 
