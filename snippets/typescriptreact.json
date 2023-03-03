@@ -20,17 +20,9 @@
   "new tsx from svg": {
     "prefix": "svg",
     "body": [
-      "import cx from 'classnames'",
-      "",
-      "interface ${1}Props {",
-      "   className?: string",
-      "}",
-      "",
-      "const ${1} = ({ className }: ${1}Props) => {",
+      "export default function ${1}({ className }: { className?: string }) {",
       "   return $0",
-      "}",
-      "",
-      "export default ${1}"
+      "}"
     ]
   },
   "classnames": {
