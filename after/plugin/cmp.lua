@@ -4,14 +4,14 @@ local luasnip = require("luasnip")
 
 require("luasnip/loaders/from_vscode").lazy_load({ paths = { "./snippets" } })
 
-vim.opt.completeopt = "menu,menuone,noselect"
+--vim.opt.completeopt = "menu,menuone,noselect"
 
 cmp.setup({
     sources = {
         { name = "luasnip" }, 
         { name = "nvim_lsp" }, 
         { name = "copilot" }, 
-        { name = "buffer" },
+        --{ name = "buffer" },
         { name = "path" },
     },
     snippet = {

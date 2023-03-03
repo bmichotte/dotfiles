@@ -43,7 +43,7 @@ eslint.setup({
   diagnostics = {
     enable = true,
     report_unused_disable_directives = false,
-    run_on = "type", -- or `save`
+    run_on = "save", -- or `save`
   },
 })
 
@@ -73,6 +73,8 @@ local on_attach = function(client, bufnr)
     keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
     keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
     keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
+
+    require("twoslash-queries").attach(client, bufnr)
   end
 end
 
@@ -83,6 +85,8 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- configure html server
 lspconfig["html"].setup({
@@ -111,6 +115,11 @@ lspconfig["cssls"].setup({
 })
 
 -- configure tailwindcss server
+lspconfig["prismals"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
 lspconfig["tailwindcss"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
