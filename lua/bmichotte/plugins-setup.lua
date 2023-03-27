@@ -1,129 +1,128 @@
-local ensure_packer = function()
-	local fn = vim.fn
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-		vim.cmd([[packadd packer.nvim]])
-		return true
-	end
-	return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer() -- true if packer was just installed-- auto reload plugins and install then when saving plugins-setup.lua
-
-vim.cmd([[
+--[[vim.cmd([[
   augroup packer_user_config
     autocmd!
     autocmd BufWritePost plugins-setup.lua source <afile> | PackerSync
   augroup end
-]])
+  ] ])
+]]
 
-local packer = require("packer")
-
-return packer.startup(function(use)
-	-- Packer just manages itself
-	use("wbthomason/packer.nvim")
-
+local plugins = {
 	-- tree-sitter, syntax highligthing
-	use({
+	{
 		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-	})
-	--use("nvim-treesitter/playground")
+		build = ":TSUpdate",
+	},
+	{ 
+        "windwp/nvim-ts-autotag", 
+        dependencies = { "nvim-treesitter" }
+    }, -- autoclose tags
+	--"nvim-treesitter/playground",
 
 	-- auto closing
-	use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
-	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
+	"windwp/nvim-autopairs", -- autoclose parens, brackets, quotes, etc...
 
 	-- color scheme
-	--use("EdenEast/nightfox.nvim")
-	--use("tiagovla/tokyodark.nvim")
-	--use({
-	--	"rose-pine/neovim",
-	--	as = "rose-pine",
-	--})
-	--use("sainnhe/everforest")
-	use({ "lalitmee/cobalt2.nvim", requires = "tjdevries/colorbuddy.nvim" })
-	--use({ "catppuccin/nvim", as = "catppuccin" })
+	-- "EdenEast/nightfox.nvim",
+	-- "tiagovla/tokyodark.nvim",
+	-- { "rose-pine/neovim", name = "rose-pine", },
+	-- "sainnhe/everforest",
+    { "lalitmee/cobalt2.nvim", dependencies = { "tjdevries/colorbuddy.nvim" } },
+	-- { "catppuccin/nvim", name = "catppuccin" },
 
 	-- telescope, file search/open
-	use({
+	{
 		"nvim-telescope/telescope.nvim",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
+		dependencies = { { "nvim-lua/plenary.nvim" } },
+	},
 
 	-- Use fzf native for telescope (fuzzy finder)
-	use({
+	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "make",
-	})
+		build = "make",
+        dependencies = { "nvim-telescope/telescope.nvim" },
+	},
 
-	-- cmp, completion engine
-	use("hrsh7th/cmp-buffer")
-	use("hrsh7th/cmp-path")
-	--use 'hrsh7th/cmp-cmdline'
-	use("hrsh7th/nvim-cmp")
+	{
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+            -- cmp, completion engine
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path"
+            --use 'hrsh7th/cmp-cmdline'
+        }
+    },
 
 	-- tree, file explorer
-	use({
+	{
 		"nvim-tree/nvim-tree.lua",
-		requires = {
+		dependencies = {
 			"nvim-tree/nvim-web-devicons", -- for file icons
 		},
-	})
+	},
 
 	-- indentation colors
-	use("lukas-reineke/indent-blankline.nvim")
+	"lukas-reineke/indent-blankline.nvim",
 
 	-- comments
-	use({
-		"numToStr/Comment.nvim",
-	})
-	use("JoosepAlviste/nvim-ts-context-commentstring")
+	"numToStr/Comment.nvim",
+	"JoosepAlviste/nvim-ts-context-commentstring",
 
 	-- lsp
-	use("williamboman/mason.nvim")
-	use("williamboman/mason-lspconfig.nvim")
-	use("jose-elias-alvarez/null-ls.nvim")
-	use("jayp0521/mason-null-ls.nvim")
-	use("MunifTanjim/prettier.nvim")
-	use("MunifTanjim/eslint.nvim")
+	"williamboman/mason.nvim",
+	"williamboman/mason-lspconfig.nvim",
+	"jose-elias-alvarez/null-ls.nvim",
+	"jayp0521/mason-null-ls.nvim",
+	"MunifTanjim/prettier.nvim",
+	"MunifTanjim/eslint.nvim",
 
-	use("neovim/nvim-lspconfig")
-	use("hrsh7th/cmp-nvim-lsp")
-	use("hrsh7th/cmp-nvim-lua")
-	use({ "glepnir/lspsaga.nvim", branch = "main" }) -- enhanced lsp uis
-	use("jose-elias-alvarez/typescript.nvim") -- additional functionality for typescript server (e.g. rename file & update imports)
-	use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
+	"neovim/nvim-lspconfig",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-nvim-lua",
+	{ "glepnir/lspsaga.nvim", branch = "main" }, -- enhanced lsp uis
+	"jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
+	"onsails/lspkind.nvim", -- vs-code like icons for autocompletion
 
 	-- tmux and split window navigation
-	use("christoomey/vim-tmux-navigator") -- ctrl-l ctrl-h ctrl-j ctrl-k
-	use("szw/vim-maximizer") -- maximizes and restore current window
+	"christoomey/vim-tmux-navigator", -- ctrl-l ctrl-h ctrl-j ctrl-k
+	"szw/vim-maximizer", -- maximizes and restore current window
 
 	-- cost import
-	use({ "yardnsm/vim-import-cost", run = "npm install --production" })
+	{ "yardnsm/vim-import-cost", build = "npm install --production" },
 
 	-- package.json
-	use({
+	{
 		"vuki656/package-info.nvim",
-		requires = "MunifTanjim/nui.nvim",
-	})
+		dependencies = { "MunifTanjim/nui.nvim" } 
+	},
 
 	-- surround
-	use("tpope/vim-surround") -- using cs
+    "tpope/vim-surround" ,
 
 	-- status line
-	use("nvim-lualine/lualine.nvim")
+	"nvim-lualine/lualine.nvim",
 
-	use("L3MON4D3/LuaSnip")
-	use("rafamadriz/friendly-snippets")
-	use("saadparwaiz1/cmp_luasnip")
+	"L3MON4D3/LuaSnip",
+	"rafamadriz/friendly-snippets",
+	"saadparwaiz1/cmp_luasnip",
 
 	-- git integration
-	use("lewis6991/gitsigns.nvim")
+	"lewis6991/gitsigns.nvim",
 
 	-- copilot
-	use({
+	{
 		"zbirenbaum/copilot.lua",
 		event = "VimEnter",
 		config = function()
@@ -135,30 +134,30 @@ return packer.startup(function(use)
 				})
 			end, 100)
 		end,
-	})
-	use({
+	},
+	{
 		"zbirenbaum/copilot-cmp",
-		after = { "copilot.lua" },
+		dependencies = { "copilot.lua" },
 		config = function()
 			require("copilot_cmp").setup()
 		end,
-	})
+	},
 
 	-- ts helper
-	use("marilari88/twoslash-queries.nvim")
+	"marilari88/twoslash-queries.nvim",
 
-	use("hrsh7th/cmp-nvim-lsp-signature-help")
+	"hrsh7th/cmp-nvim-lsp-signature-help",
 
 	-- css colors
-	use({
+	{
 		"rrethy/vim-hexokinase",
-		run = "make hexokinase",
+		build = "make hexokinase",
 		config = function()
 			vim.cmd([[
                 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
             ]])
 		end,
-	})
+	},
 
 	-- matchup
 	--[[use({
@@ -169,19 +168,17 @@ return packer.startup(function(use)
 	})]]
 
 	-- multi-cursor
-	use({
+	{
 		"mg979/vim-visual-multi",
 		branch = "master",
-	})
+	},
 
-	-- lorem ispum
-	use("derektata/lorem.nvim")
+	"derektata/lorem.nvim",
+	-- "tpope/vim-fugitive",
+    "voldikss/vim-floaterm",
+}
 
-	use("tpope/vim-fugitive")
+local opts = {}
 
-    use 'voldikss/vim-floaterm'
+require("lazy").setup(plugins, opts)
 
-	if packer_bootstrap then
-		require("packer").sync()
-	end
-end)
