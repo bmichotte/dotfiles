@@ -75,7 +75,7 @@ local on_attach = function(client, bufnr)
     keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
     keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
 
-    require("twoslash-queries").attach(client, bufnr)
+    --require("twoslash-queries").attach(client, bufnr)
   end
 end
 

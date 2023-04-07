@@ -149,15 +149,8 @@ local plugins = {
 	"hrsh7th/cmp-nvim-lsp-signature-help",
 
 	-- css colors
-	{
-		"rrethy/vim-hexokinase",
-		build = "make hexokinase",
-		config = function()
-			vim.cmd([[
-                let g:Hexokinase_highlighters = [ 'backgroundfull' ]
-            ]])
-		end,
-	},
+	"NvChad/nvim-colorizer.lua",
+    "roobert/tailwindcss-colorizer-cmp.nvim",
 
 	-- matchup
 	--[[use({
