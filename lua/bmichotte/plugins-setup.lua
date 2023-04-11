@@ -40,7 +40,7 @@ local plugins = {
 	-- { "rose-pine/neovim", name = "rose-pine", },
 	-- "sainnhe/everforest",
     { "lalitmee/cobalt2.nvim", dependencies = { "tjdevries/colorbuddy.nvim" } },
-	-- { "catppuccin/nvim", name = "catppuccin" },
+	{ "catppuccin/nvim", name = "catppuccin" },
 
 	-- telescope, file search/open
 	{
@@ -169,9 +169,26 @@ local plugins = {
 	"derektata/lorem.nvim",
 	-- "tpope/vim-fugitive",
     "voldikss/vim-floaterm",
+
+    --[[{
+        "folke/which-key.nvim",
+        config = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 500
+            require("which-key").setup({
+                window = {
+                    border = "rounded",
+                },
+            })
+        end,
+    },]]
 }
 
-local opts = {}
+local opts = {
+    ui = {
+        border = { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║"},
+    },
+}
 
 require("lazy").setup(plugins, opts)
 

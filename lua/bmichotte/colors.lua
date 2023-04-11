@@ -48,6 +48,6 @@ vim.g.everforest_enable_italic = true
 require("colorbuddy").colorscheme("cobalt2")
 
 --[[require("catppuccin").setup({
-	flavour = "mocha",
-})]]
---vim.cmd.colorscheme("catppuccin")
+	flavour = "macchiato",
+})
+vim.cmd.colorscheme("catppuccin")]]
