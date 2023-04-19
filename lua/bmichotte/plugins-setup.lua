@@ -11,14 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
---[[vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins-setup.lua source <afile> | PackerSync
-  augroup end
-  ] ])
-]]
-
 local plugins = {
 	-- tree-sitter, syntax highligthing
 	{
@@ -29,7 +21,6 @@ local plugins = {
         "windwp/nvim-ts-autotag", 
         dependencies = { "nvim-treesitter" }
     }, -- autoclose tags
-	--"nvim-treesitter/playground",
 
 	-- auto closing
 	"windwp/nvim-autopairs", -- autoclose parens, brackets, quotes, etc...
@@ -118,9 +109,6 @@ local plugins = {
 	"rafamadriz/friendly-snippets",
 	"saadparwaiz1/cmp_luasnip",
 
-	-- git integration
-	"lewis6991/gitsigns.nvim",
-
 	-- copilot
 	{
 		"zbirenbaum/copilot.lua",
@@ -182,6 +170,9 @@ local plugins = {
             })
         end,
     },]]
+
+	"lewis6991/gitsigns.nvim",
+    "luukvbaal/statuscol.nvim",
 }
 
 local opts = {
