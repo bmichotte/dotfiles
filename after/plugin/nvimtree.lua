@@ -1,6 +1,6 @@
 require("nvim-tree").setup({
     view = {
-        side = "right"
+        side = "right",
     },
     filters = {
         dotfiles = true,
