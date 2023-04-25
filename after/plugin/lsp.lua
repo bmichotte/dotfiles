@@ -10,42 +10,6 @@ local lspsaga = require("lspsaga")
 
 lspsaga.setup({})
 
-local event = "BufWritePre" -- or "BufWritePost"
-local async = event == "BufWritePost"
-
-null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        --null_ls.builtins.diagnostics.eslint,
-        --null_ls.builtins.completion.spell,
-        require("typescript.extensions.null-ls.code-actions"),
-    },
-    on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
-            vim.keymap.set("n", "<Leader>f", function()
-                vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-            end, { buffer = bufnr, desc = "[lsp] format" })
-
-            -- format on save
-            vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-            vim.api.nvim_create_autocmd(event, {
-                buffer = bufnr,
-                group = group,
-                callback = function()
-                    vim.lsp.buf.format({ bufnr = bufnr, async = async })
-                end,
-                desc = "[lsp] format on save",
-            })
-        end
-
-        if client.supports_method("textDocument/rangeFormatting") then
-            vim.keymap.set("x", "<Leader>f", function()
-                vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-            end, { buffer = bufnr, desc = "[lsp] format" })
-        end
-    end,
-})
-
 eslint.setup({
     bin = "eslint_d", -- or `eslint_d`
     code_actions = {
@@ -106,8 +70,7 @@ end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- configure html server
-lspconfig["html"].setup({
+lspconfig.html.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -125,25 +88,22 @@ typescript.setup({
     },
 })
 
--- configure css server
-lspconfig["cssls"].setup({
+lspconfig.cssls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
--- configure tailwindcss server
-lspconfig["prismals"].setup({
+lspconfig.prismals.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
-lspconfig["tailwindcss"].setup({
+lspconfig.tailwindcss.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
--- configure emmet language server
-lspconfig["emmet_ls"].setup({
+lspconfig.emmet_ls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
     filetypes = { "html", "typescriptreact", "javascriptreact", "css" },
@@ -161,4 +121,40 @@ lspconfig.lua_ls.setup({
             },
         },
     },
+})
+
+local event = "BufWritePre" -- or "BufWritePost"
+local async = event == "BufWritePost"
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        --null_ls.builtins.diagnostics.eslint,
+        --null_ls.builtins.completion.spell,
+        require("typescript.extensions.null-ls.code-actions"),
+    },
+    on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/formatting") then
+            vim.keymap.set("n", "<Leader>f", function()
+                vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+            end, { buffer = bufnr, desc = "[lsp] format" })
+
+            -- format on save
+            vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+            vim.api.nvim_create_autocmd(event, {
+                buffer = bufnr,
+                group = group,
+                callback = function()
+                    vim.lsp.buf.format({ bufnr = bufnr, async = async })
+                end,
+                desc = "[lsp] format on save",
+            })
+        end
+
+        if client.supports_method("textDocument/rangeFormatting") then
+            vim.keymap.set("x", "<Leader>f", function()
+                vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+            end, { buffer = bufnr, desc = "[lsp] format" })
+        end
+    end,
 })
