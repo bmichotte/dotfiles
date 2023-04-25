@@ -27,11 +27,11 @@ local plugins = {
 
 	-- color scheme
 	-- "EdenEast/nightfox.nvim",
-	-- "tiagovla/tokyodark.nvim",
+	{ "tiagovla/tokyodark.nvim", lazy = false },
 	-- { "rose-pine/neovim", name = "rose-pine", },
 	-- "sainnhe/everforest",
-    { "lalitmee/cobalt2.nvim", dependencies = { "tjdevries/colorbuddy.nvim" } },
-	{ "catppuccin/nvim", name = "catppuccin" },
+    { "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
+	--{ "catppuccin/nvim", name = "catppuccin" },
 
 	-- telescope, file search/open
 	{
