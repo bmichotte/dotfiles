@@ -17,9 +17,9 @@ keymap.set("n", "N", "Nzzzv", options)
 keymap.set("n", "<leader>nh", ":nohl<CR>")
 
 -- split windows
-keymap.set("n", "<leader>sv", "<C-w>v")     -- split vertically
-keymap.set("n", "<leader>sh", "<C-w>s")     -- split horizontally
-keymap.set("n", "<leader>se", "<C-w>=")     -- make splitted windows same width
+keymap.set("n", "<leader>sv", "<C-w>v") -- split vertically
+keymap.set("n", "<leader>sh", "<C-w>s") -- split horizontally
+keymap.set("n", "<leader>se", "<C-w>=") -- make splitted windows same width
 keymap.set("n", "<leader>sx", ":close<CR>") -- close current split
 
 -- vim-maximizer

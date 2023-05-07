@@ -35,7 +35,7 @@ vim.g.tokyodark_transparent_background = false
 vim.g.tokyodark_enable_italic_comment = true
 vim.g.tokyodark_enable_italic = true
 vim.g.tokyodark_color_gamma = "1.0"
-vim.cmd("colorscheme tokyodark")
+--vim.cmd("colorscheme tokyodark")
 
 --[[vim.g.everforest_background = "hard"
 vim.g.everforest_enable_italic = true
@@ -46,7 +46,7 @@ vim.g.everforest_enable_italic = true
 
 --require("colorbuddy").colorscheme("cobalt2")
 
---[[require("catppuccin").setup({
-	flavour = "macchiato",
+require("catppuccin").setup({
+	flavour = "mocha",
 })
-vim.cmd.colorscheme("catppuccin")]]
+vim.cmd.colorscheme("catppuccin")

@@ -30,8 +30,8 @@ local plugins = {
     { "tiagovla/tokyodark.nvim", lazy = false },
     -- { "rose-pine/neovim", name = "rose-pine", },
     -- "sainnhe/everforest",
-    { "lalitmee/cobalt2.nvim",   lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
-    --{ "catppuccin/nvim", name = "catppuccin" },
+    { "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
+    { "catppuccin/nvim", name = "catppuccin" },
 
     -- telescope, file search/open
     {
@@ -62,6 +62,20 @@ local plugins = {
         dependencies = {
             "nvim-tree/nvim-web-devicons", -- for file icons
         },
+        --[[config = function()
+            require("nvim-tree").setup({
+                sort_by = "case_sensitive",
+                view = {
+                    side = "right",
+                },
+                git = {
+                    ignore = false,
+                },
+                filters = {
+                    dotfiles = true,
+                },
+            })
+        end,]]
     },
 
     -- indentation colors
@@ -82,13 +96,13 @@ local plugins = {
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
-    { "glepnir/lspsaga.nvim",    branch = "main" }, -- enhanced lsp uis
-    "jose-elias-alvarez/typescript.nvim",     -- additional functionality for typescript server (e.g. rename file & update imports)
-    "onsails/lspkind.nvim",                   -- vs-code like icons for autocompletion
+    { "glepnir/lspsaga.nvim", branch = "main" }, -- enhanced lsp uis
+    "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
+    "onsails/lspkind.nvim", -- vs-code like icons for autocompletion
 
     -- tmux and split window navigation
     "christoomey/vim-tmux-navigator", -- ctrl-l ctrl-h ctrl-j ctrl-k
-    "szw/vim-maximizer",           -- maximizes and restore current window
+    "szw/vim-maximizer", -- maximizes and restore current window
 
     -- cost import
     { "yardnsm/vim-import-cost", build = "npm install --production" },
@@ -115,20 +129,16 @@ local plugins = {
         event = "VimEnter",
         config = function()
             vim.defer_fn(function()
-                require("copilot").setup({
-                    --suggestion = {
-                    --	auto_trigger = true,
-                    --},
-                })
+                require("copilot").setup({})
             end, 100)
         end,
     },
     {
         "zbirenbaum/copilot-cmp",
         dependencies = { "copilot.lua" },
-        config = function()
+        --[[config = function()
             require("copilot_cmp").setup()
-        end,
+        end,]]
     },
 
     -- ts helper
