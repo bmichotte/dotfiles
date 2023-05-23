@@ -30,8 +30,10 @@ local plugins = {
     { "tiagovla/tokyodark.nvim", lazy = false },
     -- { "rose-pine/neovim", name = "rose-pine", },
     -- "sainnhe/everforest",
-    { "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
+    --{ "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
     { "catppuccin/nvim", name = "catppuccin" },
+
+    "andweeb/presence.nvim",
 
     -- telescope, file search/open
     {
