@@ -27,7 +27,7 @@ local plugins = {
 
     -- color scheme
     -- "EdenEast/nightfox.nvim",
-    { "tiagovla/tokyodark.nvim", lazy = false },
+    --{ "tiagovla/tokyodark.nvim", lazy = false },
     -- { "rose-pine/neovim", name = "rose-pine", },
     -- "sainnhe/everforest",
     --{ "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
