@@ -1,5 +1,4 @@
 local options = { noremap = true }
-
 local keymap = vim.keymap
 
 -- set jk to act as esc when in insert mode

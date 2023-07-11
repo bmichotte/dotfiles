@@ -33,7 +33,7 @@ local plugins = {
     --{ "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
     { "catppuccin/nvim", name = "catppuccin" },
 
-    "andweeb/presence.nvim",
+    --"andweeb/presence.nvim",
 
     -- telescope, file search/open
     {
@@ -151,6 +151,19 @@ local plugins = {
     -- css colors
     "NvChad/nvim-colorizer.lua",
     "roobert/tailwindcss-colorizer-cmp.nvim",
+
+    {
+        "jackMort/ChatGPT.nvim",
+        event = "VeryLazy",
+        --config = function()
+        --  require("chatgpt").setup()
+        --end,
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim",
+        },
+    },
 
     -- matchup
     --[[use({
