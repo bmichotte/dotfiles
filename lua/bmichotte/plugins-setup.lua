@@ -64,20 +64,6 @@ local plugins = {
         dependencies = {
             "nvim-tree/nvim-web-devicons", -- for file icons
         },
-        --[[config = function()
-            require("nvim-tree").setup({
-                sort_by = "case_sensitive",
-                view = {
-                    side = "right",
-                },
-                git = {
-                    ignore = false,
-                },
-                filters = {
-                    dotfiles = true,
-                },
-            })
-        end,]]
     },
 
     -- indentation colors
@@ -87,20 +73,34 @@ local plugins = {
     "numToStr/Comment.nvim",
     "JoosepAlviste/nvim-ts-context-commentstring",
 
-    -- lsp
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "jose-elias-alvarez/null-ls.nvim",
-    "jayp0521/mason-null-ls.nvim",
-    "MunifTanjim/prettier.nvim",
-    "MunifTanjim/eslint.nvim",
-
-    "neovim/nvim-lspconfig",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-nvim-lua",
     { "glepnir/lspsaga.nvim", branch = "main" }, -- enhanced lsp uis
-    "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
     "onsails/lspkind.nvim", -- vs-code like icons for autocompletion
+
+    {
+        "VonHeikemen/lsp-zero.nvim",
+        branch = "v2.x",
+        dependencies = {
+            { "neovim/nvim-lspconfig" },
+            {
+                "williamboman/mason.nvim",
+                build = function()
+                    pcall(vim.cmd, "MasonUpdate")
+                end,
+            },
+            { "williamboman/mason-lspconfig.nvim" },
+            { "hrsh7th/nvim-cmp" },
+            { "hrsh7th/cmp-nvim-lsp" },
+            { "L3MON4D3/LuaSnip" },
+            { "rafamadriz/friendly-snippets" },
+            { "saadparwaiz1/cmp_luasnip" },
+        },
+    },
+
+    {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {},
+    },
 
     -- tmux and split window navigation
     "christoomey/vim-tmux-navigator", -- ctrl-l ctrl-h ctrl-j ctrl-k
@@ -121,10 +121,6 @@ local plugins = {
     -- status line
     "nvim-lualine/lualine.nvim",
 
-    "L3MON4D3/LuaSnip",
-    "rafamadriz/friendly-snippets",
-    "saadparwaiz1/cmp_luasnip",
-
     -- copilot
     {
         "zbirenbaum/copilot.lua",
@@ -138,15 +134,10 @@ local plugins = {
     {
         "zbirenbaum/copilot-cmp",
         dependencies = { "copilot.lua" },
-        --[[config = function()
-            require("copilot_cmp").setup()
-        end,]]
     },
 
     -- ts helper
     "marilari88/twoslash-queries.nvim",
-
-    "hrsh7th/cmp-nvim-lsp-signature-help",
 
     -- css colors
     "NvChad/nvim-colorizer.lua",
@@ -155,24 +146,13 @@ local plugins = {
     {
         "jackMort/ChatGPT.nvim",
         event = "VeryLazy",
-        --config = function()
-        --  require("chatgpt").setup()
-        --end,
         dependencies = {
             "MunifTanjim/nui.nvim",
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope.nvim",
         },
     },
-
-    -- matchup
-    --[[use({
-		"andymass/vim-matchup",
-		config = function()
-			vim.g.matchup_matchparen_offscreen = { method = "popup" }
-		end,
-	})]]
-
+    --
     -- multi-cursor
     {
         "mg979/vim-visual-multi",
@@ -182,19 +162,6 @@ local plugins = {
     "derektata/lorem.nvim",
     -- "tpope/vim-fugitive",
     "voldikss/vim-floaterm",
-
-    --[[{
-        "folke/which-key.nvim",
-        config = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 500
-            require("which-key").setup({
-                window = {
-                    border = "rounded",
-                },
-            })
-        end,
-    },]]
 
     "lewis6991/gitsigns.nvim",
     "luukvbaal/statuscol.nvim",
