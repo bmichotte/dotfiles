@@ -7,9 +7,67 @@ end)
 local lspconfig = require("lspconfig")
 lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
+local formatter = require("formatter")
+local util = require("formatter.util")
+
 require("mason").setup()
 require("mason-lspconfig").setup({
-    ensure_installed = { "tsserver", "prismals", "tailwindcss", "lua_ls", "efm", "jsonls" },
+    ensure_installed = { "tsserver", "prismals", "tailwindcss", "lua_ls", "jsonls" },
+})
+
+local prettierConfig = function()
+    return {
+        exe = "prettier",
+        args = { "--stdin-filepath", vim.fn.shellescape(vim.api.nvim_buf_get_name(0)) },
+        stdin = true,
+    }
+end
+
+formatter.setup({
+    logging = true,
+    log_level = vim.log.levels.WARN,
+    filetype = {
+        lua = {
+            -- "formatter.filetypes.lua" defines default configurations for the
+            -- "lua" filetype
+            require("formatter.filetypes.lua").stylua,
+
+            -- You can also define your own configuration
+            function()
+                -- Supports conditional formatting
+                if util.get_current_buffer_file_name() == "special.lua" then
+                    return nil
+                end
+
+                -- Full specification of configurations is down below and in Vim help
+                -- files
+                return {
+                    exe = "stylua",
+                    args = {
+                        "--search-parent-directories",
+                        "--stdin-filepath",
+                        util.escape_path(util.get_current_buffer_file_path()),
+                        "--",
+                        "-",
+                    },
+                    stdin = true,
+                }
+            end,
+        },
+        prisma = prettierConfig,
+        html = { prettierConfig },
+        javascript = { prettierConfig },
+        typescript = { prettierConfig },
+        typescriptreact = { prettierConfig },
+
+        -- Use the special "*" filetype for defining formatter configurations on
+        -- any filetype
+        ["*"] = {
+            -- "formatter.filetypes.any" defines default configurations for any
+            -- filetype
+            require("formatter.filetypes.any").remove_trailing_whitespace,
+        },
+    },
 })
 
 lsp.set_sign_icons({
@@ -51,6 +109,8 @@ lsp.on_attach(function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
     -- set keybinds
+    keymap.set("n", "f", "<cmd>Format<CR>", opts) -- format
+
     keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
     keymap.set("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
     keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
@@ -80,9 +140,9 @@ lsp.format_on_save({
         async = false,
         timeout_ms = 10000,
     },
-    servers = {
-        ["efm"] = { "css", "html", "lua", "javascript", "json", "typescript", "markdown", "yaml" },
-    },
+    --servers = {
+    --    ["efm"] = { "css", "html", "lua", "javascript", "json", "typescript", "markdown", "yaml" },
+    --},
 })
 
 lsp.format_mapping("gq", {
@@ -90,9 +150,9 @@ lsp.format_mapping("gq", {
         async = false,
         timeout_ms = 10000,
     },
-    servers = {
-        ["efm"] = { "css", "html", "lua", "javascript", "json", "typescript", "markdown", "yaml" },
-    },
+    --servers = {
+    --    ["efm"] = { "css", "html", "lua", "javascript", "json", "typescript", "markdown", "yaml" },
+    --},
 })
 
 local ts_tools = require("typescript-tools")
@@ -204,7 +264,7 @@ lspconfig.prismals.setup({
             end, { buffer = bufnr, desc = "[lsp] format" })
 
             -- format on save
-            vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+            --[[vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
             vim.api.nvim_create_autocmd(event, {
                 buffer = bufnr,
                 group = group,
@@ -212,7 +272,7 @@ lspconfig.prismals.setup({
                     vim.lsp.buf.format({ bufnr = bufnr, async = async })
                 end,
                 desc = "[lsp] format on save",
-            })
+            })]]
         end
 
         if client.supports_method("textDocument/rangeFormatting") then
@@ -222,6 +282,13 @@ lspconfig.prismals.setup({
         end
     end,
 })
+
+vim.api.nvim_exec([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost *.js,*.lua,*.prisma,*.css,*.ts,*.tsx,*.json FormatWrite
+augroup END
+]], true)
 
 lspconfig.eslint.setup({
     on_attach = function(client, bufnr)

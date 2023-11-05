@@ -67,7 +67,7 @@ local plugins = {
     },
 
     -- indentation colors
-    "lukas-reineke/indent-blankline.nvim",
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
     -- comments
     "numToStr/Comment.nvim",
@@ -95,6 +95,8 @@ local plugins = {
             { "saadparwaiz1/cmp_luasnip" },
         },
     },
+
+    "mhartington/formatter.nvim",
 
     {
         "pmizio/typescript-tools.nvim",
@@ -164,7 +166,7 @@ local plugins = {
     "voldikss/vim-floaterm",
 
     "lewis6991/gitsigns.nvim",
-    "luukvbaal/statuscol.nvim",
+    -- "luukvbaal/statuscol.nvim",
 }
 
 local opts = {
