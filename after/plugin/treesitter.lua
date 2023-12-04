@@ -19,9 +19,9 @@ require("nvim-treesitter.configs").setup({
     },
     sync_install = true,
     auto_install = true,
-    context_commentstring = {
+    --[[context_commentstring = {
         enable = true,
-    },
+    },--]]
     indent = {
         enable = true,
     },

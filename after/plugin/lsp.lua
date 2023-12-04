@@ -6,6 +6,7 @@ end)
 
 local lspconfig = require("lspconfig")
 lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+lspconfig.biome.setup({})
 
 local formatter = require("formatter")
 local util = require("formatter.util")
@@ -14,7 +15,7 @@ require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = { "tsserver", "prismals", "tailwindcss", "lua_ls", "jsonls" },
 })
-
+--[[
 local prettierConfig = function()
     return {
         exe = "prettier",
@@ -69,6 +70,7 @@ formatter.setup({
         },
     },
 })
+]]
 
 lsp.set_sign_icons({
     error = "",
@@ -100,6 +102,10 @@ lsp.set_server_config({
     },
 })
 
+local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+local event = "BufWritePre" -- or "BufWritePost"
+local async = event == "BufWritePost"
+
 local keymap = vim.keymap
 lsp.on_attach(function(client, bufnr)
     --autocmds(client, bufnr)
@@ -109,20 +115,23 @@ lsp.on_attach(function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
     -- set keybinds
-    keymap.set("n", "f", "<cmd>Format<CR>", opts) -- format
+    --keymap.set("n", "<leader>f", "<cmd>Format<CR>", opts) -- format
+    keymap.set("n", "<leader>f", function()
+        vim.lsp.buf.format({ async = true })
+    end, opts)                                                                     -- format
 
-    keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
-    keymap.set("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
-    keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-    keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
-    keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
-    keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
-    keymap.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
+    keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts)                     -- show definition, references
+    keymap.set("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", opts)                -- got to declaration
+    keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)                -- see definition and make edits in window
+    keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)       -- go to implementation
+    keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)   -- see available code actions
+    keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)                 -- smart rename
+    keymap.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)   -- show  diagnostics for line
     keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
-    keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
-    keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-    keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
-    keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
+    keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)           -- jump to previous diagnostic in buffer
+    keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)           -- jump to next diagnostic in buffer
+    keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)                       -- show documentation for what is under cursor
+    keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts)                 -- see outline on right hand side
 
     -- typescript specific keymaps (e.g. rename file and update imports)
     if client.name == "tsserver" then
@@ -133,6 +142,15 @@ lsp.on_attach(function(client, bufnr)
     end
 
     --if client.server_capabilities.documentSymbolProvider then require("nvim-navic").attach(client, bufnr) end
+    vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+    vim.api.nvim_create_autocmd(event, {
+        buffer = bufnr,
+        group = group,
+        callback = function()
+            vim.lsp.buf.format({ bufnr = bufnr, async = async })
+        end,
+        desc = "[lsp] format on save",
+    })
 end)
 
 lsp.format_on_save({
@@ -249,22 +267,18 @@ cmp.setup({
     },
 })
 
-local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-local event = "BufWritePre" -- or "BufWritePost"
-local async = event == "BufWritePost"
-
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 lspconfig.prismals.setup({
     capabilities = capabilities,
     -- on_attach = on_attach,
     on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
-            vim.keymap.set("n", "<Leader>f", function()
+            vim.keymap.set("n", "<leader>f", function()
                 vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
             end, { buffer = bufnr, desc = "[lsp] format" })
 
             -- format on save
-            --[[vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+            vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
             vim.api.nvim_create_autocmd(event, {
                 buffer = bufnr,
                 group = group,
@@ -272,24 +286,28 @@ lspconfig.prismals.setup({
                     vim.lsp.buf.format({ bufnr = bufnr, async = async })
                 end,
                 desc = "[lsp] format on save",
-            })]]
+            })
         end
 
         if client.supports_method("textDocument/rangeFormatting") then
-            vim.keymap.set("x", "<Leader>f", function()
+            vim.keymap.set("x", "<leader>f", function()
                 vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
             end, { buffer = bufnr, desc = "[lsp] format" })
         end
     end,
 })
 
-vim.api.nvim_exec([[
+vim.api.nvim_exec(
+    [[
 augroup FormatAutogroup
   autocmd!
   autocmd BufWritePost *.js,*.lua,*.prisma,*.css,*.ts,*.tsx,*.json FormatWrite
 augroup END
-]], true)
+]],
+    true
+)
 
+--[[
 lspconfig.eslint.setup({
     on_attach = function(client, bufnr)
         vim.api.nvim_create_autocmd("BufWritePre", {
@@ -298,6 +316,7 @@ lspconfig.eslint.setup({
         })
     end,
 })
+]]
 
 --[[local eslint = require("eslint")
 eslint.setup({
@@ -428,7 +447,7 @@ null_ls.setup({
         end
 
         if client.supports_method("textDocument/formatting") then
-            vim.keymap.set("n", "<Leader>f", function()
+            vim.keymap.set("n", "<leader>f", function()
                 vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
             end, { buffer = bufnr, desc = "[lsp] format" })
 
@@ -443,7 +462,7 @@ null_ls.setup({
         end
 
         if client.supports_method("textDocument/rangeFormatting") then
-            vim.keymap.set("x", "<Leader>f", function()
+            vim.keymap.set("x", "<leader>f", function()
                 vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
             end, { buffer = bufnr, desc = "[lsp] format" })
         end
