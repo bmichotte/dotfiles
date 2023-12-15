@@ -31,7 +31,10 @@ local plugins = {
     -- { "rose-pine/neovim", name = "rose-pine", },
     -- "sainnhe/everforest",
     --{ "lalitmee/cobalt2.nvim", lazy = false, dependencies = { "tjdevries/colorbuddy.nvim" } },
-    { "catppuccin/nvim", name = "catppuccin" },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin"
+    },
 
     --"andweeb/presence.nvim",
 
@@ -46,6 +49,11 @@ local plugins = {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
         dependencies = { "nvim-telescope/telescope.nvim" },
+    },
+
+    {
+        "kevinhwang91/nvim-ufo",
+        dependencies = { "kevinhwang91/promise-async" },
     },
 
     {
@@ -67,13 +75,21 @@ local plugins = {
     },
 
     -- indentation colors
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {}
+    },
 
     -- comments
     "numToStr/Comment.nvim",
     "JoosepAlviste/nvim-ts-context-commentstring",
 
-    { "glepnir/lspsaga.nvim", branch = "main" }, -- enhanced lsp uis
+    {
+        "glepnir/lspsaga.nvim",
+        branch = "main"
+    },                      -- enhanced lsp uis
+
     "onsails/lspkind.nvim", -- vs-code like icons for autocompletion
 
     {
@@ -106,10 +122,15 @@ local plugins = {
 
     -- tmux and split window navigation
     "christoomey/vim-tmux-navigator", -- ctrl-l ctrl-h ctrl-j ctrl-k
-    "szw/vim-maximizer", -- maximizes and restore current window
+    "szw/vim-maximizer",              -- maximizes and restore current window
 
     -- cost import
-    { "yardnsm/vim-import-cost", build = "npm install --production" },
+    -- { "yardnsm/vim-import-cost", build = "npm install --production" },
+    {
+        'barrett-ruth/import-cost.nvim',
+        build = 'sh install.sh yarn',
+        --config = true
+    },
 
     -- package.json
     {
