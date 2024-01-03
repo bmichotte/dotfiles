@@ -20,11 +20,3 @@ keymap.set("n", "<leader>sv", "<C-w>v")     -- split vertically
 keymap.set("n", "<leader>sh", "<C-w>s")     -- split horizontally
 keymap.set("n", "<leader>se", "<C-w>=")     -- make splitted windows same width
 keymap.set("n", "<leader>sx", ":close<CR>") -- close current split
-
--- vim-maximizer
-keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")
-
--- nvim-tree
-keymap.set("n", "<leader>tt", ":NvimTreeToggle<CR>", options)
-keymap.set("n", "<leader>tf", ":NvimTreeFocus<CR>", options)
-keymap.set("n", "<leader>ts", ":NvimTreeFindFile<CR>", options)
