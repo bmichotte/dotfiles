@@ -11,8 +11,8 @@ return {
                 defaults = {
                     mappings = {
                         i = {
-                            ["<C-k>"] = actions.move_selection_previous,                   -- move to prev result
-                            ["<C-j>"] = actions.move_selection_next,                       -- move to next result
+                            ["<C-k>"] = actions.move_selection_previous,                       -- move to prev result
+                            ["<C-j>"] = actions.move_selection_next,                           -- move to next result
                             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, -- send selected to quickfixlist
                         },
                         n = {
@@ -22,19 +22,33 @@ return {
                 },
             })
 
-            telescope.load_extension("fzf")
             telescope.load_extension("package_info")
 
             vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Find files", noremap = true })
             vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, { desc = "Live grep files", noremap = true })
             vim.keymap.set("n", "<leader>fc", telescope_builtin.grep_string, { desc = "Grep string", noremap = true })
             vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Show opened buffers", noremap = true })
-            --vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, options)
         end
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
         dependencies = { "nvim-telescope/telescope.nvim" },
+        config = function()
+            require("telescope").load_extension("fzf")
+        end
+    },
+    {
+        'nvim-telescope/telescope-ui-select.nvim',
+        config = function()
+            require("telescope").setup {
+                extensions = {
+                    ["ui-select"] = {
+                        require("telescope.themes").get_dropdown()
+                    }
+                }
+            }
+            require("telescope").load_extension("ui-select")
+        end
     }
 }
