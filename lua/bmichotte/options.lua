@@ -62,3 +62,19 @@ opt.listchars = {  -- see hidden chars and their colors
 opt.list = true
 opt.updatetime = 100
 ]]
+
+vim.filetype.add({
+    extension = {
+        -- conf = "conf",
+        env = "sh",
+    },
+    filename = {
+        [".env"] = "sh",
+        -- ["tsconfig.json"] = "jsonc",
+        -- [".yamlfmt"] = "yaml",
+    },
+    pattern = {
+        ["%.env%.[%w_.-]+"] = "sh",
+        [".env.*"] = "sh",
+    },
+})
