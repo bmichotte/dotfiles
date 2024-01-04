@@ -47,8 +47,10 @@ return {
                         })(entry, vim_item)
                     end,
                 },
-                mapping = {
+                mapping = cmp.mapping.preset.insert({
                     ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                    ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
+                    ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
                     ["<C-Space>"] = cmp.mapping(function()
                         if cmp.visible() then
                             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -56,7 +58,7 @@ return {
                             cmp.complete()
                         end
                     end),
-                },
+                }),
             })
         end
     }

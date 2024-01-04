@@ -43,8 +43,39 @@ return {
 
             lsp.on_attach(function(client, bufnr)
                 lsp.default_keymaps({ buffer = bufnr })
-                vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>",
-                    { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" })
+                vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', { buffer = bufnr })
+
+                if client.name == 'tsserver' then
+                    vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Show definition, references" })
+                    vim.keymap.set("n", "gD", "<Cmd>Lspsaga goto_definition<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" })
+                    vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "See definition and make edits in window" })
+                    vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Go to implementation" })
+                    vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "See available code actions" })
+                    vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Smart rename" })
+                    vim.keymap.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" })
+                    vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Show diagnostics for cursor" })
+                    vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc =
+                        "Show documentation for what is under cursor" })
+
+                    vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Jump to previous diagnostic in buffer" })
+                    vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" })
+                    vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>",
+                        { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" })
+                else
+                    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,
+                        { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" })
+                end
 
                 local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
                 local event = "BufWritePre"
