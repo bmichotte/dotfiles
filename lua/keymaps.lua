@@ -13,10 +13,16 @@ keymap.set("n", "n", "nzzzv", options)
 keymap.set("n", "N", "Nzzzv", options)
 
 -- clear search
-keymap.set("n", "<leader>nh", ":nohl<CR>")
+keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlight" })
 
 -- split windows
-keymap.set("n", "<leader>sv", "<C-w>v")     -- split vertically
-keymap.set("n", "<leader>sh", "<C-w>s")     -- split horizontally
-keymap.set("n", "<leader>se", "<C-w>=")     -- make splitted windows same width
-keymap.set("n", "<leader>sx", ":close<CR>") -- close current split
+keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split vertically" })
+keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split horizontally" })
+keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splitted windows same width" })
+keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close current split" })
+
+-- move lines
+keymap.set("n", "<A-Down>", ":m .+1<CR>==")     -- move line up(n)
+keymap.set("n", "<A-Up>", ":m .-2<CR>==")       -- move line down(n)
+keymap.set("v", "<A-Down>", ":m '>+1<CR>gv=gv") -- move line up(v)
+keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv")   -- move line down(v)

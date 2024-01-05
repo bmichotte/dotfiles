@@ -1,22 +1,19 @@
 return {
     "vuki656/package-info.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
-    config = function()
-        require('package-info').setup()
-
-        vim.keymap.set({ "n" }, "<leader>ns", require("package-info").show,
-            { silent = true, noremap = true, desc = "Show dependency versions" })
-        vim.keymap.set({ "n" }, "<leader>nc", require("package-info").hide,
-            { silent = true, noremap = true, desc = "Hide dependency versions" })
-        vim.keymap.set({ "n" }, "<leader>nt", require("package-info").toggle,
-            { silent = true, noremap = true, desc = "Toggle dependency versions" })
-        vim.keymap.set({ "n" }, "<leader>nu", require("package-info").update,
-            { silent = true, noremap = true, desc = "Update dependency on the line" })
-        vim.keymap.set({ "n" }, "<leader>nd", require("package-info").delete,
-            { silent = true, noremap = true, desc = "Delete dependency on the line" })
-        vim.keymap.set({ "n" }, "<leader>ni", require("package-info").install,
-            { silent = true, noremap = true, desc = "Install a new dependency" })
-        vim.keymap.set({ "n" }, "<leader>np", require("package-info").change_version,
-            { silent = true, noremap = true, desc = "Install a different dependency version" })
-    end
+    keys = {
+        { "<leader>ns", function() require("package-info").show() end,           desc = "Show dependency versions" },
+        { "<leader>nc", function() require("package-info").hide() end,           desc = "Hide dependency versions" },
+        { "<leader>nt", function() require("package-info").toggle() end,         desc = "Toggle dependency versions" },
+        { "<leader>nu", function() require("package-info").update() end,         desc = "Update dependency on the line" },
+        { "<leader>nd", function() require("package-info").delete() end,         desc = "Delete dependency on the line" },
+        { "<leader>ni", function() require("package-info").install() end,        desc = "Install a new dependency" },
+        { "<leader>np", function() require("package-info").change_version() end, desc = "Install a different dependency version" },
+    },
+    opts = {
+        -- colors = {
+        --     up_to_date = "#6c7086",
+        --     outdated = "#fab387",
+        -- },
+    },
 }

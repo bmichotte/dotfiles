@@ -6,16 +6,18 @@ return {
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope.nvim",
     },
-    config = function()
-        local chatgpt = require("chatgpt")
-        chatgpt.setup({
-            --    api_key_cmd = "op read op://Personal/msrznwludsumyoz7v7y5xhurom/identifiant --no-newline",
-        })
-
-        vim.keymap.set("v", "<leader>cc", chatgpt.edit_with_instructions, {
-            noremap = true,
-            desc =
-            "Edit current selection with ChatGPT"
-        })
-    end
+    opts = {
+        -- api_key_cmd = "op read op://Personal/msrznwludsumyoz7v7y5xhurom/identifiant --no-newline",
+    },
+    keys = {
+        {
+            "<leader>cc",
+            function()
+                local chatgpt = require('chatgpt')
+                chatgpt.edit_with_instructions()
+            end,
+            mode = "v",
+            desc = "Edit current selection with ChatGPT"
+        }
+    }
 }

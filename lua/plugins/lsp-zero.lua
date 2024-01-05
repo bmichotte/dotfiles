@@ -34,6 +34,7 @@ return {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v2.x",
         dependencies = {
+            "hrsh7th/nvim-cmp",
             "neovim/nvim-lspconfig",
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
@@ -63,8 +64,13 @@ return {
                     vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>",
                         { noremap = true, silent = true, buffer = bufnr, desc = "Show diagnostics for cursor" })
                     vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>",
-                        { noremap = true, silent = true, buffer = bufnr, desc =
-                        "Show documentation for what is under cursor" })
+                        {
+                            noremap = true,
+                            silent = true,
+                            buffer = bufnr,
+                            desc =
+                            "Show documentation for what is under cursor"
+                        })
 
                     vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>",
                         { noremap = true, silent = true, buffer = bufnr, desc = "Jump to previous diagnostic in buffer" })
@@ -134,7 +140,10 @@ return {
                 capabilities = capabilities
             })
             lspconfig.tsserver.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
+                on_attach = function(client, bufnr)
+                    require("twoslash-queries").attach(client, bufnr)
+                end,
             })
             lspconfig.html.setup({
                 capabilities = capabilities
