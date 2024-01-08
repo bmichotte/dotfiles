@@ -8,5 +8,6 @@ return {
         "rafamadriz/friendly-snippets",
         "saadparwaiz1/cmp_luasnip",
         "hrsh7th/cmp-path",
+        'js-everts/cmp-tailwind-colors',
     },
 }
