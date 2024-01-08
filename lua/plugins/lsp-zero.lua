@@ -82,6 +82,8 @@ return {
                     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,
                         { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" })
                 end
+                vim.keymap.set('i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Show signature help" })
 
                 local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
                 local event = "BufWritePre"
@@ -149,7 +151,14 @@ return {
                 capabilities = capabilities
             })
             lspconfig.lua_ls.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
             })
             lspconfig.prismals.setup({
                 capabilities = capabilities,
