@@ -46,6 +46,10 @@ return {
                 lsp.default_keymaps({ buffer = bufnr })
                 vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', { buffer = bufnr })
 
+                if client.server_capabilities.inlayHintProvider then
+                    vim.lsp.inlay_hint.enable(bufnr, true)
+                end
+
                 if client.name == 'tsserver' then
                     vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>",
                         { noremap = true, silent = true, buffer = bufnr, desc = "Show definition, references" })
@@ -141,10 +145,27 @@ return {
             lspconfig.biome.setup({
                 capabilities = capabilities
             })
+            local util = require("lspconfig/util")
             lspconfig.tsserver.setup({
                 capabilities = capabilities,
+                root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+                init_options = {
+                    preferences = {
+                        includeInlayParameterNameHints = "all",
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = false,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = false,
+                        includeInlayEnumMemberValueHints = false,
+                        importModuleSpecifierPreference = 'non-relative'
+                    },
+                },
                 on_attach = function(client, bufnr)
                     require("twoslash-queries").attach(client, bufnr)
+                    -- client.server_capabilities.document_formatting = false
+                    -- client.server_capabilities.document_range_formatting = false
+                    -- on_attach(client, bufnr)
                 end,
             })
             lspconfig.html.setup({
@@ -154,8 +175,21 @@ return {
                 capabilities = capabilities,
                 settings = {
                     Lua = {
+                        format = {
+                            enable = true,
+                        },
                         diagnostics = {
                             globals = { "vim" },
+                            neededFileStatus = {
+                                ["codestyle-check"] = "Any",
+                            },
+                            groupSeverity = { ["codestyle-check"] = "Warning", },
+                        },
+                        workspace = {
+                            checkThirdParty = false,
+                        },
+                        completion = {
+                            callSnippet = "Replace",
                         },
                     },
                 },
