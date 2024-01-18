@@ -33,9 +33,9 @@ cmp.setup({
         documentation = cmp.config.window.bordered(),
     },
     sources = cmp.config.sources({
-        { name = "luasnip" },
-        { name = "nvim_lsp" },
         { name = "copilot" },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
         { name = "path" },
     }, {
         { name = 'buffer' },

@@ -8,10 +8,10 @@ return {
         { "<leader>zn", ":FloatermNext<CR>",              desc = "New float term" },
         { "<leader>zz", ":FloatermToggle<CR>",            desc = "Toggle float term" },
 
-        { "<leader>zt", "<C-\\><C-n>:FloatermNew<CR>",    mode = "t",                  desc = "New float term in float term" },
-        { "<leader>zp", "<C-\\><C-n>:FloatermPrev<CR>",   mode = "t",                  desc = "Previous float term in float term" },
-        { "<leader>zn", "<C-\\><C-n>:FloatermNext<CR>",   mode = "t",                  desc = "New float term in float term" },
-        { "<leader>zz", "<C-\\><C-n>:FloatermToggle<CR>", mode = "t",                  desc = "Toggle float term in float term" },
+        { "<leader>zt", "<C-\\><C-n>:FloatermNew<CR>",    desc = "New float term in float term",       mode = "t" },
+        { "<leader>zp", "<C-\\><C-n>:FloatermPrev<CR>",   desc = "Previous float term in float term",  mode = "t" },
+        { "<leader>zn", "<C-\\><C-n>:FloatermNext<CR>",   desc = "New float term in float term",       mode = "t" },
+        { "<leader>zz", "<C-\\><C-n>:FloatermToggle<CR>", desc = "Toggle float term in float term",    mode = "t" },
     },
     init = function()
         vim.g.floaterm_width = 0.95

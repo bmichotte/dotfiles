@@ -20,10 +20,10 @@ return {
     branch = "harpoon2",
     dependencies = { { "nvim-lua/plenary.nvim" } },
     keys = {
-        { "<leader>ha", function() require("harpoon"):list():append() end,          desc = "Add file to Harpoon" },
-        --{ "<C-e>", function() harpoon.ui:toggle_quick_menu(require("harpoon"):list()) end), desc = "Toggle Harpoon quick menu" },
-        { "<leader>hp", function() require("harpoon"):list():prev() end,            desc = "Previous Harpoon file" },
-        { "<leader>hn", function() require("harpoon"):list():next() end,            desc = "Next Harpoon file" },
-        { "<leader>fh", function() toggle_telescope(require("harpoon"):list()) end, desc = "Open harpoon window" },
+        { "<leader>ha", function() require("harpoon"):list():append() end,                                 desc = "Add file to Harpoon" },
+        { "<leader>he", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Toggle Harpoon quick menu" },
+        { "<leader>hp", function() require("harpoon"):list():prev() end,                                   desc = "Previous Harpoon file" },
+        { "<leader>hn", function() require("harpoon"):list():next() end,                                   desc = "Next Harpoon file" },
+        { "<leader>fh", function() toggle_telescope(require("harpoon"):list()) end,                        desc = "Open harpoon window" },
     },
 }

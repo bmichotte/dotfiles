@@ -1,65 +1,65 @@
 {
-  "useState snippet": {
-    "prefix": "rus",
-    "body": "const [${1}, set${1/(^[a-zA-Z])(.*)/${1:/upcase}${2}/}] = useState<$2>($3)",
-    "description": "use state but it camel cases"
-  },
-  "new fc": {
-    "prefix": "fc",
-    "body": [
-      "interface ${1}Props {",
-      "}",
-      "",
-      "const ${1} = ({}: ${1}Props) => {",
-      "   return <>$0</>",
-      "}",
-      "",
-      "export default ${1}"
-    ]
-  },
-  "new tsx from svg": {
-    "prefix": "svg",
-    "body": [
-      "export default function ${1}({ className }: { className?: string }) {",
-      "   return $0",
-      "}"
-    ]
-  },
-  "classnames": {
-    "prefix": "cx",
-    "body": "import cx from 'classnames'"
-  },
-  "clsx": {
-    "prefix": "clsx",
-    "body": "import { clsx } from 'clsx'"
-  },
-  "add server side props": {
-    "prefix": "server",
-    "body": [
-      "export const getServerSideProps: GetServerSideProps = async (context) => {",
-      "   return {",
-      "      props: {",
-      "      }",
-      "   }",
-      "}"
-    ]
-  },
-  "getStaticProps": {
-    "prefix": "staticprops",
-    "body": [
-      "export const getStaticProps: GetStaticProps = async (context) => {",
-      "}",
-      "",
-      "export const getStaticPaths: GetStaticPaths = async () => {",
-      "}"
-    ]
-  },
-  "getServerSideProps": {
-    "prefix": "sideprops",
-    "body": [
-      "export const getServerSideProps: GetServerSideProps = async (context) => {",
-      "$0",
-      "}"
-    ]
-  }
+	"useState snippet": {
+		"prefix": "rus",
+		"body": "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState<$2>(${3:initialState})",
+		"description": "use state but it camel cases"
+	},
+	"new fc": {
+		"prefix": "fc",
+		"body": [
+			"interface ${1}Props {",
+			"}",
+			"",
+			"const ${1} = ({}: ${1}Props) => {",
+			"   return <>$0</>",
+			"}",
+			"",
+			"export default ${1}"
+		]
+	},
+	"new tsx from svg": {
+		"prefix": "svg",
+		"body": [
+			"export default function ${1}({ className }: { className?: string }) {",
+			"   return $0",
+			"}"
+		]
+	},
+	"classnames": {
+		"prefix": "cx",
+		"body": "import cx from 'classnames'"
+	},
+	"clsx": {
+		"prefix": "clsx",
+		"body": "import { clsx } from 'clsx'"
+	},
+	"add server side props": {
+		"prefix": "server",
+		"body": [
+			"export const getServerSideProps: GetServerSideProps = async (context) => {",
+			"   return {",
+			"      props: {",
+			"      }",
+			"   }",
+			"}"
+		]
+	},
+	"getStaticProps": {
+		"prefix": "staticprops",
+		"body": [
+			"export const getStaticProps: GetStaticProps = async (context) => {",
+			"}",
+			"",
+			"export const getStaticPaths: GetStaticPaths = async () => {",
+			"}"
+		]
+	},
+	"getServerSideProps": {
+		"prefix": "sideprops",
+		"body": [
+			"export const getServerSideProps: GetServerSideProps = async (context) => {",
+			"$0",
+			"}"
+		]
+	}
 }

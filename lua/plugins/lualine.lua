@@ -169,7 +169,6 @@ return {
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
                         table.insert(client_names, client.name)
-                        -- return client.name
                     end
                 end
                 if next(client_names) == nil then
@@ -177,7 +176,7 @@ return {
                 end
                 return table.concat(client_names, ', ')
             end,
-            icon = '  LSP:',
+            icon = '  ',
             color = { fg = '#ffffff', gui = 'bold' },
         }
 

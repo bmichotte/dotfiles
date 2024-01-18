@@ -22,7 +22,15 @@ keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splitted windows same wid
 keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close current split" })
 
 -- move lines
-keymap.set("n", "<A-Down>", ":m .+1<CR>==")     -- move line up(n)
-keymap.set("n", "<A-Up>", ":m .-2<CR>==")       -- move line down(n)
-keymap.set("v", "<A-Down>", ":m '>+1<CR>gv=gv") -- move line up(v)
-keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv")   -- move line down(v)
+keymap.set("n", "<A-Down>", ":m .+1<CR>==", { desc = "Move line up" })     -- move line up(n)
+keymap.set("n", "<A-Up>", ":m .-2<CR>==", { desc = "Move line down" })     -- move line down(n)
+keymap.set("v", "<A-Down>", ":m '>+1<CR>gv=gv", { desc = "Move line up" }) -- move line up(v)
+keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv", { desc = "Move line down" }) -- move line down(v)
+
+-- accents
+keymap.set("i", "<A-e>", "<C-k>'", { desc = "Accent é" })
+keymap.set("i", "<A-`", " <C-k>`", { desc = "Accent è" })
+keymap.set("i", "<A-i>", "<C-k>^", { desc = "Accent ê" })
+keymap.set("i", "<A-u>", "<C-k>:", { desc = "Accent ë" })
+keymap.set("i", "<A-c>", "<C-k>,c", { desc = "Accent ç" })
+keymap.set("i", "<A-S-c>", "<C-k>,C", { desc = "Accent Ç" })
