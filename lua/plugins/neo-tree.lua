@@ -12,6 +12,7 @@ return {
         { "<leader>ts", ":Neotree reveal<CR>", desc = "Find current file" },
     },
     opts = {
+        close_if_last_window = false,
         sort_case_insensitive = true,
         filesystem = {
             filtered_items = {
