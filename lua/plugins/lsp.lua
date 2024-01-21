@@ -202,11 +202,11 @@ return {
                                     version = 'LuaJIT'
                                 },
                                 workspace = {
-                                    checkThirdParty = true,
-                                    library = {
-                                        vim.env.VIMRUNTIME,
-                                        -- vim.fn.stdpath("data")
-                                    }
+                                    checkThirdParty = false,
+                                    -- library = {
+                                    --     vim.env.VIMRUNTIME,
+                                    --     -- vim.fn.stdpath("data")
+                                    -- }
                                 }
                             }
                         })
