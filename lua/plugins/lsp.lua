@@ -4,14 +4,27 @@ return {
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
             "hrsh7th/nvim-cmp",
+            "hrsh7th/cmp-nvim-lsp",
             "neovim/nvim-lspconfig",
+            "nvimdev/lspsaga.nvim",
         },
         lazy = false,
         config = function()
-            require("mason").setup()
+            require("mason").setup({
+                ui = {
+                    border = "rounded"
+                }
+            })
+
             local lspconfig = require("lspconfig")
             local util = require("lspconfig/util")
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+            require('lspsaga').setup({
+                lightbulb = {
+                    enable = false,
+                }
+            })
 
             local on_attach = function(client, bufnr)
                 vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', { buffer = bufnr })
@@ -21,9 +34,9 @@ return {
                 end
 
                 -- vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", { noremap = true, silent = true, buffer = bufnr, desc = "Show definition, references" })
-                vim.keymap.set("n", "gD", vim.lsp.buf.declaration,
+                vim.keymap.set("n", "gd", vim.lsp.buf.declaration,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" })
-                vim.keymap.set("n", "gd", vim.lsp.buf.definition,
+                vim.keymap.set("n", "gD", vim.lsp.buf.definition,
                     { noremap = true, silent = true, buffer = bufnr, desc = "See definition and make edits in window" })
                 vim.keymap.set("n", "gi", vim.lsp.buf.implementation,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Go to implementation" })
@@ -34,10 +47,16 @@ return {
                 -- vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { noremap = true, silent = true, buffer = bufnr, desc = "Show diagnostics for cursor" })
                 vim.keymap.set("n", "K", vim.lsp.buf.hover,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show documentation for what is under cursor" })
-                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev,
+                -- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev,
+                --     { noremap = true, silent = true, buffer = bufnr, desc = "Jump to previous diagnostic in buffer" })
+                -- vim.keymap.set("n", "]d", vim.diagnostic.goto_next,
+                --     { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" })
+
+                vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>",
                     { noremap = true, silent = true, buffer = bufnr, desc = "Jump to previous diagnostic in buffer" })
-                vim.keymap.set("n", "]d", vim.diagnostic.goto_next,
+                vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>",
                     { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" })
+
                 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,
                     { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" })
                 vim.keymap.set('i', '<C-h>', vim.lsp.buf.signature_help,
@@ -125,6 +144,18 @@ return {
             })
 
             vim.diagnostic.config({
+                underline = true,
+                update_in_insert = false,
+                virtual_text = {
+                    spacing = 4,
+                    source = "if_many",
+                    prefix = "●",
+                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+                    -- prefix = "icons",
+                },
+                severity_sort = true,
+                float = { border = "rounded" },
                 signs = {
                     text = {
                         [vim.diagnostic.severity.ERROR] = "",
@@ -134,6 +165,16 @@ return {
                     }
                 }
             })
+
+            vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+                vim.lsp.handlers.hover,
+                { border = "rounded" }
+            )
+
+            vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+                vim.lsp.handlers.signature_help,
+                { border = "rounded" }
+            )
 
             -- format on save
             local setup_group = vim.api.nvim_create_augroup("lsp_format_config", { clear = true })
