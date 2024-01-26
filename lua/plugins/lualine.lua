@@ -166,19 +166,31 @@ return {
                 if next(clients) == nil then
                     return msg
                 end
+
+                local langs = {
+                    ['tsserver'] = '󰛦',
+                    ['cssls'] = '',
+                    ['tailwindcss'] = '󱏿',
+                    ['html'] = '',
+                    ['jsonls'] = '',
+                    ['lua_ls'] = '',
+                    ['prismals'] = '',
+                }
+
                 local client_names = {}
                 for _, client in ipairs(clients) do
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                        table.insert(client_names, client.name)
+                        local name = langs[client.name] or client.name
+                        table.insert(client_names, name)
                     end
                 end
                 if next(client_names) == nil then
                     return msg
                 end
-                return table.concat(client_names, ', ')
+                return table.concat(client_names, ' ')
             end,
-            icon = '  ',
+            -- icon = '  ',
             color = { fg = '#ffffff', gui = 'bold' },
         }
 
