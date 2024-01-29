@@ -7,6 +7,7 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "neovim/nvim-lspconfig",
             "nvimdev/lspsaga.nvim",
+            "folke/neodev.nvim"
         },
         lazy = false,
         config = function()
@@ -15,6 +16,8 @@ return {
                     border = "rounded"
                 }
             })
+
+            require("neodev").setup({})
 
             local lspconfig = require("lspconfig")
             local util = require("lspconfig/util")
@@ -63,15 +66,13 @@ return {
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show signature help" })
 
                 local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-                local event = "BufWritePre"
-                local async = event == "BufWritePost"
 
                 vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-                vim.api.nvim_create_autocmd(event, {
+                vim.api.nvim_create_autocmd("BufWritePre", {
                     buffer = bufnr,
                     group = group,
                     callback = function()
-                        vim.lsp.buf.format({ bufnr = bufnr, async = async })
+                        vim.lsp.buf.format({ bufnr = bufnr, async = false })
                     end,
                     desc = "[lsp] format on save",
                 })
@@ -138,6 +139,18 @@ return {
                                 },
                             },
                             on_attach = on_attach,
+                        })
+                    end,
+                    ['eslint'] = function()
+                        lspconfig.eslint.setup({
+                            capabilities = capabilities,
+                            on_attach = function(client, bufnr)
+                                vim.api.nvim_create_autocmd("BufWritePre", {
+                                    buffer = bufnr,
+                                    command = "EslintFixAll",
+                                })
+                                on_attach(client, bufnr)
+                            end,
                         })
                     end,
                 },
