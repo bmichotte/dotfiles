@@ -7,6 +7,7 @@
 - link:
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux
+    ~/Library/Preferences/com.googlecode.iterm2.plist: iterm2/com.googlecode.iterm2.plist
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
