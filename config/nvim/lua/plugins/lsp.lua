@@ -64,18 +64,6 @@ return {
                     { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" })
                 vim.keymap.set('i', '<C-h>', vim.lsp.buf.signature_help,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show signature help" })
-
-                local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-
-                vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-                vim.api.nvim_create_autocmd("BufWritePre", {
-                    buffer = bufnr,
-                    group = group,
-                    callback = function()
-                        vim.lsp.buf.format({ bufnr = bufnr, async = false })
-                    end,
-                    desc = "[lsp] format on save",
-                })
             end
 
             require("mason-lspconfig").setup({
@@ -189,7 +177,6 @@ return {
                 { border = "rounded" }
             )
 
-            -- format on save
             local setup_group = vim.api.nvim_create_augroup("lsp_format_config", { clear = true })
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = setup_group,
