@@ -1,4 +1,6 @@
 local cmp = require("cmp")
+---@diagnostic disable: missing-fields
+
 local kind_icons = {
     Text = "󰉿",
     Method = "󰆧",
@@ -78,4 +80,28 @@ cmp.setup({
             end
         end),
     }),
+})
+
+
+-- `/` cmdline setup.
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+-- `:` cmdline setup.
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        {
+            name = 'cmdline',
+            option = {
+                ignore_cmds = { 'Man', '!' }
+            }
+        }
+    })
 })
