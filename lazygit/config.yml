@@ -1,0 +1,23 @@
+os:
+  edit: 'floaterm'
+
+    #keybinding:
+    #  universal:
+    #    return: '<c-\>'
+
+gui:
+  showIcons: true
+  nerdFontsVersion: 3
+  theme:
+    selectedLineBgColor:
+      - underline
+    selectedRangeBgColor:
+      - underline
+
+git:
+  disableForcePushing: true
+  log:
+    showGraph: always
+  paging:
+    colorArg: never
+    pager: delta --dark --paging=never
