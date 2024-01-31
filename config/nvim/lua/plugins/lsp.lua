@@ -43,7 +43,7 @@ return {
                     { noremap = true, silent = true, buffer = bufnr, desc = "See definition and make edits in window" })
                 vim.keymap.set("n", "gi", vim.lsp.buf.implementation,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Go to implementation" })
-                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,
+                vim.keymap.set("n", "gr", vim.lsp.buf.rename,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Smart rename" })
                 vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" })

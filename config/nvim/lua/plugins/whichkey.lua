@@ -8,6 +8,9 @@ return {
         layout = {
             align = "center",
         },
+        icons = {
+            group = " ",
+        },
     },
     init = function()
         vim.o.timeout = true
@@ -18,13 +21,14 @@ return {
         wk.setup(opts)
 
         wk.register({
-            ["<leader>c"] = { name = "Code", },
-            ["<leader>h"] = { name = "Harpoon", },
-            ["<leader>f"] = { name = "Files", },
-            ["<leader>n"] = { name = "Package infos", },
-            ["<leader>s"] = { name = "Split", },
-            ["<leader>t"] = { name = "File tree", },
-            ["<leader>z"] = { name = "Float term", },
-        })
+            c = { name = "Code", },
+            d = { name = "Diagnostics", },
+            h = { name = "Harpoon", },
+            f = { name = "Files", },
+            n = { name = "Package infos", },
+            s = { name = "Split", },
+            t = { name = "File tree", },
+            z = { name = "Float term", },
+        }, { prefix = "<leader>" })
     end
 }
