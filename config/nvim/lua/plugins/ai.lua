@@ -35,7 +35,7 @@ return {
         ---@type Ollama.Config
         opts = {
             model = "codellama"
-        }
+        },
     },
     {
         "jackMort/ChatGPT.nvim",
