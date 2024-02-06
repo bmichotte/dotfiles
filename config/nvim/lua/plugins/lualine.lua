@@ -32,6 +32,9 @@ return {
                 local gitdir = vim.fn.finddir('.git', filepath .. ';')
                 return gitdir and #gitdir > 0 and #gitdir < #filepath
             end,
+            ollama_is_running = function()
+                return package.loaded["ollama"] and require("ollama").status() ~= nil
+            end
         }
 
         -- Config
@@ -162,6 +165,20 @@ return {
             end,
             cond = conditions.buffer_not_empty,
             color = { fg = colors.green, gui = 'bold' },
+        })
+
+        ins_left({
+            function()
+                local status = require("ollama").status()
+
+                if status == "IDLE" then
+                    return ""
+                elseif status == "WORKING" then
+                    return "󱚟"
+                end
+            end,
+            cond = conditions.ollama_is_running,
+            color = { fg = colors.yellow, gui = 'bold' },
         })
 
         ins_left({
