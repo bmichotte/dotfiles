@@ -34,3 +34,13 @@ keymap.set("i", "<A-i>", "<C-k>^", { desc = "Accent ê" })
 keymap.set("i", "<A-u>", "<C-k>:", { desc = "Accent ë" })
 keymap.set("i", "<A-c>", "<C-k>,c", { desc = "Accent ç" })
 keymap.set("i", "<A-S-c>", "<C-k>,C", { desc = "Accent Ç" })
+
+-- disable arrows
+-- keymap.set("n", "<Up>", function() vim.notify("Use k instead of <Up>", "error") end,
+--     { desc = "Disable arrow up", silent = true })
+-- keymap.set("n", "<Down>", function() vim.notify("Use j instead of <Down>", "error") end,
+--     { desc = "Disable arrow down", silent = true })
+-- keymap.set("n", "<Left>", function() vim.notify("Use h instead of <Left>", "error") end,
+--     { desc = "Disable arrow left", silent = true })
+-- keymap.set("n", "<Right>", function() vim.notify("Use l instead of <Right>", "error") end,
+--     { desc = "Disable arrow right", silent = true })
