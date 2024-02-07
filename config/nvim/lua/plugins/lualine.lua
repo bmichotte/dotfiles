@@ -88,7 +88,7 @@ return {
             function()
                 local get_mode = require('lualine.utils.mode').get_mode
                 local mode_text = {
-                    n = '󰒲',
+                    n = '',
                     i = '',
                     v = '',
                     V = '',
@@ -100,11 +100,11 @@ return {
             color = function()
                 -- auto change color according to neovims mode
                 local mode_color = {
-                    n = colors.red,
-                    i = colors.green,
-                    v = colors.blue,
-                    -- [''] = colors.blue,
-                    V = colors.blue,
+                    n = colors.green,
+                    i = colors.blue,
+                    v = colors.violet,
+                    -- [''] = colors.violet,
+                    V = colors.violet,
                     c = colors.magenta,
                     no = colors.red,
                     s = colors.orange,
