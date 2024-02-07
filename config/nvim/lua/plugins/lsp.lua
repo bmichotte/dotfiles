@@ -142,6 +142,8 @@ return {
                                             ["codestyle-check"] = "Any",
                                         },
                                         groupSeverity = { ["codestyle-check"] = "Warning", },
+                                        -- missing_parameters = false,
+                                        disable = { "missing-parameters", "missing-fields" },
                                     },
                                     runtime = {
                                         version = 'LuaJIT'

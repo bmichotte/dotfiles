@@ -19,7 +19,7 @@ end
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    dependencies = { { "nvim-lua/plenary.nvim" } },
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
         { "<leader>ha", function() require("harpoon"):list():append() end,                                 desc = "Add file to Harpoon" },
         { "<leader>he", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Toggle Harpoon quick menu" },
