@@ -1,3 +1,4 @@
+---@type LazyPlugin
 return {
     "marilari88/twoslash-queries.nvim",
     keys = {

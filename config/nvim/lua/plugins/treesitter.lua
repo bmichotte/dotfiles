@@ -1,3 +1,4 @@
+---@type LazyPlugin
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",

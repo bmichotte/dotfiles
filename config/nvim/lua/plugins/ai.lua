@@ -1,3 +1,4 @@
+---@type LazyPlugin[]
 return {
     {
         "zbirenbaum/copilot.lua",

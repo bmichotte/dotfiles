@@ -1,3 +1,4 @@
+---@type LazyPlugin[]
 return {
     {
         "hrsh7th/nvim-cmp",

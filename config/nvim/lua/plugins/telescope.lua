@@ -1,3 +1,4 @@
+---@type LazyPlugin[]
 return {
     {
         "nvim-telescope/telescope.nvim",

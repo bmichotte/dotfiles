@@ -1,3 +1,4 @@
+---@type LazyPlugin[]
 return {
     {
         "rcarriga/nvim-notify",

@@ -1,3 +1,4 @@
+---@type LazyPlugin
 return {
     "catppuccin/nvim",
     name = "catppuccin",

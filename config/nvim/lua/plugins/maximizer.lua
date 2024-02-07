@@ -1,3 +1,4 @@
+---@type LazyPlugin
 return {
     "szw/vim-maximizer", -- maximizes and restore current window
     keys = {

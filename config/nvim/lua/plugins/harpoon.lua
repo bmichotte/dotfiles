@@ -15,6 +15,7 @@ local function toggle_telescope(harpoon_files)
     }):find()
 end
 
+---@type LazyPlugin
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",

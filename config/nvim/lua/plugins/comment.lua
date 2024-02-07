@@ -1,3 +1,4 @@
+---@type LazyPlugin[]
 return {
     {
         "numToStr/Comment.nvim",

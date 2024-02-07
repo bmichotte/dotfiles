@@ -1,4 +1,4 @@
----@diagnostic disable: missing-fields
+---@type LazyPlugin[]
 return {
     {
         "williamboman/mason.nvim",

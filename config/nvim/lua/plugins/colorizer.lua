@@ -1,3 +1,4 @@
+---@type LazyPlugin
 return {
     "NvChad/nvim-colorizer.lua",
     opts = {
