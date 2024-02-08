@@ -8,7 +8,9 @@
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux
     ~/.config/lsd: config/lsd
+    ~/.config/starship.toml: config/starship.toml
     ~/.zshrc: zshrc
+    ~/.p10k.zsh: p10k.zsh
     ~/Library/Application Support/lazygit: lazygit
 
 - shell:
