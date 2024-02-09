@@ -19,14 +19,18 @@ return {
             filtered_items = {
                 hide_dotfiles = false,
                 hide_gitignored = true,
-                hide_by_name = { '.git' },
+                hide_by_name = { ".git" },
                 always_show = {
-                    ".env", '.env.local', '.env.development', '.env.test', '.env.production',
-                }
-            }
+                    ".env",
+                    ".env.local",
+                    ".env.development",
+                    ".env.test",
+                    ".env.production",
+                },
+            },
         },
         window = {
             position = "right",
-        }
+        },
     },
 }

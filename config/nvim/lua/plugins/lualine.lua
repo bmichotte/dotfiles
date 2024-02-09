@@ -1,9 +1,9 @@
 ---@type LazyPlugin
 return {
     "nvim-lualine/lualine.nvim",
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-        local lualine = require('lualine')
+        local lualine = require("lualine")
 
         -- Color table for highlights
         -- stylua: ignore
@@ -23,27 +23,27 @@ return {
 
         local conditions = {
             buffer_not_empty = function()
-                return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+                return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
             end,
             hide_in_width = function()
                 return vim.fn.winwidth(0) > 80
             end,
             check_git_workspace = function()
-                local filepath = vim.fn.expand('%:p:h')
-                local gitdir = vim.fn.finddir('.git', filepath .. ';')
+                local filepath = vim.fn.expand("%:p:h")
+                local gitdir = vim.fn.finddir(".git", filepath .. ";")
                 return gitdir and #gitdir > 0 and #gitdir < #filepath
             end,
             ollama_is_running = function()
                 return package.loaded["ollama"] and require("ollama").status() ~= nil
-            end
+            end,
         }
 
         -- Config
         local config = {
             options = {
                 -- Disable sections and component separators
-                component_separators = '',
-                section_separators = '',
+                component_separators = "",
+                section_separators = "",
                 theme = {
                     -- We are going to use lualine_c an lualine_x as left and
                     -- right section. Both are highlighted by c theme .  So we
@@ -86,16 +86,16 @@ return {
         ins_left({
             -- mode component
             function()
-                local get_mode = require('lualine.utils.mode').get_mode
+                local get_mode = require("lualine.utils.mode").get_mode
                 local mode_text = {
-                    n = '',
-                    i = '',
-                    v = '',
-                    V = '',
-                    c = '',
+                    n = "",
+                    i = "",
+                    v = "",
+                    V = "",
+                    c = "",
                 }
 
-                return mode_text[vim.fn.mode()] or get_mode() .. ' (' .. vim.fn.mode() .. ')'
+                return mode_text[vim.fn.mode()] or get_mode() .. " (" .. vim.fn.mode() .. ")"
             end,
             color = function()
                 -- auto change color according to neovims mode
@@ -109,7 +109,7 @@ return {
                     no = colors.red,
                     s = colors.orange,
                     S = colors.orange,
-                    [''] = colors.orange,
+                    [""] = colors.orange,
                     ic = colors.yellow,
                     R = colors.violet,
                     Rv = colors.violet,
@@ -117,8 +117,8 @@ return {
                     ce = colors.red,
                     r = colors.cyan,
                     rm = colors.cyan,
-                    ['r?'] = colors.cyan,
-                    ['!'] = colors.red,
+                    ["r?"] = colors.cyan,
+                    ["!"] = colors.red,
                     t = colors.red,
                 }
                 return { fg = mode_color[vim.fn.mode()] }
@@ -165,7 +165,7 @@ return {
                 return " @" .. recording_register
             end,
             cond = conditions.buffer_not_empty,
-            color = { fg = colors.green, gui = 'bold' },
+            color = { fg = colors.green, gui = "bold" },
         })
 
         ins_left({
@@ -179,29 +179,38 @@ return {
                 end
             end,
             cond = conditions.ollama_is_running,
-            color = { fg = colors.yellow, gui = 'bold' },
+            color = { fg = colors.yellow, gui = "bold" },
         })
 
         ins_left({
             -- filesize component
-            'filesize',
+            "filesize",
             cond = conditions.buffer_not_empty,
         })
 
         ins_left({
-            'filename',
+            "filename",
             cond = conditions.buffer_not_empty,
-            color = { fg = colors.magenta, gui = 'bold' },
+            color = { fg = colors.magenta, gui = "bold" },
         })
 
-        ins_left({ 'location' })
+        ins_left({ "location" })
 
-        ins_left({ 'progress', color = { fg = colors.fg, gui = 'bold' } })
+        ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
 
         ins_left({
-            'diagnostics',
-            sources = { 'nvim_diagnostic' },
-            symbols = { error = '  ', warn = '  ', info = '  ' },
+            function()
+                local package_info = require("package-info")
+
+                return package_info.get_status()
+            end,
+            cond = conditions.buffer_not_empty,
+        })
+
+        ins_left({
+            "diagnostics",
+            sources = { "nvim_diagnostic" },
+            symbols = { error = "  ", warn = "  ", info = "  " },
             diagnostics_color = {
                 color_error = { fg = colors.red },
                 color_warn = { fg = colors.yellow },
@@ -213,28 +222,28 @@ return {
         -- for lualine it's any number greater then 2
         ins_left({
             function()
-                return '%='
+                return "%="
             end,
         })
 
         ins_left({
             -- Lsp server name .
             function()
-                local msg = 'No Active Lsp'
-                local buf_ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+                local msg = "No Active Lsp"
+                local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
                 local clients = vim.lsp.get_clients()
                 if next(clients) == nil then
                     return msg
                 end
 
                 local langs = {
-                    ['tsserver'] = '󰛦',
-                    ['cssls'] = '',
-                    ['tailwindcss'] = '󱏿',
-                    ['html'] = '',
-                    ['jsonls'] = '',
-                    ['lua_ls'] = '',
-                    ['prismals'] = '',
+                    ["tsserver"] = "󰛦",
+                    ["cssls"] = "",
+                    ["tailwindcss"] = "󱏿",
+                    ["html"] = "",
+                    ["jsonls"] = "",
+                    ["lua_ls"] = "",
+                    ["prismals"] = "",
                 }
 
                 local client_names = {}
@@ -248,40 +257,40 @@ return {
                 if next(client_names) == nil then
                     return msg
                 end
-                return table.concat(client_names, ' ')
+                return table.concat(client_names, " ")
             end,
             -- icon = '  ',
-            color = { fg = '#ffffff', gui = 'bold' },
+            color = { fg = "#ffffff", gui = "bold" },
         })
 
         -- Add components to right sections
         ins_right({
-            'o:encoding',       -- option component same as &encoding in viml
+            "o:encoding",       -- option component same as &encoding in viml
             fmt = string.upper, -- I'm not sure why it's upper case either ;)
             cond = conditions.hide_in_width,
-            color = { fg = colors.green, gui = 'bold' },
+            color = { fg = colors.green, gui = "bold" },
         })
 
         ins_right({
-            'fileformat',
+            "fileformat",
             fmt = string.upper,
             icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-            color = { fg = colors.green, gui = 'bold' },
+            color = { fg = colors.green, gui = "bold" },
         })
 
         ins_right({
-            'branch',
-            icon = '',
-            color = { fg = colors.violet, gui = 'bold' },
+            "branch",
+            icon = "",
+            color = { fg = colors.violet, gui = "bold" },
         })
 
         ins_right({
-            'diff',
+            "diff",
             -- Is it me or the symbol for modified us really weird
-            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+            symbols = { added = " ", modified = "󰝤 ", removed = " " },
             diff_color = {
                 added = { fg = colors.green },
-                modified = { fg = colors.orange },
+                modified = { fg = colors.yellow },
                 removed = { fg = colors.red },
             },
             cond = conditions.hide_in_width,
@@ -296,5 +305,5 @@ return {
         -- })
 
         lualine.setup(config)
-    end
+    end,
 }

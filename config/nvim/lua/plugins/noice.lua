@@ -8,7 +8,7 @@ return {
                 stages = "slide",
                 timeout = 1500,
             })
-        end
+        end,
     },
     {
         "folke/noice.nvim",
@@ -29,13 +29,13 @@ return {
                     },
                     hover = {
                         silent = true,
-                    }
+                    },
                 },
                 presets = {
-                    lsp_doc_border = true
+                    lsp_doc_border = true,
                 },
             })
             require("telescope").load_extension("noice")
         end,
-    }
+    },
 }

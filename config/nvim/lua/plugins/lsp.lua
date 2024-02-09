@@ -80,11 +80,6 @@ return {
         end,
     },
     {
-        "mhartington/formatter.nvim",
-        config = true,
-        enabled = false,
-    },
-    {
         "nvimtools/none-ls.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",

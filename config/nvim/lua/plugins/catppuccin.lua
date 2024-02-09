@@ -3,6 +3,7 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
+    ---@type CatppuccinOptions
     opts = {
         flavour = "mocha",
         styles = {
@@ -20,6 +21,7 @@ return {
             operators = {},
         },
         custom_highlights = function(colors)
+            -- override package info colors
             return {
                 PackageInfoOutdatedVersion = { fg = colors.peach },
                 PackageInfoUptodateVersion = { fg = colors.overlay0 },
@@ -33,5 +35,5 @@ return {
     config = function(_, opts)
         require("catppuccin").setup(opts)
         vim.cmd.colorscheme("catppuccin")
-    end
+    end,
 }

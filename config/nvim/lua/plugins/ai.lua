@@ -11,13 +11,14 @@ return {
     {
         "zbirenbaum/copilot-cmp",
         dependencies = { "copilot.lua" },
-        config = true
+        config = true,
     },
     {
         "nomnivore/ollama.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
+        lazy = true,
         cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
         keys = {
             {
@@ -35,7 +36,7 @@ return {
         },
         ---@type Ollama.Config
         opts = {
-            model = "codellama"
+            model = "codellama",
         },
     },
     {
@@ -70,12 +71,12 @@ return {
             {
                 "<leader>cc",
                 function()
-                    local chatgpt = require('chatgpt')
+                    local chatgpt = require("chatgpt")
                     chatgpt.edit_with_instructions()
                 end,
                 mode = "v",
-                desc = "Edit current selection with ChatGPT"
-            }
-        }
-    }
+                desc = "Edit current selection with ChatGPT",
+            },
+        },
+    },
 }

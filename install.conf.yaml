@@ -1,9 +1,7 @@
 - defaults:
     link:
       relink: true
-
 - clean: ['~']
-
 - link:
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux
@@ -12,6 +10,5 @@
     ~/.zshrc: zshrc
     ~/.p10k.zsh: p10k.zsh
     ~/Library/Application Support/lazygit: lazygit
-
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
+    - [git submodule update --init --recursive, Installing submodules]

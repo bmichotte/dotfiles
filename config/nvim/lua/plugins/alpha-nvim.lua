@@ -1,7 +1,7 @@
 ---@type LazyPlugin
 return {
-    'goolord/alpha-nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    "goolord/alpha-nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VimEnter",
     config = function()
         local alpha = require("alpha")
@@ -18,5 +18,5 @@ return {
             "                                                     ",
         }
         alpha.setup(dashboard.opts)
-    end
+    end,
 }

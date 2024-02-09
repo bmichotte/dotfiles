@@ -4,8 +4,14 @@
 <dict>
 	<key>AdjustWindowForFontSizeChange</key>
 	<false/>
+	<key>AllowClipboardAccess</key>
+	<true/>
+	<key>AlternateMouseScroll</key>
+	<true/>
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
+	<key>CopySelection</key>
+	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>catppuccin-frappe</key>
@@ -667,6 +673,8 @@
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>A530F6D6-4337-47DA-9E77-7DE9FC0711C9</string>
+	<key>EnterCopyModeAutomatically</key>
+	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideMenuBarInFullscreen</key>
@@ -1947,7 +1955,7 @@
 				<real>0.59999999999999998</real>
 			</dict>
 			<key>Mouse Reporting</key>
-			<true/>
+			<false/>
 			<key>Name</key>
 			<string>Default</string>
 			<key>Non Ascii Font</key>
@@ -2143,5 +2151,7 @@
 	<false/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 </dict>
 </plist>

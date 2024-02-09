@@ -21,7 +21,7 @@ require("lazy").setup("plugins", {
         notify = false,
     },
 })
-require('keymaps')
-require('commands')
-require('options')
-require('globals')
+require("keymaps")
+require("commands")
+require("options")
+require("globals")

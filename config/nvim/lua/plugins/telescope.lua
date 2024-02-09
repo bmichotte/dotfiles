@@ -4,14 +4,38 @@ return {
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            'nvim-telescope/telescope-ui-select.nvim',
+            "nvim-telescope/telescope-ui-select.nvim",
             "nvim-telescope/telescope-fzf-native.nvim",
         },
         keys = {
-            { "<leader>ff", function() require("telescope.builtin").find_files() end,  desc = "Find files", },
-            { "<leader>fg", function() require("telescope.builtin").live_grep() end,   desc = "Live grep files", },
-            { "<leader>fc", function() require("telescope.builtin").grep_string() end, desc = "Grep string", },
-            { "<leader>fb", function() require("telescope.builtin").buffers() end,     desc = "Show opened buffers", },
+            {
+                "<leader>ff",
+                function()
+                    require("telescope.builtin").find_files()
+                end,
+                desc = "Find files",
+            },
+            {
+                "<leader>fg",
+                function()
+                    require("telescope.builtin").live_grep()
+                end,
+                desc = "Live grep files",
+            },
+            {
+                "<leader>fc",
+                function()
+                    require("telescope.builtin").grep_string()
+                end,
+                desc = "Grep string",
+            },
+            {
+                "<leader>fb",
+                function()
+                    require("telescope.builtin").buffers()
+                end,
+                desc = "Show opened buffers",
+            },
         },
         config = function()
             local actions = require("telescope.actions")
@@ -32,21 +56,21 @@ return {
                 },
                 extensions = {
                     ["ui-select"] = {
-                        require("telescope.themes").get_dropdown()
+                        require("telescope.themes").get_dropdown(),
                     },
                     fzf = {
                         fuzzy = true,
                         override_generic_sorter = true,
                         override_file_sorter = true,
                         case_mode = "smart_case",
-                    }
+                    },
                 },
             })
 
             telescope.load_extension("package_info")
             telescope.load_extension("fzf")
             telescope.load_extension("ui-select")
-        end
+        end,
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
