@@ -106,7 +106,6 @@ return {
                     -- null_ls.builtins.diagnostics.eslint_d,
 
                     null_ls.builtins.completion.luasnip,
-                    null_ls.builtins.completion.spell,
                     null_ls.builtins.code_actions.gitsigns,
                 },
             })
@@ -464,11 +463,14 @@ return {
                 Event = "",
                 Operator = "",
                 TypeParameter = "",
-                Copilot = " ",
+                Copilot = "",
             }
             cmp.setup({
                 window = {
-                    completion = cmp.config.window.bordered(),
+                    completion = cmp.config.window.bordered({
+                        col_offset = -3,
+                        side_padding = 0,
+                    }),
                     documentation = cmp.config.window.bordered(),
                 },
                 sources = cmp.config.sources({
@@ -486,9 +488,9 @@ return {
                 },
                 formatting = {
                     fields = {
-                        -- cmp.ItemField.Menu,
                         cmp.ItemField.Kind,
                         cmp.ItemField.Abbr,
+                        cmp.ItemField.Menu,
                     },
                     format = function(entry, item)
                         if item.kind == "Color" then
@@ -500,8 +502,8 @@ return {
                             end
                         end
 
-                        item.menu = item.kind
-                        item.kind = kind_icons[item.kind] .. " "
+                        item.menu = "   (" .. item.kind .. ")"
+                        item.kind = " " .. kind_icons[item.kind] .. "  "
 
                         return item
                     end,
