@@ -251,7 +251,9 @@ return {
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
                         local name = langs[client.name] or client.name
-                        table.insert(client_names, name)
+                        if vim.fn.index(client_names, name) == -1 then
+                            table.insert(client_names, name)
+                        end
                     end
                 end
                 if next(client_names) == nil then
