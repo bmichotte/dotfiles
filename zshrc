@@ -1,17 +1,20 @@
 # Init completion
 autoload -Uz compinit && compinit
 
-if [[ -r "~/.oh-my-zsh/custom/catppuccin_macchiato-zsh-syntax-highlighting.zsh" ]]; then
-    source ~/.oh-my-zsh/custom/catppuccin_macchiato-zsh-syntax-highlighting.zsh
-fi
-if [[ -r "~/.oh-my-zsh/custom/keys.zsh" ]]; then
-    source ~/.oh-my-zsh/custom/keys.zsh
-fi
+source ~/Developer/apps/zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
+source ~/.keys.zsh
 
 # load omz plugins
 source ~/.oh-my-zsh/plugins/tmux/tmux.plugin.zsh
 source ~/.oh-my-zsh/plugins/git/git.plugin.zsh
 source ~/.oh-my-zsh/plugins/git-flow/git-flow.plugin.zsh
+
+# history setup
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
 
 export EDITOR='nvim'
 alias vi='nvim'
