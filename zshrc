@@ -20,6 +20,7 @@ export EDITOR='nvim'
 alias vi='nvim'
 
 alias ls=lsd
+alias cd=z
 
 alias o='/usr/bin/open .'
 
@@ -86,6 +87,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$JAVA_HOME/bin:$HOME/Developer/apps/nvim-macos/bin:$HOME/.yarn/bin:$PATH
@@ -109,4 +111,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 eval "$(starship init zsh)"
-
+eval "$(zoxide init zsh)"
