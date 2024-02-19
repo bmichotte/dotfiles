@@ -36,6 +36,9 @@ return {
             ollama_is_running = function()
                 return package.loaded["ollama"] and require("ollama").status() ~= nil
             end,
+            in_tmux_session = function()
+                return vim.fn.system("echo $TMUX") ~= ""
+            end,
         }
 
         -- Config
@@ -200,6 +203,18 @@ return {
 
         ins_left({
             function()
+                local str = vim.fn.system("tmux display-message -p '#S ###I'")
+                if str == nil then
+                    return ""
+                end
+                return vim.re.gsub(str, "[\r\n]", "")
+            end,
+            cond = conditions.in_tmux_session,
+            color = { fg = colors.blue, gui = "bold" },
+        })
+
+        ins_left({
+            function()
                 local package_info = require("package-info")
 
                 return package_info.get_status()
@@ -267,7 +282,7 @@ return {
 
         -- Add components to right sections
         ins_right({
-            "o:encoding",       -- option component same as &encoding in viml
+            "o:encoding", -- option component same as &encoding in viml
             fmt = string.upper, -- I'm not sure why it's upper case either ;)
             cond = conditions.hide_in_width,
             color = { fg = colors.green, gui = "bold" },
