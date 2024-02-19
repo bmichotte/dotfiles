@@ -193,7 +193,8 @@ return {
                 vim.keymap.set(
                     "n",
                     "gd",
-                    vim.lsp.buf.declaration,
+                    --vim.lsp.buf.declaration,
+                    "<cmd>Lspsaga goto_definition<cr>",
                     { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" }
                 )
                 vim.keymap.set(
