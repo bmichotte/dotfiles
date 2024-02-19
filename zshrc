@@ -20,7 +20,6 @@ export EDITOR='nvim'
 alias vi='nvim'
 
 alias ls=lsd
-alias cd=z
 
 alias o='/usr/bin/open .'
 
@@ -111,4 +110,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh --cmd cd)"
