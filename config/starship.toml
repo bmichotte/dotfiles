@@ -4,7 +4,6 @@ add_newline = false
 format = """
 [](surface0)\
 $os\
-$username\
 [](bg:peach fg:surface0)\
 $directory\
 [](fg:peach bg:green)\
@@ -22,6 +21,7 @@ $haskell\
 $python\
 [](fg:teal bg:blue)\
 $docker_context\
+$custom\
 [](fg:blue bg:purple)\
 $time\
 [ ](fg:purple)\
@@ -72,6 +72,7 @@ crust = "#11111b"
 [os]
 disabled = false
 style = "bg:surface0 fg:text"
+format = '[ $symbol ]($style)'
 
 [os.symbols]
 Windows = "󰍲"
@@ -177,6 +178,11 @@ disabled = false
 time_format = "%R"
 style = "bg:peach"
 format = '[[  $time ](fg:mantle bg:purple)]($style)'
+
+[custom.tmux]
+command = "tmux display-message -p '#S ###I #W'"
+when = ''' test "$TMUX" != "" '''
+format = "[[ $output ](fg:base bg:blue)]($style)"
 
 [line_break]
 disabled = false
