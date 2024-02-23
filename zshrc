@@ -20,7 +20,7 @@ export EDITOR='nvim'
 alias vi='nvim'
 
 alias ls=lsd
-
+[[ -n "$TMUX" ]] && alias clear="clear && tmux clear-history"
 alias o='/usr/bin/open .'
 
 # autocompletion for ssh hosts
