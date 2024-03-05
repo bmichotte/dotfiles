@@ -313,6 +313,13 @@ return {
             cond = conditions.hide_in_width,
         })
 
+        ins_right({
+            function()
+                return " " .. os.date("%H:%M", os.time())
+            end,
+            color = { fg = colors.magenta, gui = "bold" },
+        })
+
         -- ins_right ({
         --     function()
         --         return '▊'
