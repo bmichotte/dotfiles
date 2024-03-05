@@ -1,5 +1,12 @@
-# Init completion
-autoload -Uz compinit && compinit
+fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
+
+autoload -Uz compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
 
 source ~/Developer/apps/zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.keys.zsh
@@ -12,9 +19,26 @@ source ~/.oh-my-zsh/plugins/git-flow/git-flow.plugin.zsh
 # history setup
 setopt SHARE_HISTORY
 HISTFILE=$HOME/.zhistory
-SAVEHIST=1000
-HISTSIZE=999
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
 setopt HIST_EXPIRE_DUPS_FIRST
+setopt hist_ignore_all_dups # remove older duplicate entries from history
+setopt hist_reduce_blanks # remove superfluous blanks from history items
+setopt inc_append_history # save history entries as soon as they are entered
+setopt share_history # share history between different instances of the shell
+
+setopt auto_cd # cd by typing directory name if it's not a command
+setopt correct_all # autocorrect commands
+
+setopt auto_list # automatically list choices on ambiguous completion
+setopt auto_menu # automatically use menu completion
+setopt always_to_end # move cursor to end if word had one match
+
+zstyle ':completion:*' menu select # select completions with arrow keys
+zstyle ':completion:*' group-name '' # group results by category
+zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
+
+source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export EDITOR='nvim'
 alias vi='nvim'

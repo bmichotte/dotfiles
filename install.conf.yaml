@@ -10,5 +10,9 @@
     ~/.zshrc: zshrc
     ~/.p10k.zsh: p10k.zsh
     ~/Library/Application Support/lazygit: lazygit
+- create:
+    - ~/.zsh/plugins
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
+    - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
+    - git clone https://github.com/zsh-users/zsh-completions ~/.zsh/plugins/zsh-completions
