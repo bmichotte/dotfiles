@@ -8,10 +8,10 @@ else
   compinit -C -i
 fi
 
-source ~/Developer/apps/zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.keys.zsh
 
 # load omz plugins
+source ~/.zsh/plugins/zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.zsh/tmux.plugin.zsh
 source ~/.zsh/git.plugin.zsh
 source ~/.zsh/git-flow.plugin.zsh
