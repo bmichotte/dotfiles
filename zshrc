@@ -12,9 +12,9 @@ source ~/Developer/apps/zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-
 source ~/.keys.zsh
 
 # load omz plugins
-source ~/.oh-my-zsh/plugins/tmux/tmux.plugin.zsh
-source ~/.oh-my-zsh/plugins/git/git.plugin.zsh
-source ~/.oh-my-zsh/plugins/git-flow/git-flow.plugin.zsh
+source ~/.zsh/tmux.plugin.zsh
+source ~/.zsh/git.plugin.zsh
+source ~/.zsh/git-flow.plugin.zsh
 
 # history setup
 setopt SHARE_HISTORY
