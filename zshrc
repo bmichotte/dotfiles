@@ -28,7 +28,7 @@ setopt inc_append_history # save history entries as soon as they are entered
 setopt share_history # share history between different instances of the shell
 
 setopt auto_cd # cd by typing directory name if it's not a command
-setopt correct_all # autocorrect commands
+#setopt correct_all # autocorrect commands
 
 setopt auto_list # automatically list choices on ambiguous completion
 setopt auto_menu # automatically use menu completion
@@ -97,12 +97,18 @@ alias pi='pnpm install'
 alias pu='pnpm upgrade'
 alias pd='pnpm dev'
 alias pw='pnpm watch'
+
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
 # pnpm end
 
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk17-zulu/Contents/Home
 
 export FLUTTER_HOME=/Users/benjamin/Developer/flutter/2.2.3
 export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -122,6 +128,7 @@ export PATH="/usr/local/sbin:$PATH"
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 [[ -f /usr/local/bin/trash ]] && alias rm="/usr/local/bin/trash"
+[[ -f /opt/local/bin/trash ]] && alias rm="/usr/local/bin/trash"
 
 # bun completions
 [ -s "/Users/benjamin/.bun/_bun" ] && source "/Users/benjamin/.bun/_bun"
@@ -135,3 +142,23 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh --cmd cd)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
