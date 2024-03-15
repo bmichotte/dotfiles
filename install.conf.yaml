@@ -10,6 +10,8 @@
     ~/.zshrc: zshrc
     ~/.p10k.zsh: p10k.zsh
     ~/Library/Application Support/lazygit: lazygit
+    ~/.gitconfig: gitconfig
+    ~/.gitignore: gitignore
 - create:
     - ~/.zsh/plugins
 - shell:

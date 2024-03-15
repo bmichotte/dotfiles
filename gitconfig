@@ -1,0 +1,145 @@
+[user]
+	name = Benjamin Michotte
+	email = bmichotte@gmail.com
+	signingkey = BDA0DBEBC7B63E22139EFAF2C58279E1279834BC
+
+[mergetool]
+	keepBackup = true
+	prompt = false
+
+[credential]
+	helper = osxkeychain
+
+[core]
+	excludesfile = /Users/benjamin/.gitignore
+	autocrlf = input
+    editor = nvim
+    pager = delta
+	excludes = ~/.gitignore_global
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[delta]
+    features = decorations
+
+[delta "interactive"]
+    keep-plus-minus-markers = false
+
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  up = pull --rebase
+  punch = blame
+
+[push]
+	default = simple
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+
+[color]
+	ui = 1
+
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustexitcode = true
+	trustExitCode = true
+
+[merge]
+	tool = Kaleidoscope
+
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+[difftool]
+	prompt = false
+
+[diff]
+	tool = Kaleidoscope
+
+[color]
+  pager = true
+  ui = auto
+  status = auto
+  diff = auto
+  branch = auto
+  showBranch = auto
+  interactive = auto
+  grep = auto
+
+[color "status"]
+  header = black bold
+  branch = cyan
+  nobranch = red
+  unmerged = red
+  untracked = cyan
+  added = cyan
+  changed = red
+
+[color "diff"]
+  meta = red bold
+  frag = black bold
+  func = blue
+  old = red strike
+  new = cyan
+  commit = blue
+  whitespace = red
+  context = normal
+
+[color "branch"]
+  current = cyan
+  local = blue
+  remote = magenta
+  upstream = magenta
+  plain = normal
+
+[color "decorate"]
+  branch = blue
+  remoteBranch = magenta
+  tag = magenta
+  stash = cyan
+  HEAD = blue
+
+[color "interactive"]
+  prompt = red
+  header = red bold
+  error = red
+  help = black bold
+
+[color "grep"]
+  context = normal
+  match = cyan
+  filename = blue 
+  function = blue
+  selected = normal
+  separator = red bold
+  linenumber = normal
+
+[tag]
+	forceSignAnnotated = true
+
+[pull]
+	rebase = true
+
+[commit]
+	gpgsign = true
+
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg2
+
+[init]
+	defaultBranch = main
