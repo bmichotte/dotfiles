@@ -128,7 +128,7 @@ export PATH="/usr/local/sbin:$PATH"
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 [[ -f /usr/local/bin/trash ]] && alias rm="/usr/local/bin/trash"
-[[ -f /opt/local/bin/trash ]] && alias rm="/usr/local/bin/trash"
+[[ -f /opt/local/bin/trash ]] && alias rm="/opt/local/bin/trash"
 
 # bun completions
 [ -s "/Users/benjamin/.bun/_bun" ] && source "/Users/benjamin/.bun/_bun"
@@ -141,7 +141,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh --cmd cd)"
+#eval "$(zoxide init zsh --cmd cd)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -21,6 +21,11 @@ keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split horizontally" })
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splitted windows same width" })
 keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close current split" })
 
+keymap.set("n", "<c-h>", ":wincmd h<cr>", { desc = "Move to left pane", silent = true })
+keymap.set("n", "<c-j>", ":wincmd j<cr>", { desc = "Move to down pane", silent = true })
+keymap.set("n", "<c-k>", ":wincmd k<cr>", { desc = "Move to top pane", silent = true })
+keymap.set("n", "<c-l>", ":wincmd l<cr>", { desc = "Move to right pane", silent = true })
+
 -- move lines
 keymap.set("n", "<A-Down>", ":m .+1<CR>==", { desc = "Move line up" })
 keymap.set("n", "<A-Up>", ":m .-2<CR>==", { desc = "Move line down" })

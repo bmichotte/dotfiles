@@ -2137,6 +2137,8 @@
 	<false/>
 	<key>PromptOnQuit</key>
 	<false/>
+	<key>ShowFullScreenTabBar</key>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>

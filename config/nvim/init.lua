@@ -13,6 +13,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+require("keymaps")
 require("lazy").setup("plugins", {
     ui = {
         border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" },
@@ -21,7 +22,6 @@ require("lazy").setup("plugins", {
         notify = false,
     },
 })
-require("keymaps")
 require("commands")
 require("options")
 require("globals")
