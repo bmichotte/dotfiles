@@ -80,7 +80,7 @@ alias pg_stop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias dns_clear="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
 
 #
-alias bfg="java -jar /Users/benjamin/bin/bfg.jar"
+alias bfg="java -jar /Users/benjamin/Developer/apps/bfg.jar"
 alias bundletool="java -jar /Users/benjamin/bin/bundletool.jar"
 
 alias lg='lazygit'

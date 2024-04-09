@@ -13,18 +13,6 @@ local colors = {
     sapphire = "#74c7ec",
     blue = "#89b4fa",
     lavender = "#b4befe",
-    text = "#cdd6f4",
-    subtext1 = "#bac2de",
-    subtext0 = "#a6adc8",
-    overlay2 = "#9399b2",
-    overlay1 = "#7f849c",
-    overlay0 = "#6c7086",
-    surface2 = "#585b70",
-    surface1 = "#45475a",
-    surface0 = "#313244",
-    base = "#1e1e2e",
-    mantle = "#181825",
-    crust = "#11111b",
 }
 
 ---@type LazyPlugin
@@ -33,12 +21,18 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     config = function()
-        vim.api.nvim_set_hl(0, "NeovimDashboardLogo1", { fg = colors.red })
-        vim.api.nvim_set_hl(0, "NeovimDashboardLogo2", { fg = colors.peach })
-        vim.api.nvim_set_hl(0, "NeovimDashboardLogo3", { fg = colors.yellow })
-        vim.api.nvim_set_hl(0, "NeovimDashboardLogo4", { fg = colors.green })
-        vim.api.nvim_set_hl(0, "NeovimDashboardLogo5", { fg = colors.blue })
-        vim.api.nvim_set_hl(0, "NeovimDashboardLogo6", { fg = colors.mauve })
+        local keyset = {}
+        for k in pairs(colors) do
+            table.insert(keyset, colors[k])
+        end
+        local color = keyset[math.random(#keyset)]
+
+        vim.api.nvim_set_hl(0, "NeovimDashboardLogo1", { fg = color })
+        vim.api.nvim_set_hl(0, "NeovimDashboardLogo2", { fg = color })
+        vim.api.nvim_set_hl(0, "NeovimDashboardLogo3", { fg = color })
+        vim.api.nvim_set_hl(0, "NeovimDashboardLogo4", { fg = color })
+        vim.api.nvim_set_hl(0, "NeovimDashboardLogo5", { fg = color })
+        vim.api.nvim_set_hl(0, "NeovimDashboardLogo6", { fg = color })
 
         local alpha = require("alpha")
         local dashboard = require("alpha.themes.startify")
