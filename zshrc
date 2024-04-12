@@ -116,6 +116,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.symfony5/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
@@ -161,4 +162,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-

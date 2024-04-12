@@ -259,6 +259,7 @@ return {
                     ["jsonls"] = "",
                     ["lua_ls"] = "",
                     ["prismals"] = "",
+                    ["intelephense"] = "",
                 }
 
                 local client_names = {}

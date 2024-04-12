@@ -5,4 +5,5 @@ return {
     opts = {
         highlight = "Comment",
     },
+    config = true,
 }
