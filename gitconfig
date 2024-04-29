@@ -125,7 +125,7 @@
 	forceSignAnnotated = true
 
 [pull]
-	rebase = true
+	rebase = false
 
 [commit]
 	gpgsign = true

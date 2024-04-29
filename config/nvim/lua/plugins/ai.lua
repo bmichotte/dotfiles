@@ -16,10 +16,13 @@ return {
             local cmp_ai = require("cmp_ai.config")
 
             cmp_ai:setup({
-                max_lines = 100,
-                provider = "Ollama",
+                max_lines = 1000,
+                  provider = 'OpenAI',
+                -- provider = "Ollama",
                 provider_options = {
-                    model = "codellama:7b-code",
+                    -- model = "codellama:7b-code",
+                    -- model = "llama3",
+                    model = 'gpt-4'
                 },
                 notify = true,
                 notify_callback = function(msg)
@@ -83,7 +86,7 @@ return {
         opts = {
             -- api_key_cmd = "op read op://Personal/msrznwludsumyoz7v7y5xhurom/identifiant --no-newline",
             openai_params = {
-                model = "gpt-4-1106-preview",
+                model = "gpt-4-turbo",
                 frequency_penalty = 0,
                 presence_penalty = 0,
                 max_tokens = 300,
@@ -92,7 +95,7 @@ return {
                 n = 1,
             },
             openai_edit_params = {
-                model = "gpt-4-1106-preview",
+                model = "gpt-4-turbo",
                 frequency_penalty = 0,
                 presence_penalty = 0,
                 temperature = 0,

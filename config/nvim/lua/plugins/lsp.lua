@@ -507,7 +507,19 @@ return {
 
                         item.menu = "   (" .. item.kind .. ")"
                         item.kind = " " .. kind_icons[item.kind] .. "  "
+                        if entry.source.name == "cmp_ai" then
+                            local detail = (entry.completion_item.labelDetails or {}).detail
+                            item.kind = ""
+                            if detail and detail:find(".*%%.*") then
+                                item.kind = item.kind .. " " .. detail
+                            end
 
+                            if (entry.completion_item.data or {}).multiline then
+                                item.kind = item.kind .. " " .. "[ML]"
+                            end
+                        end
+                        local maxwidth = 80
+                        item.abbr = string.sub(item.abbr, 1, maxwidth)
                         return item
                     end,
                 },
