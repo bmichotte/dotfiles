@@ -91,18 +91,15 @@ alias vpharma="sudo openfortivpn -c ~/.openfortivpn"
 
 # pnpm
 export PNPM_HOME="/Users/benjamin/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
 alias p='pnpm'
 alias pi='pnpm install'
 alias pu='pnpm upgrade'
 alias pd='pnpm dev'
 alias pw='pnpm watch'
-
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-
 # pnpm end
 
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
