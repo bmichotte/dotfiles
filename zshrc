@@ -123,6 +123,9 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$JAVA_HOME/bin:$HOME/Developer/apps/nvim-macos/bin:$HOME/.yarn/bin:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
+
+alias s=subl
 
 # tabtab source for packages
 # uninstall by removing these lines
