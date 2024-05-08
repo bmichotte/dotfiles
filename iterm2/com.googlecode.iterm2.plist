@@ -1404,6 +1404,8 @@
 			<false/>
 			<key>Blur</key>
 			<true/>
+			<key>Blur Radius</key>
+			<real>49.838256316489357</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -2042,7 +2044,7 @@
 			<key>Normal Font</key>
 			<string>OperatorMonoLigNF 16</string>
 			<key>Only The Default BG Color Uses Transparency</key>
-			<false/>
+			<true/>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Place Prompt at First Column</key>

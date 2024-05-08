@@ -96,9 +96,13 @@ return {
                             "--formatter-enabled=true",
                             "--organize-imports-enabled=true",
                             "--skip-errors",
+                            "--stdin-file-path",
+                            "--colors=force",
                             "$FILENAME",
                         },
                     }),
+                    -- null_ls.builtins.formatting.biome,
+                    null_ls.builtins.formatting.sqlfmt,
                     null_ls.builtins.formatting.stylua,
                     null_ls.builtins.formatting.yamlfmt,
 
