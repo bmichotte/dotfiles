@@ -17,18 +17,20 @@ source ~/.zsh/git.plugin.zsh
 source ~/.zsh/git-flow.plugin.zsh
 
 # history setup
-setopt SHARE_HISTORY
-HISTFILE=$HOME/.zhistory
-HISTSIZE=10000
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt hist_ignore_all_dups # remove older duplicate entries from history
-setopt hist_reduce_blanks # remove superfluous blanks from history items
-setopt inc_append_history # save history entries as soon as they are entered
-setopt share_history # share history between different instances of the shell
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+setopt SHARE_HISTORY
 
 setopt auto_cd # cd by typing directory name if it's not a command
-#setopt correct_all # autocorrect commands
 
 setopt auto_list # automatically list choices on ambiguous completion
 setopt auto_menu # automatically use menu completion
@@ -37,13 +39,15 @@ setopt always_to_end # move cursor to end if word had one match
 zstyle ':completion:*' menu select # select completions with arrow keys
 zstyle ':completion:*' group-name '' # group results by category
 zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # case-insensitive completion
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # use LS_COLORS for completion colors
 
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export EDITOR='nvim'
 alias vi='nvim'
 
-alias ls=lsd
+alias ls='lsd'
 [[ -n "$TMUX" ]] && alias clear="clear && tmux clear-history"
 alias o='/usr/bin/open .'
 
