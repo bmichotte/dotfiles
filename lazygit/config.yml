@@ -1,8 +1,8 @@
-os:
-  edit: 'floaterm'
-  #keybinding:
-  #  universal:
-  #    return: '<c-\>'
+# os:
+# edit: 'floaterm'
+#keybinding:
+#  universal:
+#    return: '<c-\>'
 gui:
   showIcons: true
   nerdFontsVersion: 3
