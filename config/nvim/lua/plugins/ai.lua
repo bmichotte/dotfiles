@@ -10,24 +10,26 @@ return {
     },
     {
         "tzachar/cmp-ai",
-        enabled = false,
+        -- dir = "~/Developer/forks/cmp-ai",
+        -- enabled = false,
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             local cmp_ai = require("cmp_ai.config")
 
             cmp_ai:setup({
                 max_lines = 1000,
-                  provider = 'OpenAI',
+                provider = "Codestral",
+                -- provider = "OpenAI",
                 -- provider = "Ollama",
                 provider_options = {
-                    -- model = "codellama:7b-code",
-                    -- model = "llama3",
-                    model = 'gpt-4'
+                    -- model = "codeqwen",
+                    -- model = "gpt-4o",
+                    -- model = "codestral-latest",
                 },
-                notify = true,
-                notify_callback = function(msg)
-                    vim.notify(msg)
-                end,
+                notify = false,
+                -- notify_callback = function(msg)
+                --     vim.notify(msg)
+                -- end,
                 run_on_every_keystroke = true,
                 ignored_file_types = {
                     -- default is not to ignore
@@ -40,7 +42,7 @@ return {
     {
         "David-Kunz/gen.nvim",
         opts = {
-            model = "codellama:7b-code",
+            model = "codeqwen",
             debug = true,
         },
     },
@@ -72,7 +74,7 @@ return {
         },
         ---@type Ollama.Config
         opts = {
-            model = "codellama",
+            model = "codeqwen",
         },
     },
     {
@@ -86,19 +88,19 @@ return {
         opts = {
             -- api_key_cmd = "op read op://Personal/msrznwludsumyoz7v7y5xhurom/identifiant --no-newline",
             openai_params = {
-                model = "gpt-4-turbo",
+                model = "gpt-4o",
                 frequency_penalty = 0,
                 presence_penalty = 0,
                 max_tokens = 300,
-                temperature = 0,
+                temperature = 0.2,
                 top_p = 1,
                 n = 1,
             },
             openai_edit_params = {
-                model = "gpt-4-turbo",
+                model = "gpt-4o",
                 frequency_penalty = 0,
                 presence_penalty = 0,
-                temperature = 0,
+                temperature = 0.2,
                 top_p = 1,
                 n = 1,
             },

@@ -421,7 +421,7 @@ return {
                     documentation = cmp.config.window.bordered(),
                 },
                 sources = cmp.config.sources({
-                    -- { name = "cmp_ai" },
+                    { name = "cmp_ai" },
                     { name = "copilot" },
                     { name = "snp" },
                     { name = "nvim_lsp" },
