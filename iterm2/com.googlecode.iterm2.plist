@@ -2050,7 +2050,7 @@ The script should do this: \(ai.prompt)</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>OperatorMonoLigNF 16 {"featureSettings":[{"CTFeatureSelectorIdentifier":10,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":2,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":14,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":8,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":16,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":6,"CTFeatureTypeIdentifier":35}]}</string>
+			<string>OperatorMonoLigNF 16 {"featureSettings":[{"CTFeatureSelectorIdentifier":8,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":10,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":6,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":16,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":2,"CTFeatureTypeIdentifier":35},{"CTFeatureSelectorIdentifier":14,"CTFeatureTypeIdentifier":35}]}</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<true/>
 			<key>Option Key Sends</key>

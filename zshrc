@@ -1,3 +1,5 @@
+bindkey -e
+
 fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 
 autoload -Uz compinit
