@@ -12,6 +12,9 @@ local snippets_by_filetype = {
         -- { trigger = "rus", body = "const [${1}, set${1/(.)/${1:/capitalize}/}] = useState<$3>($0)", desc = "Create a new useState()" },
         { trigger = "rus", body = "const [${1}, set${1}] = useState<$3>($0)", desc = "Create a new useState()" },
     },
+    typescript = {
+        { trigger = "func", body = "export async function ${1}($2) {\n\t$0\n}", desc = "Create a new function" },
+    },
 }
 
 -- helpers and registration

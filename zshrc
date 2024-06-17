@@ -91,8 +91,6 @@ alias bundletool="java -jar /Users/benjamin/bin/bundletool.jar"
 
 alias lg='lazygit'
 
-alias vpharma="sudo openfortivpn -c ~/.openfortivpn"
-
 #export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # pnpm
