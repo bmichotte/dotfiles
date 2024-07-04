@@ -30,6 +30,6 @@ autocmd("BufLeave", {
 vim.keymap.set(
     "n",
     "<Leader>fj",
-    '<Cmd>%!jq --indent 4 \'def sort_keys: . as $in | if type == "object" then $in | to_entries | sort_by(.key) | from_entries | map_values(sort_keys) elif type == "array" then map(sort_keys) else . end; sort_keys\'<CR>',
+    '<Cmd>%!jq --indent 4 \'def sort_keys: . as $in | if type == "object" then $in | to_entries | sort_by(.key | ascii_downcase) | from_entries | map_values(sort_keys) elif type == "array" then map(sort_keys) else . end; sort_keys\'<CR>',
     { noremap = true, silent = true }
 )
