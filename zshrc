@@ -107,6 +107,25 @@ alias pu='pnpm upgrade'
 alias pd='pnpm dev'
 alias pw='pnpm watch'
 
+###-begin-pnpm-completion-###
+if type compdef &>/dev/null; then
+  _pnpm_completion () {
+    local reply
+    local si=$IFS
+
+    IFS=$'\n' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" SHELL=zsh pnpm completion-server -- "${words[@]}"))
+    IFS=$si
+
+    if [ "$reply" = "__tabtab_complete_files__" ]; then
+      _files
+    else
+      _describe 'values' reply
+    fi
+  }
+  compdef _pnpm_completion pnpm
+fi
+###-end-pnpm-completion-###
+
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
@@ -167,3 +186,7 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
