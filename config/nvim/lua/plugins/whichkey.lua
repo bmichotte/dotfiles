@@ -1,10 +1,15 @@
 ---@type LazyPlugin
 return {
     "folke/which-key.nvim",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     opts = {
-        window = {
-            border = "double",
+        preset = "modern",
+        delay = 800,
+        modes = {
+            t = false,
+        },
+        win = {
+            border = "single",
         },
         layout = {
             align = "center",
@@ -21,15 +26,15 @@ return {
         local wk = require("which-key")
         wk.setup(opts)
 
-        wk.register({
-            c = { name = "Code" },
-            d = { name = "Diagnostics" },
-            h = { name = "Harpoon" },
-            f = { name = "Files" },
-            n = { name = "Package infos" },
-            s = { name = "Split" },
-            t = { name = "File tree" },
-            z = { name = "Float term" },
-        }, { prefix = "<leader>" })
+        wk.add({
+            { "<leader>c", group = "Code" },
+            { "<leader>d", group = "Diagnostics" },
+            { "<leader>f", group = "Files" },
+            { "<leader>h", group = "Harpoon" },
+            { "<leader>n", group = "Package infos" },
+            { "<leader>s", group = "Split" },
+            { "<leader>t", group = "File tree" },
+            { "<leader>z", group = "Float term" },
+        })
     end,
 }

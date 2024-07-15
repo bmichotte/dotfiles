@@ -9,7 +9,7 @@ return {
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
             "js-everts/cmp-tailwind-colors",
-            "nvim-tree/nvim-web-devicons",
+            -- "nvim-tree/nvim-web-devicons",
         },
     },
     {
@@ -224,7 +224,7 @@ return {
                                 preferences = {
                                     includeInlayParameterNameHints = "all",
                                     includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                                    includeInlayFunctionParameterTypeHints = true,
+                                    includeInlayFunctionParameterTypeHints = false,
                                     includeInlayVariableTypeHints = false,
                                     includeInlayPropertyDeclarationTypeHints = true,
                                     includeInlayFunctionLikeReturnTypeHints = false,
