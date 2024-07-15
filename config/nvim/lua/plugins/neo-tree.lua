@@ -4,7 +4,7 @@ return {
     branch = "v3.x",
     dependencies = {
         "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
+        -- "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
     },
     keys = {
@@ -20,6 +20,10 @@ return {
                 hide_dotfiles = false,
                 hide_gitignored = true,
                 hide_by_name = { ".git" },
+                never_show = {
+                    ".DS_Store",
+                    "thumbs.db",
+                },
                 always_show = {
                     ".env",
                     ".env.local",

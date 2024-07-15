@@ -18,7 +18,7 @@ local colors = {
 ---@type LazyPlugin
 return {
     "goolord/alpha-nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     config = function()
         local keyset = {}
