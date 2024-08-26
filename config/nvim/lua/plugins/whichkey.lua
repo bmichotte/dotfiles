@@ -5,9 +5,12 @@ return {
     opts = {
         preset = "modern",
         delay = 800,
-        modes = {
-            t = false,
+        triggers = {
+            { "<auto>", mode = "nixsoc" },
         },
+        -- modes = {
+        --     t = false,
+        -- },
         win = {
             border = "single",
         },

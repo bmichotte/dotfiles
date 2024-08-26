@@ -6,7 +6,12 @@ return {
     -- },
     {
         "echasnovski/mini.icons",
-        opts = {},
+        opts = {
+            file = {
+                ["tailwind.config.ts"] = { glyph = "󱏿", hl = "MiniIconsCyan" },
+                ["package.json"] = { glyph = "", hl = "MiniIconsRed" },
+            },
+        },
         lazy = true,
         init = function()
             package.preload["nvim-web-devicons"] = function()
