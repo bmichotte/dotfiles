@@ -139,6 +139,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.symfony5/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$JAVA_HOME/bin:$HOME/Developer/apps/nvim-macos/bin:$HOME/.yarn/bin:$PATH
