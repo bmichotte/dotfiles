@@ -13,7 +13,7 @@ $git_status\
 $c\
 $rust\
 $golang\
-$nodejs\
+$nodejs$package\
 $php\
 $java\
 $kotlin\
@@ -186,6 +186,10 @@ format = "[[ $output ](fg:base bg:blue)]($style)"
 
 [line_break]
 disabled = false
+
+[package]
+style = "bg:teal"
+format = '[  $version ](fg:base bg:teal)($style)'
 
 [character]
 disabled = false
