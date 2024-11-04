@@ -9,6 +9,50 @@ return {
         },
     },
     {
+        "yetone/avante.nvim",
+        event = { "VeryLazy" },
+        lazy = false,
+        -- version = false,
+        opts = {
+            provider = "openai",
+        },
+        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+        build = "make",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "stevearc/dressing.nvim",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            "echasnovski/mini.icons",
+            "zbirenbaum/copilot.lua",
+            {
+                -- support for image pasting
+                "HakonHarnes/img-clip.nvim",
+                event = "VeryLazy",
+                opts = {
+                    -- recommended settings
+                    default = {
+                        embed_image_as_base64 = false,
+                        prompt_for_file_name = false,
+                        drag_and_drop = {
+                            insert_mode = true,
+                        },
+                        -- required for Windows users
+                        use_absolute_path = true,
+                    },
+                },
+            },
+            {
+                -- Make sure to set this up properly if you have lazy=true
+                "MeanderingProgrammer/render-markdown.nvim",
+                opts = {
+                    file_types = { "markdown", "Avante" },
+                },
+                ft = { "markdown", "Avante" },
+            },
+        },
+    },
+    {
         "tzachar/cmp-ai",
         -- dir = "~/Developer/forks/cmp-ai",
         enabled = false,
@@ -18,12 +62,12 @@ return {
 
             cmp_ai:setup({
                 max_lines = 1000,
-                provider = "Codestral",
+                -- provider = "Codestral",
                 -- provider = "OpenAI",
-                -- provider = "Ollama",
+                provider = "Ollama",
                 provider_options = {
                     -- model = "codeqwen",
-                    -- model = "gpt-4o",
+                    -- model = "gpt-4o-mini",
                     -- model = "codestral-latest",
                 },
                 notify = false,
@@ -41,6 +85,7 @@ return {
     },
     {
         "David-Kunz/gen.nvim",
+        enabled = false,
         opts = {
             model = "codeqwen",
             debug = true,
@@ -53,6 +98,7 @@ return {
     },
     {
         "nomnivore/ollama.nvim",
+        enabled = false,
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
@@ -88,7 +134,7 @@ return {
         opts = {
             -- api_key_cmd = "op read op://Personal/msrznwludsumyoz7v7y5xhurom/identifiant --no-newline",
             openai_params = {
-                model = "gpt-4o",
+                model = "gpt-4o-mini",
                 frequency_penalty = 0,
                 presence_penalty = 0,
                 max_tokens = 300,
@@ -97,7 +143,7 @@ return {
                 n = 1,
             },
             openai_edit_params = {
-                model = "gpt-4o",
+                model = "gpt-4o-mini",
                 frequency_penalty = 0,
                 presence_penalty = 0,
                 temperature = 0.2,

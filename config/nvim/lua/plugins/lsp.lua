@@ -411,6 +411,10 @@ return {
                 Operator = "",
                 TypeParameter = "",
                 Copilot = "",
+                HF = "",
+                OpenAI = "",
+                Codestral = "",
+                Bard = "",
             }
             cmp.setup({
                 window = {
