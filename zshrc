@@ -144,6 +144,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$JAVA_HOME/bin:$HOME/Developer/apps/nvim-macos/bin:$HOME/.yarn/bin:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
+export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
