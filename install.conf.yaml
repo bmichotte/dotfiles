@@ -6,6 +6,7 @@
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux
     ~/.config/lsd: config/lsd
+    ~/.config/fastfetch: config/fastfetch
     ~/.config/wezterm: config/wezterm
     ~/.config/starship.toml: config/starship.toml
     ~/.zshrc: zshrc
