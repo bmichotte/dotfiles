@@ -1,7 +1,8 @@
 ---@type LazyPlugin
 return {
     "nvim-lualine/lualine.nvim",
-    -- dependencies = { "nvim-tree/nvim-web-devicons" },
+    commit = "640260d7c2d98779cab89b1e7088ab14ea354a02",
+    --enabled = false,
     config = function()
         local lualine = require("lualine")
 
@@ -252,7 +253,7 @@ return {
                 end
 
                 local langs = {
-                    ["tsserver"] = "󰛦",
+                    ["ts_ls"] = "󰛦",
                     ["cssls"] = "",
                     ["tailwindcss"] = "󱏿",
                     ["html"] = "",
@@ -283,7 +284,7 @@ return {
 
         -- Add components to right sections
         ins_right({
-            "o:encoding", -- option component same as &encoding in viml
+            "o:encoding",       -- option component same as &encoding in viml
             fmt = string.upper, -- I'm not sure why it's upper case either ;)
             cond = conditions.hide_in_width,
             color = { fg = colors.green, gui = "bold" },
