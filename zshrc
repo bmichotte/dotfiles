@@ -66,13 +66,6 @@ if [[ $#h -gt 0 ]]; then
   zstyle ':completion:*:slogin:*' hosts $h
 fi
 
-# yarn
-alias y='yarn'
-alias yi='yarn install'
-alias yu='yarn upgrade'
-alias yd='yarn run dev'
-alias yw='yarn run watch'
-
 # git
 alias nah="git reset --hard; git clean -df"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -101,11 +94,30 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-alias p='pnpm'
-alias pi='pnpm install'
-alias pu='pnpm upgrade'
-alias pd='pnpm dev'
-alias pw='pnpm watch'
+declare -A tools
+tools[n]=npm 
+tools[p]=pnpm 
+tools[y]=yarn 
+tools[b]=bun
+
+declare -A actions
+actions[i]=install
+actions[u]=upgrade
+actions[b]="run build"
+actions[d]="run dev"
+actions[w]="run watch"
+
+# create aliases for tools and actions
+# like pi -> pnpm install or bw -> bun watch
+for key value in "${(@kv)tools}"; do
+    # echo "$key -> $value"
+    alias $key=$value
+
+    for k v in "${(@kv)actions}"; do
+        # echo "  $key$k -> $value $v"
+        alias "$key$k"="$value $v"
+    done
+done
 
 ###-begin-pnpm-completion-###
 if type compdef &>/dev/null; then
