@@ -102,7 +102,7 @@ tools[b]=bun
 
 declare -A actions
 actions[i]=install
-actions[u]=upgrade
+actions[u]=update
 actions[b]="run build"
 actions[d]="run dev"
 actions[w]="run watch"
