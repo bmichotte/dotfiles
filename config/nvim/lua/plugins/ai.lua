@@ -2,7 +2,7 @@
 return {
     {
         "zbirenbaum/copilot.lua",
-        event = { "VimEnter" },
+        event = { "InsertEnter" },
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },
@@ -165,7 +165,7 @@ return {
     },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
-        branch = "canary",
+        build = "make tiktoken",
         dependencies = {
             "zbirenbaum/copilot.lua",
             "nvim-lua/plenary.nvim",
