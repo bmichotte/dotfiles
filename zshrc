@@ -142,6 +142,7 @@ fi
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk17-zulu/Contents/Home
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21-azul-zulu.jdk/Contents/Home
 
 export FLUTTER_HOME=/Users/benjamin/Developer/flutter/2.2.3
 export ANDROID_HOME=$HOME/Library/Android/sdk
