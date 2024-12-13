@@ -1,9 +1,5 @@
 ---@type LazyPlugin[]
 return {
-    -- {
-    --     "nvim-tree/nvim-web-devicons",
-    --     init = function() end,
-    -- },
     {
         "echasnovski/mini.icons",
         opts = {

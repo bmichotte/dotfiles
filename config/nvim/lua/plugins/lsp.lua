@@ -1,6 +1,16 @@
 ---@type LazyPlugin[]
 return {
     {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                "lazy.nvim",
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+    {
         "hrsh7th/nvim-cmp",
         lazy = false,
         dependencies = {
@@ -9,7 +19,6 @@ return {
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
             "js-everts/cmp-tailwind-colors",
-            -- "nvim-tree/nvim-web-devicons",
         },
     },
     {
@@ -55,7 +64,6 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "neovim/nvim-lspconfig",
             "nvimdev/lspsaga.nvim",
-            "folke/neodev.nvim",
             "kevinhwang91/nvim-ufo",
             "kevinhwang91/promise-async",
         },
@@ -101,8 +109,6 @@ return {
                     border = "rounded",
                 },
             })
-
-            require("neodev").setup({})
 
             local lspconfig = require("lspconfig")
             local util = require("lspconfig/util")
@@ -272,18 +278,18 @@ return {
                             on_attach = on_attach,
                         })
                     end,
-                    ["eslint"] = function()
-                        lspconfig.eslint.setup({
-                            capabilities = capabilities,
-                            on_attach = function(client, bufnr)
-                                vim.api.nvim_create_autocmd("BufWritePre", {
-                                    buffer = bufnr,
-                                    command = "EslintFixAll",
-                                })
-                                on_attach(client, bufnr)
-                            end,
-                        })
-                    end,
+                    -- ["eslint"] = function()
+                    --     lspconfig.eslint.setup({
+                    --         capabilities = capabilities,
+                    --         on_attach = function(client, bufnr)
+                    --             vim.api.nvim_create_autocmd("BufWritePre", {
+                    --                 buffer = bufnr,
+                    --                 command = "EslintFixAll",
+                    --             })
+                    --             on_attach(client, bufnr)
+                    --         end,
+                    --     })
+                    -- end,
                 },
             })
 
@@ -336,6 +342,21 @@ return {
                     vim.keymap.set({ "n", "x" }, "<leader>f", function()
                         vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
                     end, { buffer = event.buf, desc = "Format buffer" })
+                end,
+            })
+
+            vim.api.nvim_create_autocmd("LspProgress", {
+                ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+                callback = function(ev)
+                    local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+                    vim.notify(vim.lsp.status(), "info", {
+                        id = "lsp_progress",
+                        title = "LSP Progress",
+                        opts = function(notif)
+                            notif.icon = ev.data.params.value.kind == "end" and " "
+                                or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+                        end,
+                    })
                 end,
             })
 
@@ -429,6 +450,7 @@ return {
                     { name = "copilot" },
                     { name = "snp" },
                     { name = "nvim_lsp" },
+                    { name = "lazydev" },
                     { name = "path" },
                 }, {
                     { name = "buffer" },

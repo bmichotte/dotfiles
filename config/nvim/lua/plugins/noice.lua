@@ -30,6 +30,9 @@ return {
                     hover = {
                         silent = true,
                     },
+                    progress = {
+                        enabled = false,
+                    },
                 },
                 presets = {
                     lsp_doc_border = true,

@@ -165,6 +165,7 @@ return {
     },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
+        enabled = false,
         build = "make tiktoken",
         dependencies = {
             "zbirenbaum/copilot.lua",

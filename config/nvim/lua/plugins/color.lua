@@ -1,17 +1,6 @@
 ---@type LazyPlugin[]
 return {
     {
-        enabled = false,
-        "NvChad/nvim-colorizer.lua",
-        opts = {
-            user_default_options = {
-                css = true,
-                tailwind = true,
-                names = false,
-            },
-        },
-    },
-    {
         "brenoprata10/nvim-highlight-colors",
         opts = {
             render = "background",
