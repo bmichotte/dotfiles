@@ -1,0 +1,19 @@
+font-family = "OperatorMonoLig Nerd Font"
+font-size = 16
+adjust-underline-position = 4
+
+mouse-hide-while-typing = true
+
+theme = "catppuccin-mocha"
+cursor-invert-fg-bg = true
+window-theme = ghostty
+
+window-padding-balance = true
+window-height = 50
+window-width = 165
+
+copy-on-select = true
+shell-integration-features = cursor,sudo,no-title
+
+keybind = super+left=next_tab
+keybind = super+right=previous_tab
