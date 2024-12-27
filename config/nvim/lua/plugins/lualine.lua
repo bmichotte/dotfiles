@@ -97,6 +97,7 @@ return {
                     v = "",
                     V = "",
                     c = "",
+                    t = "",
                 }
 
                 return mode_text[vim.fn.mode()] or get_mode() .. " (" .. vim.fn.mode() .. ")"

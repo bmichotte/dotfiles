@@ -7,25 +7,25 @@ vim.api.nvim_create_user_command("Wall", ":wall", { desc = "I can't type :wall w
 
 -- local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
-autocmd("CmdlineEnter", {
-    command = "command! Term :botright vsplit term://$SHELL",
-})
+-- autocmd("CmdlineEnter", {
+--     command = "command! Term :botright vsplit term://$SHELL",
+-- })
 --
 -- Enter insert mode when switching to terminal
-autocmd("TermOpen", {
-    command = "setlocal listchars= nonumber norelativenumber nocursorline",
-})
+-- autocmd("TermOpen", {
+--     command = "setlocal listchars= nonumber norelativenumber nocursorline",
+-- })
 
-autocmd("TermOpen", {
-    pattern = "",
-    command = "startinsert",
-})
+-- autocmd("TermOpen", {
+--     pattern = "",
+--     command = "startinsert",
+-- })
 
 -- Close terminal buffer on process exit
-autocmd("BufLeave", {
-    pattern = "term://*",
-    command = "stopinsert",
-})
+-- autocmd("BufLeave", {
+--     pattern = "term://*",
+--     command = "stopinsert",
+-- })
 
 vim.keymap.set(
     "n",
