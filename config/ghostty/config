@@ -13,7 +13,7 @@ window-height = 50
 window-width = 165
 
 copy-on-select = true
-shell-integration-features = cursor,sudo,no-title
+shell-integration-features = cursor,sudo,title
 
 keybind = super+left=next_tab
 keybind = super+right=previous_tab
