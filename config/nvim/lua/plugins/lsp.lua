@@ -45,19 +45,19 @@ return {
 
             null_ls.setup({
                 sources = {
-                    -- null_ls.builtins.formatting.biome.with({
-                    --     args = {
-                    --         "check",
-                    --         "--apply-unsafe",
-                    --         "--formatter-enabled=true",
-                    --         "--organize-imports-enabled=true",
-                    --         "--skip-errors",
-                    --         "--stdin-file-path",
-                    --         "--colors=force",
-                    --         "$FILENAME",
-                    --     },
-                    -- }),
-                    null_ls.builtins.formatting.biome,
+                    null_ls.builtins.formatting.biome.with({
+                        args = {
+                            "format",
+                            "--apply-unsafe",
+                            "--formatter-enabled=true",
+                            "--organize-imports-enabled=true",
+                            "--skip-errors",
+                            "--colors=force",
+                            "--stdin-file-path",
+                            "$FILENAME",
+                        },
+                    }),
+                    -- null_ls.builtins.formatting.biome,
                     null_ls.builtins.formatting.sqlfmt,
                     null_ls.builtins.formatting.stylua,
                     null_ls.builtins.formatting.yamlfmt,
