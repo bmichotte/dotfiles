@@ -2,13 +2,27 @@
 return {
     {
         "folke/lazydev.nvim",
-        ft = "lua", -- only load on lua files
+        ft = { "lua" }, -- only load on lua files
         opts = {
             library = {
                 "lazy.nvim",
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
             },
         },
+    },
+    {
+        "Bekaboo/dropbar.nvim",
+        -- optional, but required for fuzzy finder support
+        dependencies = {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make",
+        },
+        config = function()
+            local dropbar_api = require("dropbar.api")
+            vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+            vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+            vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
+        end,
     },
     {
         "hrsh7th/nvim-cmp",
@@ -31,26 +45,24 @@ return {
 
             null_ls.setup({
                 sources = {
-                    null_ls.builtins.formatting.biome.with({
-                        args = {
-                            "check",
-                            "--apply-unsafe",
-                            "--formatter-enabled=true",
-                            "--organize-imports-enabled=true",
-                            "--skip-errors",
-                            "--stdin-file-path",
-                            "--colors=force",
-                            "$FILENAME",
-                        },
-                    }),
-                    -- null_ls.builtins.formatting.biome,
+                    -- null_ls.builtins.formatting.biome.with({
+                    --     args = {
+                    --         "check",
+                    --         "--apply-unsafe",
+                    --         "--formatter-enabled=true",
+                    --         "--organize-imports-enabled=true",
+                    --         "--skip-errors",
+                    --         "--stdin-file-path",
+                    --         "--colors=force",
+                    --         "$FILENAME",
+                    --     },
+                    -- }),
+                    null_ls.builtins.formatting.biome,
                     null_ls.builtins.formatting.sqlfmt,
                     null_ls.builtins.formatting.stylua,
                     null_ls.builtins.formatting.yamlfmt,
 
                     null_ls.builtins.diagnostics.yamllint,
-                    -- null_ls.builtins.diagnostics.eslint_d,
-
                     null_ls.builtins.code_actions.gitsigns,
                 },
             })
@@ -63,7 +75,6 @@ return {
             "hrsh7th/nvim-cmp",
             "hrsh7th/cmp-nvim-lsp",
             "neovim/nvim-lspconfig",
-            "nvimdev/lspsaga.nvim",
             "kevinhwang91/nvim-ufo",
             "kevinhwang91/promise-async",
         },
@@ -118,12 +129,6 @@ return {
                 lineFoldingOnly = true,
             }
 
-            require("lspsaga").setup({
-                lightbulb = {
-                    enable = false,
-                },
-            })
-
             local on_attach = function(client, bufnr)
                 vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
 
@@ -131,19 +136,11 @@ return {
                     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 end
 
-                -- vim.keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", { noremap = true, silent = true, buffer = bufnr, desc = "Show definition, references" })
                 vim.keymap.set(
                     "n",
                     "gd",
-                    --vim.lsp.buf.declaration,
-                    "<cmd>Lspsaga goto_definition<cr>",
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" }
-                )
-                vim.keymap.set(
-                    "n",
-                    "gD",
                     vim.lsp.buf.definition,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "See definition and make edits in window" }
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" }
                 )
                 vim.keymap.set(
                     "n",
@@ -163,16 +160,13 @@ return {
                     vim.lsp.buf.type_definition,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" }
                 )
-                -- vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { noremap = true, silent = true, buffer = bufnr, desc = "Show diagnostics for cursor" })
                 vim.keymap.set("n", "K", vim.lsp.buf.hover, {
                     noremap = true,
                     silent = true,
                     buffer = bufnr,
                     desc = "Show documentation for what is under cursor",
                 })
-
-                -- if client.name == "tsserver" then
-                vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", {
+                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
                     noremap = true,
                     silent = true,
                     buffer = bufnr,
@@ -181,24 +175,9 @@ return {
                 vim.keymap.set(
                     "n",
                     "]d",
-                    "<cmd>Lspsaga diagnostic_jump_next<CR>",
+                    vim.diagnostic.goto_next,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" }
                 )
-                -- else
-                --     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
-                --         noremap = true,
-                --         silent = true,
-                --         buffer = bufnr,
-                --         desc = "Jump to previous diagnostic in buffer",
-                --     })
-                --     vim.keymap.set(
-                --         "n",
-                --         "]d",
-                --         vim.diagnostic.goto_next,
-                --         { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" }
-                --     )
-                -- end
-
                 vim.keymap.set(
                     { "n", "v" },
                     "<leader>ca",
@@ -278,18 +257,6 @@ return {
                             on_attach = on_attach,
                         })
                     end,
-                    -- ["eslint"] = function()
-                    --     lspconfig.eslint.setup({
-                    --         capabilities = capabilities,
-                    --         on_attach = function(client, bufnr)
-                    --             vim.api.nvim_create_autocmd("BufWritePre", {
-                    --                 buffer = bufnr,
-                    --                 command = "EslintFixAll",
-                    --             })
-                    --             on_attach(client, bufnr)
-                    --         end,
-                    --     })
-                    -- end,
                 },
             })
 
