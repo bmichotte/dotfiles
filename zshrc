@@ -46,6 +46,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # use LS_COLORS for comple
 
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# disable corepack being annoying
+export COREPACK_ENABLE_AUTO_PIN=0
+
 export EDITOR='nvim'
 alias vi='nvim'
 
