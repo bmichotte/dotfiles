@@ -106,6 +106,7 @@ tools[b]=bun
 declare -A actions
 actions[i]=install
 actions[u]=update
+actions[o]="outdated --long"
 actions[b]="run build"
 actions[d]="run dev"
 actions[w]="run watch"
