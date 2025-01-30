@@ -156,8 +156,8 @@ return {
                 )
                 vim.keymap.set(
                     "n",
-                    "<leader>D",
-                    vim.lsp.buf.type_definition,
+                    "<leader>d",
+                    vim.diagnostic.open_float,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" }
                 )
                 vim.keymap.set("n", "K", vim.lsp.buf.hover, {
