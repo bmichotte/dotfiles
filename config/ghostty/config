@@ -17,3 +17,5 @@ shell-integration-features = cursor,sudo,title
 
 keybind = super+right=next_tab
 keybind = super+left=previous_tab
+
+window-inherit-working-directory=false
