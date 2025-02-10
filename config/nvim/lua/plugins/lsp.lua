@@ -27,6 +27,9 @@ return {
     {
         "hrsh7th/nvim-cmp",
         lazy = false,
+        opts = {
+            completion = { completeopt = "menu,menuone,noselect" },
+        },
         dependencies = {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-nvim-lsp",
