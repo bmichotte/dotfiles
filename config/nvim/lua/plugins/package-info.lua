@@ -1,9 +1,6 @@
 ---@type LazyPlugin
 return {
     "vuki656/package-info.nvim",
-    -- dependencies = { "MunifTanjim/nui.nvim" },
-    -- event = { "BufRead package.json" },
-    -- ft = "json",
     keys = {
         {
             "<leader>ns",
@@ -56,22 +53,23 @@ return {
         },
     },
     opts = {},
+    ft = { "json" },
     -- see https://github.com/vuki656/package-info.nvim/pull/143
-    -- config = function()
-    --     require("package-info").setup({
-    --         autostart = false,
-    --         package_manager = "pnpm",
-    --     })
-    --     vim.api.nvim_create_autocmd("FileType", {
-    --         pattern = "json",
-    --         callback = function()
-    --             -- wait 0.5 second
-    --             if vim.fn.expand("%:t") == "package.json" then
-    --                 vim.defer_fn(function()
-    --                     require("package-info").show()
-    --                 end, 500)
-    --             end
-    --         end,
-    --     })
-    -- end,
+    config = function()
+        require("package-info").setup({
+            autostart = false,
+            package_manager = "pnpm",
+        })
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "json",
+            callback = function()
+                -- wait 0.5 second
+                if vim.fn.expand("%:t") == "package.json" then
+                    vim.defer_fn(function()
+                        require("package-info").show()
+                    end, 500)
+                end
+            end,
+        })
+    end,
 }
