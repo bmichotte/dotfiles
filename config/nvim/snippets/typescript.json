@@ -1,0 +1,9 @@
+{
+    "Create a new function": {
+        "body": [
+            "export async function ${1}($2) {",
+            "\t$0",
+            "}"
+        ]
+    }
+}

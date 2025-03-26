@@ -1,0 +1,5 @@
+{
+    "useState": {
+        "prefix": "rus",
+        "body": ["const [${1}, set${1}] = useState<$3>($0)"]
+}
