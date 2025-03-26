@@ -279,14 +279,8 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        dependencies = { "saghen/blink.cmp" },
-        opts = {
-            servers = {
-                lua_ls = {},
-                ts_ls = {},
-            },
-        },
-        config = function(_, opts)
+        dependencies = { "saghen/blink.cmp", "williamboman/mason-lspconfig.nvim" },
+        config = function()
             local capabilities = {
                 textDocument = {
                     foldingRange = {
@@ -299,6 +293,7 @@ return {
 
             local lspconfig = require("lspconfig")
             local util = require("lspconfig/util")
+            local mason = require("mason-lspconfig")
 
             local on_attach = function(client, bufnr)
                 vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
@@ -363,11 +358,11 @@ return {
                 )
             end
 
-            -- default config
-            for server, config in pairs(opts.servers) do
+            for _, server in pairs(mason.get_installed_servers()) do
                 if server ~= "lua_ls" and server ~= "ts_ls" then
-                    config.capabilities = capabilities
-                    lspconfig[server].setup(config)
+                    lspconfig[server].setup({
+                        capabilities = capabilities,
+                    })
                 end
             end
 
