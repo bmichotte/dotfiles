@@ -87,6 +87,9 @@ alias bundletool="java -jar /Users/benjamin/bin/bundletool.jar"
 
 alias lg='lazygit'
 
+alias hud_show="/bin/launchctl setenv MTL_HUD_ENABLED 1"
+alias hud_hide="/bin/launchctl setenv MTL_HUD_ENABLED 0"
+
 #export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # pnpm
@@ -210,3 +213,7 @@ unset __conda_setup
 source <(fzf --zsh)
 
 . "/Users/benjamin/.deno/env"
+
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
