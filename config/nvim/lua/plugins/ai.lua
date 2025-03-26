@@ -10,6 +10,7 @@ return {
     },
     {
         "yetone/avante.nvim",
+        enabled = false,
         event = { "VeryLazy" },
         lazy = false,
         -- version = false,
@@ -92,11 +93,6 @@ return {
         },
     },
     {
-        "zbirenbaum/copilot-cmp",
-        dependencies = { "copilot.lua" },
-        config = true,
-    },
-    {
         "nomnivore/ollama.nvim",
         enabled = false,
         dependencies = {
@@ -125,6 +121,7 @@ return {
     },
     {
         "jackMort/ChatGPT.nvim",
+        enabled = false,
         event = { "VeryLazy" },
         dependencies = {
             "MunifTanjim/nui.nvim",
@@ -165,7 +162,7 @@ return {
     },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
-        enabled = false,
+        -- enabled = false,
         build = "make tiktoken",
         dependencies = {
             "zbirenbaum/copilot.lua",

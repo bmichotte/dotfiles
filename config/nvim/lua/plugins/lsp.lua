@@ -1,3 +1,42 @@
+local kind_icons = {
+    Text = "󰉿",
+    Method = "󰆧",
+    Function = "󰊕",
+    Constructor = "",
+
+    Field = "󰜢",
+    Variable = "󰀫",
+    Property = "󰜢",
+
+    Class = "",
+    Interface = "",
+    Struct = "",
+    Module = "",
+
+    Unit = "󰑭",
+    Value = "󰎠",
+    Enum = "",
+    EnumMember = "",
+
+    Keyword = "",
+    Constant = "󰏿",
+
+    Snippet = "",
+    Color = "",
+    File = "󰈙",
+    Reference = "󰈇",
+    Folder = "󰉋",
+    Event = "",
+    Operator = "",
+    TypeParameter = "",
+
+    Copilot = "",
+    HF = "",
+    OpenAI = "",
+    Codestral = "",
+    Bard = "",
+}
+
 ---@type LazyPlugin[]
 return {
     {
@@ -23,20 +62,6 @@ return {
             vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
             vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
         end,
-    },
-    {
-        "hrsh7th/nvim-cmp",
-        lazy = false,
-        opts = {
-            completion = { completeopt = "menu,menuone,noselect" },
-        },
-        dependencies = {
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-cmdline",
-            "js-everts/cmp-tailwind-colors",
-        },
     },
     {
         "nvimtools/none-ls.nvim",
@@ -75,191 +100,14 @@ return {
         "williamboman/mason.nvim",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
-            "hrsh7th/nvim-cmp",
-            "hrsh7th/cmp-nvim-lsp",
             "neovim/nvim-lspconfig",
             "kevinhwang91/nvim-ufo",
-            "kevinhwang91/promise-async",
         },
-        init = function()
-            -- init fold
-            vim.o.foldcolumn = "1"
-            vim.o.foldlevel = 99
-            vim.o.foldlevelstart = 99
-            vim.o.foldenable = true
-            vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-        end,
         lazy = false,
-        keys = {
-            -- za toggle folds
-            {
-                "zR",
-                function()
-                    require("ufo").openAllFolds()
-                end,
-                desc = "Open all folds",
-            },
-            {
-                "zM",
-                function()
-                    require("ufo").closeAllFolds()
-                end,
-                desc = "Close all folds",
-            },
-            {
-                "zK",
-                function()
-                    local winid = require("ufo").peekFoldedLinesUnderCursor()
-                    if not winid then
-                        vim.lsp.buf.hover()
-                    end
-                end,
-                desc = "Peek fold",
-            },
-        },
         config = function()
             require("mason").setup({
                 ui = {
                     border = "rounded",
-                },
-            })
-
-            local lspconfig = require("lspconfig")
-            local util = require("lspconfig/util")
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            capabilities.textDocument.foldingRange = {
-                dynamicRegistration = false,
-                lineFoldingOnly = true,
-            }
-
-            local on_attach = function(client, bufnr)
-                vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
-
-                if client.server_capabilities.inlayHintProvider then
-                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                end
-
-                vim.keymap.set(
-                    "n",
-                    "gd",
-                    vim.lsp.buf.definition,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" }
-                )
-                vim.keymap.set(
-                    "n",
-                    "gi",
-                    vim.lsp.buf.implementation,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Go to implementation" }
-                )
-                vim.keymap.set(
-                    "n",
-                    "gr",
-                    vim.lsp.buf.rename,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Smart rename" }
-                )
-                vim.keymap.set(
-                    "n",
-                    "<leader>d",
-                    vim.diagnostic.open_float,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" }
-                )
-                vim.keymap.set("n", "K", vim.lsp.buf.hover, {
-                    noremap = true,
-                    silent = true,
-                    buffer = bufnr,
-                    desc = "Show documentation for what is under cursor",
-                })
-                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
-                    noremap = true,
-                    silent = true,
-                    buffer = bufnr,
-                    desc = "Jump to previous diagnostic in buffer",
-                })
-                vim.keymap.set(
-                    "n",
-                    "]d",
-                    vim.diagnostic.goto_next,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" }
-                )
-                vim.keymap.set(
-                    { "n", "v" },
-                    "<leader>ca",
-                    vim.lsp.buf.code_action,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" }
-                )
-                vim.keymap.set(
-                    "i",
-                    "<C-h>",
-                    vim.lsp.buf.signature_help,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Show signature help" }
-                )
-            end
-
-            require("mason-lspconfig").setup({
-                auto_install = true,
-                handlers = {
-                    function(server_name)
-                        lspconfig[server_name].setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                        })
-                    end,
-                    ["ts_ls"] = function()
-                        lspconfig.ts_ls.setup({
-                            capabilities = capabilities,
-                            root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-                            init_options = {
-                                preferences = {
-                                    includeInlayParameterNameHints = "all",
-                                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                                    includeInlayFunctionParameterTypeHints = false,
-                                    includeInlayVariableTypeHints = false,
-                                    includeInlayPropertyDeclarationTypeHints = true,
-                                    includeInlayFunctionLikeReturnTypeHints = false,
-                                    includeInlayEnumMemberValueHints = false,
-                                    importModuleSpecifierPreference = "non-relative",
-                                },
-                            },
-                            on_attach = function(client, bufnr)
-                                require("twoslash-queries").attach(client, bufnr)
-                                -- client.server_capabilities.document_formatting = false
-                                -- client.server_capabilities.document_range_formatting = false
-                                on_attach(client, bufnr)
-                            end,
-                        })
-                    end,
-                    ["lua_ls"] = function()
-                        lspconfig.lua_ls.setup({
-                            capabilities = capabilities,
-                            settings = {
-                                Lua = {
-                                    format = {
-                                        enable = true,
-                                    },
-                                    diagnostics = {
-                                        globals = { "vim" },
-                                        neededFileStatus = {
-                                            ["codestyle-check"] = "Any",
-                                        },
-                                        groupSeverity = { ["codestyle-check"] = "Warning" },
-                                        -- missing_parameters = false,
-                                        disable = { "missing-parameters", "missing-fields" },
-                                    },
-                                    runtime = {
-                                        version = "LuaJIT",
-                                    },
-                                    workspace = {
-                                        library = vim.api.nvim_get_runtime_file("", true),
-                                        checkThirdParty = false,
-                                    },
-                                    completion = {
-                                        callSnippet = "Replace",
-                                    },
-                                },
-                            },
-                            on_attach = on_attach,
-                        })
-                    end,
                 },
             })
 
@@ -329,181 +177,330 @@ return {
                     })
                 end,
             })
+        end,
+    },
+    {
+        "giuxtaposition/blink-cmp-copilot",
+    },
+    {
+        "saghen/blink.cmp",
+        dependencies = { "giuxtaposition/blink-cmp-copilot" },
+        version = "1.*",
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            keymap = {
+                preset = "enter",
+                ["<Up>"] = { "select_prev", "fallback" },
+                ["<Down>"] = { "select_next", "fallback" },
+            },
 
-            require("ufo").setup({
-                provider_selector = function()
-                    return { "lsp", "indent" }
-                end,
-                fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-                    local newVirtText = {}
-                    local suffix = (" 󰁂 %d "):format(endLnum - lnum)
-                    local sufWidth = vim.fn.strdisplaywidth(suffix)
-                    local targetWidth = width - sufWidth
-                    local curWidth = 0
-                    for _, chunk in ipairs(virtText) do
-                        local chunkText = chunk[1]
-                        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-                        if targetWidth > curWidth + chunkWidth then
-                            table.insert(newVirtText, chunk)
-                        else
-                            chunkText = truncate(chunkText, targetWidth - curWidth)
-                            local hlGroup = chunk[2]
-                            table.insert(newVirtText, { chunkText, hlGroup })
-                            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-                            -- str width returned from truncate() may less than 2nd argument, need padding
-                            if curWidth + chunkWidth < targetWidth then
-                                suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-                            end
-                            break
-                        end
-                        curWidth = curWidth + chunkWidth
-                    end
-                    table.insert(newVirtText, { suffix, "MoreMsg" })
-                    return newVirtText
-                end,
-            })
+            appearance = {
+                kind_icons = kind_icons,
+            },
 
-            -- cmp setup
-            local cmp = require("cmp")
-
-            require("snippets").register_cmp_source()
-            vim.keymap.set({ "i", "s" }, "<Tab>", function()
-                if vim.snippet.active({ direction = 1 }) then
-                    return "<cmd>lua vim.snippet.jump(1)<cr>"
-                else
-                    return "<Tab>"
-                end
-            end, { expr = true, silent = true })
-
-            local kind_icons = {
-                Text = "󰉿",
-                Method = "󰆧",
-                Function = "󰊕",
-                Constructor = "",
-                Field = "󰜢",
-                Variable = "󰀫",
-                Class = "",
-                Interface = "",
-                Module = "",
-                Property = "󰜢",
-                Unit = "󰑭",
-                Value = "󰎠",
-                Enum = "",
-                Keyword = "",
-                Snippet = "",
-                Color = "",
-                File = "󰈙",
-                Reference = "󰈇",
-                Folder = "󰉋",
-                EnumMember = "",
-                Constant = "󰏿",
-                Struct = "",
-                Event = "",
-                Operator = "",
-                TypeParameter = "",
-                Copilot = "",
-                HF = "",
-                OpenAI = "",
-                Codestral = "",
-                Bard = "",
-            }
-            cmp.setup({
-                window = {
-                    completion = cmp.config.window.bordered({
-                        col_offset = -3,
-                        side_padding = 0,
-                    }),
-                    documentation = cmp.config.window.bordered(),
-                },
-                sources = cmp.config.sources({
-                    -- { name = "cmp_ai" },
-                    { name = "copilot" },
-                    { name = "snp" },
-                    { name = "nvim_lsp" },
-                    { name = "lazydev" },
-                    { name = "path" },
-                }, {
-                    { name = "buffer" },
-                }),
-                snippet = {
-                    expand = function(args)
-                        vim.snippet.expand(args.body)
-                    end,
-                },
-                formatting = {
-                    fields = {
-                        cmp.ItemField.Kind,
-                        cmp.ItemField.Abbr,
-                        cmp.ItemField.Menu,
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 250,
+                    treesitter_highlighting = true,
+                    window = {
+                        border = "rounded",
+                        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
                     },
-                    format = function(entry, item)
-                        if item.kind == "Color" then
-                            item = require("cmp-tailwind-colors").format(entry, item)
+                },
+                menu = {
+                    border = "rounded",
 
-                            if item.kind ~= "Color" then
-                                item.menu = "Color"
-                                return item
-                            end
+                    cmdline_position = function()
+                        if vim.g.ui_cmdline_pos ~= nil then
+                            local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+                            return { pos[1] - 1, pos[2] }
                         end
-
-                        item.menu = "   (" .. item.kind .. ")"
-                        item.kind = " " .. kind_icons[item.kind] .. "  "
-                        if entry.source.name == "cmp_ai" then
-                            local detail = (entry.completion_item.labelDetails or {}).detail
-                            item.kind = ""
-                            if detail and detail:find(".*%%.*") then
-                                item.kind = item.kind .. " " .. detail
-                            end
-
-                            if (entry.completion_item.data or {}).multiline then
-                                item.kind = item.kind .. " " .. "[ML]"
-                            end
-                        end
-                        local maxwidth = 80
-                        item.abbr = string.sub(item.abbr, 1, maxwidth)
-                        return item
+                        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+                        return { vim.o.lines - height, 0 }
                     end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
-                    ["<Down>"] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
-                    ["<Up>"] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
-                    ["<C-Space>"] = cmp.mapping(function()
-                        if cmp.visible() then
-                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                        else
-                            cmp.complete()
-                        end
-                    end),
-                }),
-            })
 
-            -- `/` cmdline setup.
-            cmp.setup.cmdline("/", {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = {
-                    { name = "buffer" },
-                },
-            })
-
-            -- `:` cmdline setup.
-            cmp.setup.cmdline(":", {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = cmp.config.sources({
-                    { name = "path" },
-                }, {
-                    {
-                        name = "cmdline",
-                        option = {
-                            ignore_cmds = { "Man", "!" },
+                    draw = {
+                        columns = {
+                            { "kind_icon", "label", gap = 1 },
+                            { "kind" },
+                        },
+                        components = {
+                            kind_icon = {
+                                text = function(item)
+                                    local kind = kind_icons[item.kind] or ""
+                                    return kind .. " "
+                                end,
+                                highlight = "CmpItemKind",
+                            },
+                            label = {
+                                text = function(item)
+                                    return item.label
+                                end,
+                                highlight = "CmpItemAbbr",
+                            },
+                            kind = {
+                                text = function(item)
+                                    return item.kind
+                                end,
+                                highlight = "CmpItemKind",
+                            },
                         },
                     },
-                }),
+                },
+            },
+            signature = { enabled = true },
+            sources = {
+                default = { "lsp", "path", "snippets", "buffer", "copilot" },
+
+                providers = {
+                    copilot = {
+                        name = "copilot",
+                        module = "blink-cmp-copilot",
+                        score_offset = 100,
+                        async = true,
+                        transform_items = function(_, items)
+                            local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+                            local kind_idx = #CompletionItemKind + 1
+                            CompletionItemKind[kind_idx] = "Copilot"
+                            for _, item in ipairs(items) do
+                                item.kind = kind_idx
+                            end
+                            return items
+                        end,
+                    },
+                },
+            },
+            fuzzy = { implementation = "rust" },
+            snippets = { preset = "default" },
+        },
+        opts_extend = { "sources.default" },
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = { "saghen/blink.cmp" },
+        opts = {
+            servers = {
+                lua_ls = {},
+                ts_ls = {},
+            },
+        },
+        config = function(_, opts)
+            local capabilities = {
+                textDocument = {
+                    foldingRange = {
+                        dynamicRegistration = false,
+                        lineFoldingOnly = true,
+                    },
+                },
+            }
+            capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+
+            local lspconfig = require("lspconfig")
+            local util = require("lspconfig/util")
+
+            local on_attach = function(client, bufnr)
+                vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
+
+                if client.server_capabilities.inlayHintProvider then
+                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                end
+
+                vim.keymap.set(
+                    "n",
+                    "gd",
+                    vim.lsp.buf.definition,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" }
+                )
+                vim.keymap.set(
+                    "n",
+                    "gi",
+                    vim.lsp.buf.implementation,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Go to implementation" }
+                )
+                vim.keymap.set(
+                    "n",
+                    "gr",
+                    vim.lsp.buf.rename,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Smart rename" }
+                )
+                vim.keymap.set(
+                    "n",
+                    "<leader>d",
+                    vim.diagnostic.open_float,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" }
+                )
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, {
+                    noremap = true,
+                    silent = true,
+                    buffer = bufnr,
+                    desc = "Show documentation for what is under cursor",
+                })
+                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
+                    noremap = true,
+                    silent = true,
+                    buffer = bufnr,
+                    desc = "Jump to previous diagnostic in buffer",
+                })
+                vim.keymap.set(
+                    "n",
+                    "]d",
+                    vim.diagnostic.goto_next,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" }
+                )
+                vim.keymap.set(
+                    { "n", "v" },
+                    "<leader>ca",
+                    vim.lsp.buf.code_action,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "See code actions" }
+                )
+                vim.keymap.set(
+                    "i",
+                    "<C-h>",
+                    vim.lsp.buf.signature_help,
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Show signature help" }
+                )
+            end
+
+            -- default config
+            for server, config in pairs(opts.servers) do
+                if server ~= "lua_ls" and server ~= "ts_ls" then
+                    config.capabilities = capabilities
+                    lspconfig[server].setup(config)
+                end
+            end
+
+            lspconfig.ts_ls.setup({
+                capabilities = capabilities,
+                root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+                init_options = {
+                    preferences = {
+                        includeInlayParameterNameHints = "all",
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                        includeInlayFunctionParameterTypeHints = false,
+                        includeInlayVariableTypeHints = false,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = false,
+                        includeInlayEnumMemberValueHints = false,
+                        importModuleSpecifierPreference = "non-relative",
+                        preferTypeOnlyAutoImports = true,
+                    },
+                },
+                on_attach = function(client, bufnr)
+                    require("twoslash-queries").attach(client, bufnr)
+                    -- client.server_capabilities.document_formatting = false
+                    -- client.server_capabilities.document_range_formatting = false
+                    on_attach(client, bufnr)
+                end,
+            })
+
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        format = {
+                            enable = true,
+                        },
+                        diagnostics = {
+                            globals = { "vim" },
+                            neededFileStatus = {
+                                ["codestyle-check"] = "Any",
+                            },
+                            groupSeverity = { ["codestyle-check"] = "Warning" },
+                            -- missing_parameters = false,
+                            disable = { "missing-parameters", "missing-fields" },
+                        },
+                        runtime = {
+                            version = "LuaJIT",
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
+                        },
+                        completion = {
+                            callSnippet = "Replace",
+                        },
+                    },
+                },
+                on_attach = on_attach,
             })
         end,
     },
     {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        "kevinhwang91/nvim-ufo",
+        dependencies = {
+            "kevinhwang91/promise-async",
+        },
+        init = function()
+            -- init fold
+            vim.o.foldcolumn = "1"
+            vim.o.foldlevel = 99
+            vim.o.foldlevelstart = 99
+            vim.o.foldenable = true
+            vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+        end,
+        keys = {
+            {
+                "zR",
+                function()
+                    require("ufo").openAllFolds()
+                end,
+                desc = "Open all folds",
+            },
+            {
+                "zM",
+                function()
+                    require("ufo").closeAllFolds()
+                end,
+                desc = "Close all folds",
+            },
+            {
+                "zK",
+                function()
+                    local winid = require("ufo").peekFoldedLinesUnderCursor()
+                    if not winid then
+                        vim.lsp.buf.hover()
+                    end
+                end,
+                desc = "Peek fold",
+            },
+        },
+        opts = {
+            provider_selector = function()
+                return { "lsp", "indent" }
+            end,
+            fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+                local newVirtText = {}
+                local suffix = (" 󰁂 %d "):format(endLnum - lnum)
+                local sufWidth = vim.fn.strdisplaywidth(suffix)
+                local targetWidth = width - sufWidth
+                local curWidth = 0
+                for _, chunk in ipairs(virtText) do
+                    local chunkText = chunk[1]
+                    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                    if targetWidth > curWidth + chunkWidth then
+                        table.insert(newVirtText, chunk)
+                    else
+                        chunkText = truncate(chunkText, targetWidth - curWidth)
+                        local hlGroup = chunk[2]
+                        table.insert(newVirtText, { chunkText, hlGroup })
+                        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                        -- str width returned from truncate() may less than 2nd argument, need padding
+                        if curWidth + chunkWidth < targetWidth then
+                            suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+                        end
+                        break
+                    end
+                    curWidth = curWidth + chunkWidth
+                end
+                table.insert(newVirtText, { suffix, "MoreMsg" })
+                return newVirtText
+            end,
+        },
     },
+    -- {
+    --     "pmizio/typescript-tools.nvim",
+    --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    -- },
 }
