@@ -1,3 +1,10 @@
+local diagnostic_icons = {
+    [vim.diagnostic.severity.ERROR] = "",
+    [vim.diagnostic.severity.WARN] = "",
+    [vim.diagnostic.severity.HINT] = "",
+    [vim.diagnostic.severity.INFO] = "",
+}
+
 local kind_icons = {
     Text = "󰉿",
     Method = "󰆧",
@@ -112,32 +119,18 @@ return {
             })
 
             vim.diagnostic.config({
-                underline = true,
                 update_in_insert = false,
-                virtual_text = {
+                virtual_lines = {
+                    enabled = true,
+                    format = function(diagnostic)
+                        return diagnostic_icons[diagnostic.severity] .. " " .. diagnostic.message
+                    end,
                     spacing = 4,
-                    source = "if_many",
-                    prefix = "●",
-                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-                    -- prefix = "icons",
                 },
-                severity_sort = true,
-                float = { border = "rounded" },
                 signs = {
-                    text = {
-                        [vim.diagnostic.severity.ERROR] = "",
-                        [vim.diagnostic.severity.WARN] = "",
-                        [vim.diagnostic.severity.HINT] = " ",
-                        [vim.diagnostic.severity.INFO] = " ",
-                    },
+                    text = diagnostic_icons,
                 },
             })
-
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-
-            vim.lsp.handlers["textDocument/signatureHelp"] =
-                vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
             local setup_group = vim.api.nvim_create_augroup("lsp_format_config", { clear = true })
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -167,7 +160,7 @@ return {
                 ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
                 callback = function(ev)
                     local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-                    vim.notify(vim.lsp.status(), "info", {
+                    vim.notify(vim.lsp.status(), vim.log.levels.INFO, {
                         id = "lsp_progress",
                         title = "LSP Progress",
                         opts = function(notif)
@@ -316,12 +309,6 @@ return {
                 )
                 vim.keymap.set(
                     "n",
-                    "gr",
-                    vim.lsp.buf.rename,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Smart rename" }
-                )
-                vim.keymap.set(
-                    "n",
                     "<leader>d",
                     vim.diagnostic.open_float,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" }
@@ -332,18 +319,6 @@ return {
                     buffer = bufnr,
                     desc = "Show documentation for what is under cursor",
                 })
-                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
-                    noremap = true,
-                    silent = true,
-                    buffer = bufnr,
-                    desc = "Jump to previous diagnostic in buffer",
-                })
-                vim.keymap.set(
-                    "n",
-                    "]d",
-                    vim.diagnostic.goto_next,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Jump to next diagnostic in buffer" }
-                )
                 vim.keymap.set(
                     { "n", "v" },
                     "<leader>ca",
@@ -494,8 +469,4 @@ return {
             end,
         },
     },
-    -- {
-    --     "pmizio/typescript-tools.nvim",
-    --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    -- },
 }
