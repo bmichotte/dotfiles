@@ -69,7 +69,6 @@ local servers = {
                 inlayHints = {
                     enumMemberValues = { enabled = true },
                     parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
-                    -- parameterTypes = { enabled = true },
                     propertyDeclarationTypes = { enabled = true },
                     variableTypes = { enabled = false },
                 },
@@ -89,7 +88,6 @@ local servers = {
                 inlayHints = {
                     enumMemberValues = { enabled = true },
                     parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
-                    -- parameterTypes = { enabled = true },
                     propertyDeclarationTypes = { enabled = true },
                     variableTypes = { enabled = false },
                 },
@@ -209,8 +207,7 @@ return {
                     treesitter_highlighting = true,
                     window = {
                         border = "rounded",
-                        winhighlight =
-                        "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+                        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
                     },
                 },
                 menu = {
