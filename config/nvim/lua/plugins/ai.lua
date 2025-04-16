@@ -6,6 +6,7 @@ return {
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },
+            copilot_model = "gpt-4o-copilot", -- default gpt-35-turbo
         },
     },
     {
@@ -13,9 +14,12 @@ return {
         enabled = false,
         event = { "VeryLazy" },
         lazy = false,
-        -- version = false,
+        version = false,
         opts = {
             provider = "openai",
+            openai = {
+                model = "gpt-4.1",
+            },
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
@@ -26,6 +30,7 @@ return {
             "MunifTanjim/nui.nvim",
             "echasnovski/mini.icons",
             "zbirenbaum/copilot.lua",
+            ---@diagnostic disable-next-line: assign-type-mismatch
             {
                 -- support for image pasting
                 "HakonHarnes/img-clip.nvim",
@@ -43,6 +48,7 @@ return {
                     },
                 },
             },
+            ---@diagnostic disable-next-line: assign-type-mismatch
             {
                 -- Make sure to set this up properly if you have lazy=true
                 "MeanderingProgrammer/render-markdown.nvim",
