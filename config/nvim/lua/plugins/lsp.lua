@@ -44,6 +44,88 @@ local kind_icons = {
     Bard = "",
 }
 
+local servers = {
+    vtsls = {
+        settings = {
+            complete_function_calls = true,
+            vtsls = {
+                enableMoveToFileCodeAction = true,
+                autoUseWorkspaceTsdk = true,
+                experimental = {
+                    completion = {
+                        enableServerSideFuzzyMatch = true,
+                    },
+                },
+            },
+            -- https://github.com/yioneko/vtsls/blob/main/packages/service/configuration.schema.json
+            ["js/ts"] = {
+                implicitProjectConfig = { checkJs = true },
+            },
+            javascript = {
+                updateImportsOnFileMove = { enabled = "always" },
+                suggest = {
+                    completeFunctionCalls = true,
+                },
+                inlayHints = {
+                    enumMemberValues = { enabled = true },
+                    parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
+                    -- parameterTypes = { enabled = true },
+                    propertyDeclarationTypes = { enabled = true },
+                    variableTypes = { enabled = false },
+                },
+                preferences = {
+                    importModuleSpecifier = "non-relative",
+                },
+            },
+            typescript = {
+                updateImportsOnFileMove = { enabled = "always" },
+                suggest = {
+                    completeFunctionCalls = true,
+                },
+                preferences = {
+                    preferTypeOnlyAutoImports = true,
+                    importModuleSpecifier = "non-relative",
+                },
+                inlayHints = {
+                    enumMemberValues = { enabled = true },
+                    parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
+                    -- parameterTypes = { enabled = true },
+                    propertyDeclarationTypes = { enabled = true },
+                    variableTypes = { enabled = false },
+                },
+            },
+        },
+    },
+    lua_ls = {
+        settings = {
+            Lua = {
+                format = {
+                    enable = true,
+                },
+                telemetry = { enable = false },
+                diagnostics = {
+                    globals = { "vim" },
+                    neededFileStatus = {
+                        ["codestyle-check"] = "Any",
+                    },
+                    groupSeverity = { ["codestyle-check"] = "Warning" },
+                    disable = { "missing-parameters", "missing-fields" },
+                },
+                runtime = {
+                    version = "LuaJIT",
+                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                    checkThirdParty = false,
+                },
+                completion = {
+                    callSnippet = "Replace",
+                },
+            },
+        },
+    },
+}
+
 ---@type LazyPlugin[]
 return {
     {
@@ -104,14 +186,127 @@ return {
         end,
     },
     {
-        "williamboman/mason.nvim",
+        "saghen/blink.cmp",
         dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-            "neovim/nvim-lspconfig",
-            "kevinhwang91/nvim-ufo",
+            "fang2hou/blink-copilot",
         },
-        lazy = false,
+        version = "1.*",
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            keymap = {
+                preset = "enter",
+            },
+
+            appearance = {
+                kind_icons = kind_icons,
+            },
+
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 250,
+                    treesitter_highlighting = true,
+                    window = {
+                        border = "rounded",
+                        winhighlight =
+                        "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+                    },
+                },
+                menu = {
+                    border = "rounded",
+
+                    cmdline_position = function()
+                        if vim.g.ui_cmdline_pos ~= nil then
+                            local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+                            return { pos[1] - 1, pos[2] }
+                        end
+                        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+                        return { vim.o.lines - height, 0 }
+                    end,
+
+                    draw = {
+                        columns = {
+                            { "kind_icon", "label", gap = 1 },
+                            { "kind" },
+                        },
+                        components = {
+                            kind_icon = {
+                                text = function(ctx)
+                                    local icon = ctx.kind_icon
+                                    if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                                        local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+                                        if dev_icon then
+                                            icon = dev_icon
+                                        end
+                                    else
+                                        icon = kind_icons[ctx.kind] or ""
+                                    end
+
+                                    return icon .. ctx.icon_gap
+                                end,
+
+                                highlight = function(ctx)
+                                    local hl = ctx.kind_hl
+                                    if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                                        local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+                                        if dev_icon then
+                                            hl = dev_hl
+                                        end
+                                    end
+                                    return hl
+                                end,
+                            },
+                            label = {
+                                text = function(item)
+                                    return item.label
+                                end,
+                                highlight = "CmpItemAbbr",
+                            },
+                            kind = {
+                                text = function(item)
+                                    return item.kind
+                                end,
+                                highlight = "CmpItemKind",
+                            },
+                        },
+                    },
+                },
+            },
+            signature = { enabled = true },
+            sources = {
+                default = { "lsp", "snippets", "buffer", "copilot", "path" },
+
+                providers = {
+                    copilot = {
+                        name = "copilot",
+                        module = "blink-copilot",
+                        score_offset = 100,
+                        async = true,
+                    },
+                },
+            },
+            fuzzy = { implementation = "rust" },
+            snippets = { preset = "default" },
+        },
+        opts_extend = { "sources.default" },
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = { "saghen/blink.cmp", "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
         config = function()
+            local capabilities = {
+                textDocument = {
+                    foldingRange = {
+                        dynamicRegistration = false,
+                        lineFoldingOnly = true,
+                    },
+                },
+            }
+            capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+
+            local lspconfig = require("lspconfig")
+            local util = require("lspconfig/util")
             require("mason").setup({
                 ui = {
                     border = "rounded",
@@ -132,6 +327,7 @@ return {
                 },
             })
 
+            -- Format on save
             local setup_group = vim.api.nvim_create_augroup("lsp_format_config", { clear = true })
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = setup_group,
@@ -156,6 +352,27 @@ return {
                 end,
             })
 
+            -- Folding
+            vim.o.foldcolumn = "1"
+            vim.o.foldlevel = 99
+            vim.o.foldlevelstart = 99
+            vim.o.foldenable = true
+            vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+            vim.o.foldtext = ""
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    if client and client:supports_method("textDocument/foldingRange") then
+                        local win = vim.api.nvim_get_current_win()
+                        vim.wo[win][0].foldmethod = "expr"
+                        vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+                    end
+                end,
+            })
+            vim.api.nvim_create_autocmd("LspDetach", { command = "setl foldexpr<" })
+
+            -- Show LSP progress
             vim.api.nvim_create_autocmd("LspProgress", {
                 ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
                 callback = function(ev)
@@ -170,123 +387,6 @@ return {
                     })
                 end,
             })
-        end,
-    },
-    {
-        "giuxtaposition/blink-cmp-copilot",
-    },
-    {
-        "saghen/blink.cmp",
-        dependencies = { "giuxtaposition/blink-cmp-copilot" },
-        version = "1.*",
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
-        opts = {
-            keymap = {
-                preset = "enter",
-                ["<Up>"] = { "select_prev", "fallback" },
-                ["<Down>"] = { "select_next", "fallback" },
-            },
-
-            appearance = {
-                kind_icons = kind_icons,
-            },
-
-            completion = {
-                documentation = {
-                    auto_show = true,
-                    auto_show_delay_ms = 250,
-                    treesitter_highlighting = true,
-                    window = {
-                        border = "rounded",
-                        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
-                    },
-                },
-                menu = {
-                    border = "rounded",
-
-                    cmdline_position = function()
-                        if vim.g.ui_cmdline_pos ~= nil then
-                            local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
-                            return { pos[1] - 1, pos[2] }
-                        end
-                        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-                        return { vim.o.lines - height, 0 }
-                    end,
-
-                    draw = {
-                        columns = {
-                            { "kind_icon", "label", gap = 1 },
-                            { "kind" },
-                        },
-                        components = {
-                            kind_icon = {
-                                text = function(item)
-                                    local kind = kind_icons[item.kind] or ""
-                                    return kind .. " "
-                                end,
-                                highlight = "CmpItemKind",
-                            },
-                            label = {
-                                text = function(item)
-                                    return item.label
-                                end,
-                                highlight = "CmpItemAbbr",
-                            },
-                            kind = {
-                                text = function(item)
-                                    return item.kind
-                                end,
-                                highlight = "CmpItemKind",
-                            },
-                        },
-                    },
-                },
-            },
-            signature = { enabled = true },
-            sources = {
-                default = { "lsp", "path", "snippets", "buffer", "copilot" },
-
-                providers = {
-                    copilot = {
-                        name = "copilot",
-                        module = "blink-cmp-copilot",
-                        score_offset = 100,
-                        async = true,
-                        transform_items = function(_, items)
-                            local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-                            local kind_idx = #CompletionItemKind + 1
-                            CompletionItemKind[kind_idx] = "Copilot"
-                            for _, item in ipairs(items) do
-                                item.kind = kind_idx
-                            end
-                            return items
-                        end,
-                    },
-                },
-            },
-            fuzzy = { implementation = "rust" },
-            snippets = { preset = "default" },
-        },
-        opts_extend = { "sources.default" },
-    },
-    {
-        "neovim/nvim-lspconfig",
-        dependencies = { "saghen/blink.cmp", "williamboman/mason-lspconfig.nvim" },
-        config = function()
-            local capabilities = {
-                textDocument = {
-                    foldingRange = {
-                        dynamicRegistration = false,
-                        lineFoldingOnly = true,
-                    },
-                },
-            }
-            capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-
-            local lspconfig = require("lspconfig")
-            local util = require("lspconfig/util")
-            local mason = require("mason-lspconfig")
 
             local on_attach = function(client, bufnr)
                 vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
@@ -311,7 +411,7 @@ return {
                     "n",
                     "<leader>d",
                     vim.diagnostic.open_float,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Show  diagnostics for line" }
+                    { noremap = true, silent = true, buffer = bufnr, desc = "Show diagnostics for line" }
                 )
                 vim.keymap.set("n", "K", vim.lsp.buf.hover, {
                     noremap = true,
@@ -333,30 +433,19 @@ return {
                 )
             end
 
+            local mason = require("mason-lspconfig")
             for _, server in pairs(mason.get_installed_servers()) do
-                if server ~= "lua_ls" and server ~= "ts_ls" then
+                if server ~= "lua_ls" and server ~= "ts_ls" and server ~= "vtsls" then
                     lspconfig[server].setup({
                         capabilities = capabilities,
                     })
                 end
             end
 
-            lspconfig.ts_ls.setup({
+            lspconfig.vtsls.setup({
                 capabilities = capabilities,
                 root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-                init_options = {
-                    preferences = {
-                        includeInlayParameterNameHints = "all",
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                        includeInlayFunctionParameterTypeHints = false,
-                        includeInlayVariableTypeHints = false,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayFunctionLikeReturnTypeHints = false,
-                        includeInlayEnumMemberValueHints = false,
-                        importModuleSpecifierPreference = "non-relative",
-                        preferTypeOnlyAutoImports = true,
-                    },
-                },
+                settings = servers.vtsls.settings,
                 on_attach = function(client, bufnr)
                     require("twoslash-queries").attach(client, bufnr)
                     -- client.server_capabilities.document_formatting = false
@@ -367,106 +456,9 @@ return {
 
             lspconfig.lua_ls.setup({
                 capabilities = capabilities,
-                settings = {
-                    Lua = {
-                        format = {
-                            enable = true,
-                        },
-                        diagnostics = {
-                            globals = { "vim" },
-                            neededFileStatus = {
-                                ["codestyle-check"] = "Any",
-                            },
-                            groupSeverity = { ["codestyle-check"] = "Warning" },
-                            -- missing_parameters = false,
-                            disable = { "missing-parameters", "missing-fields" },
-                        },
-                        runtime = {
-                            version = "LuaJIT",
-                        },
-                        workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true),
-                            checkThirdParty = false,
-                        },
-                        completion = {
-                            callSnippet = "Replace",
-                        },
-                    },
-                },
+                settings = servers.lua_ls.settings,
                 on_attach = on_attach,
             })
         end,
-    },
-    {
-        "kevinhwang91/nvim-ufo",
-        dependencies = {
-            "kevinhwang91/promise-async",
-        },
-        init = function()
-            -- init fold
-            vim.o.foldcolumn = "1"
-            vim.o.foldlevel = 99
-            vim.o.foldlevelstart = 99
-            vim.o.foldenable = true
-            vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-        end,
-        keys = {
-            {
-                "zR",
-                function()
-                    require("ufo").openAllFolds()
-                end,
-                desc = "Open all folds",
-            },
-            {
-                "zM",
-                function()
-                    require("ufo").closeAllFolds()
-                end,
-                desc = "Close all folds",
-            },
-            {
-                "zK",
-                function()
-                    local winid = require("ufo").peekFoldedLinesUnderCursor()
-                    if not winid then
-                        vim.lsp.buf.hover()
-                    end
-                end,
-                desc = "Peek fold",
-            },
-        },
-        opts = {
-            provider_selector = function()
-                return { "lsp", "indent" }
-            end,
-            fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-                local newVirtText = {}
-                local suffix = (" 󰁂 %d "):format(endLnum - lnum)
-                local sufWidth = vim.fn.strdisplaywidth(suffix)
-                local targetWidth = width - sufWidth
-                local curWidth = 0
-                for _, chunk in ipairs(virtText) do
-                    local chunkText = chunk[1]
-                    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-                    if targetWidth > curWidth + chunkWidth then
-                        table.insert(newVirtText, chunk)
-                    else
-                        chunkText = truncate(chunkText, targetWidth - curWidth)
-                        local hlGroup = chunk[2]
-                        table.insert(newVirtText, { chunkText, hlGroup })
-                        chunkWidth = vim.fn.strdisplaywidth(chunkText)
-                        -- str width returned from truncate() may less than 2nd argument, need padding
-                        if curWidth + chunkWidth < targetWidth then
-                            suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-                        end
-                        break
-                    end
-                    curWidth = curWidth + chunkWidth
-                end
-                table.insert(newVirtText, { suffix, "MoreMsg" })
-                return newVirtText
-            end,
-        },
     },
 }
