@@ -2,6 +2,7 @@
 return {
     {
         "brenoprata10/nvim-highlight-colors",
+        enabled = vim.fn.has("nvim-0.12") == 0,
         opts = {
             render = "background",
             virtual_symbol = "●",

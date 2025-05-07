@@ -282,6 +282,10 @@ return {
                         async = true,
                     },
                 },
+
+                per_filetype = {
+                    codecompanion = { "codecompanion" },
+                },
             },
             fuzzy = { implementation = "rust" },
             snippets = { preset = "default" },
@@ -360,10 +364,16 @@ return {
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    if client and client:supports_method("textDocument/foldingRange") then
-                        local win = vim.api.nvim_get_current_win()
-                        vim.wo[win][0].foldmethod = "expr"
-                        vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+                    if client then
+                        if client:supports_method("textDocument/foldingRange") then
+                            local win = vim.api.nvim_get_current_win()
+                            vim.wo[win][0].foldmethod = "expr"
+                            vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+                        end
+
+                        if vim.fn.has("nvim-0.12") == 1 and client:supports_method("textDocument/documentColor") then
+                            vim.lsp.document_color.enable(true, args.buf)
+                        end
                     end
                 end,
             })
@@ -435,6 +445,7 @@ return {
                 if server ~= "lua_ls" and server ~= "ts_ls" and server ~= "vtsls" then
                     lspconfig[server].setup({
                         capabilities = capabilities,
+                        on_attach = on_attach,
                     })
                 end
             end
