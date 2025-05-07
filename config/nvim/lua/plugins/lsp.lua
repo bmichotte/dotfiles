@@ -207,7 +207,8 @@ return {
                     treesitter_highlighting = true,
                     window = {
                         border = "rounded",
-                        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+                        winhighlight =
+                        "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
                     },
                 },
                 menu = {
@@ -281,6 +282,10 @@ return {
                         score_offset = 100,
                         async = true,
                     },
+                    lsp = {
+                        name = "lsp",
+                        score_offset = 90,
+                    },
                 },
 
                 per_filetype = {
@@ -294,7 +299,7 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        dependencies = { "saghen/blink.cmp", "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
+        dependencies = { "saghen/blink.cmp", "mason-org/mason.nvim", "williamboman/mason-lspconfig.nvim" },
         config = function()
             local capabilities = {
                 textDocument = {
