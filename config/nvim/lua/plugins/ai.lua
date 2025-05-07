@@ -168,7 +168,7 @@ return {
     },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
-        -- enabled = false,
+        enabled = false,
         build = "make tiktoken",
         dependencies = {
             "zbirenbaum/copilot.lua",
@@ -176,6 +176,40 @@ return {
         },
         opts = {
             debug = false,
+        },
+    },
+    {
+        "olimorris/codecompanion.nvim",
+        opts = {
+            strategies = {
+                chat = {
+                    adapter = "openai",
+                },
+                inline = {
+                    adapter = "copilot",
+                },
+                cmd = {
+                    adapter = "openai",
+                },
+            },
+            adapters = {
+                openai = function()
+                    return require("codecompanion.adapters").extend("openai", {
+                        schema = {
+                            model = {
+                                default = "o3-mini-2025-01-31",
+                            },
+                        },
+                    })
+                end,
+            },
+            opts = {
+                language = "Français",
+            },
+        },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
         },
     },
 }
