@@ -1,7 +1,11 @@
+---@module "lazy"
+---@module "trouble"
+
 ---@type LazyPlugin
 return {
     "folke/trouble.nvim",
     -- dependencies = { "nvim-tree/nvim-web-devicons" },
+    ---@type trouble.Config | {}
     opts = {
         signs = {
             error = "",
@@ -9,6 +13,10 @@ return {
             hint = "",
             information = "",
             other = "",
+        },
+        win = {
+            border = vim.o.winborder,
+            position = "bottom",
         },
     },
     keys = {

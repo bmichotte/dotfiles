@@ -44,6 +44,8 @@ opt.mouse = "a" -- always enable mouse mode
 
 opt.swapfile = false -- don't need no swap files!
 
+opt.winborder = "rounded" -- set window border to be a single line
+
 --[[
 opt.exrc = true  -- exec a local vimrc (like direnv)
 opt.hidden = true -- allow hidden buffers

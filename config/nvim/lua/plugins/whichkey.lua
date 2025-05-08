@@ -8,12 +8,6 @@ return {
         triggers = {
             { "<auto>", mode = "nixsoc" },
         },
-        -- modes = {
-        --     t = false,
-        -- },
-        win = {
-            border = "single",
-        },
         layout = {
             align = "center",
         },

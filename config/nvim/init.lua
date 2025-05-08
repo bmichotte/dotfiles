@@ -16,7 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 require("keymaps")
 require("lazy").setup("plugins", {
     ui = {
-        border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" },
+        border = vim.o.winborder,
     },
     change_detection = {
         notify = false,

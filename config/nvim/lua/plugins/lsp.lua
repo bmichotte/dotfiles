@@ -206,7 +206,6 @@ return {
                     auto_show_delay_ms = 250,
                     treesitter_highlighting = true,
                     window = {
-                        border = "rounded",
                         winhighlight =
                         "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
                     },
@@ -313,11 +312,7 @@ return {
 
             local lspconfig = require("lspconfig")
             local util = require("lspconfig/util")
-            require("mason").setup({
-                ui = {
-                    border = "rounded",
-                },
-            })
+            require("mason").setup()
 
             vim.diagnostic.config({
                 update_in_insert = false,

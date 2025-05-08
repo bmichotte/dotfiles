@@ -1,3 +1,6 @@
+---@module "lazy"
+---@module "snacks"
+
 ---@type LazyPlugin[]
 return {
     {
@@ -123,6 +126,13 @@ return {
                     patterns = { "GitSign", "MiniDiffSign" },
                 },
                 refresh = 50,
+            },
+            styles = {
+                input = {
+                    border = vim.o.winborder,
+                    title_pos = "center",
+                    relative = "editor",
+                },
             },
             words = { enabled = true },
             lazygit = {},

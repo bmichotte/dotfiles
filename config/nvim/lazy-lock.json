@@ -8,7 +8,7 @@
   "cmp-ai": { "branch": "main", "commit": "4424e71bde8acc522ab68a122fa54b14dff3d408" },
   "codecompanion.nvim": { "branch": "main", "commit": "12a1f0e8c8512e69d3ed64b7ac179a024794e4e4" },
   "copilot.lua": { "branch": "master", "commit": "7ba73866b9b3c696f80579c470c6eec374d3acec" },
-  "dropbar.nvim": { "branch": "master", "commit": "a945b924d0803e4a24cb178e337bc364cdcd6abd" },
+  "dropbar.nvim": { "branch": "master", "commit": "e2154ba25ebe5aa3c4b1abe4ad0ad7c1190a036a" },
   "gen.nvim": { "branch": "main", "commit": "0be6ca0cdfe45a7b6537cbf41bd22a420c05be85" },
   "gitsigns.nvim": { "branch": "main", "commit": "43b0c856ae5f32a195d83f4a27fe21d63e6c966c" },
   "import-cost.nvim": { "branch": "main", "commit": "332b9870c7b22dcfb297a0be7d7a87c148181694" },
