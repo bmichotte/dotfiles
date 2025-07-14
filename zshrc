@@ -217,3 +217,14 @@ source <(fzf --zsh)
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/benjamin/.dart-cli-completion/zsh-config.zsh ]] && . /Users/benjamin/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/benjamin/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+

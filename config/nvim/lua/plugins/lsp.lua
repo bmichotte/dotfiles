@@ -56,6 +56,11 @@ local servers = {
                         enableServerSideFuzzyMatch = true,
                     },
                 },
+                settings = {
+                    preferences = {
+                        importModuleSpecifier = "non-relative",
+                    },
+                },
             },
             -- https://github.com/yioneko/vtsls/blob/main/packages/service/configuration.schema.json
             ["js/ts"] = {
@@ -151,39 +156,6 @@ return {
         end,
     },
     {
-        "nvimtools/none-ls.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-        config = function()
-            local null_ls = require("null-ls")
-
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.formatting.biome.with({
-                        args = {
-                            "format",
-                            "--apply-unsafe",
-                            "--formatter-enabled=true",
-                            "--organize-imports-enabled=true",
-                            "--skip-errors",
-                            "--colors=force",
-                            "--stdin-file-path",
-                            "$FILENAME",
-                        },
-                    }),
-                    -- null_ls.builtins.formatting.biome,
-                    null_ls.builtins.formatting.sqlfmt,
-                    null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.formatting.yamlfmt,
-
-                    null_ls.builtins.diagnostics.yamllint,
-                    null_ls.builtins.code_actions.gitsigns,
-                },
-            })
-        end,
-    },
-    {
         "saghen/blink.cmp",
         dependencies = {
             "fang2hou/blink-copilot",
@@ -211,6 +183,7 @@ return {
                     },
                 },
                 menu = {
+                    auto_show = false,
                     border = "rounded",
 
                     cmdline_position = function()
@@ -281,12 +254,7 @@ return {
                         score_offset = 100,
                         async = true,
                     },
-                    lsp = {
-                        name = "lsp",
-                        score_offset = 90,
-                    },
                 },
-
                 per_filetype = {
                     codecompanion = { "codecompanion" },
                 },
@@ -328,6 +296,18 @@ return {
                 },
             })
 
+            local format = function()
+                vim.lsp.buf.format({
+                    async = false,
+                    timeout_ms = 10000,
+                })
+                vim.lsp.buf.code_action({
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    context = { only = { "source.fixAll.biome" } },
+                    apply = true,
+                })
+            end
+
             -- Format on save
             local setup_group = vim.api.nvim_create_augroup("lsp_format_config", { clear = true })
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -339,17 +319,10 @@ return {
                         group = format_group,
                         buffer = event.buf,
                         desc = "Format buffer",
-                        callback = function()
-                            vim.lsp.buf.format({
-                                async = false,
-                                timeout_ms = 10000,
-                            })
-                        end,
+                        callback = format,
                     })
 
-                    vim.keymap.set({ "n", "x" }, "<leader>f", function()
-                        vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
-                    end, { buffer = event.buf, desc = "Format buffer" })
+                    vim.keymap.set({ "n", "x" }, "<leader>f", format, { buffer = event.buf, desc = "Format buffer" })
                 end,
             })
 
@@ -371,9 +344,9 @@ return {
                             vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
                         end
 
-                        if vim.fn.has("nvim-0.12") == 1 and client:supports_method("textDocument/documentColor") then
-                            vim.lsp.document_color.enable(true, args.buf)
-                        end
+                        -- if vim.fn.has("nvim-0.12") == 1 and client:supports_method("textDocument/documentColor") then
+                        --     vim.lsp.document_color.enable(true, args.buf)
+                        -- end
                     end
                 end,
             })
@@ -396,24 +369,10 @@ return {
             })
 
             local on_attach = function(client, bufnr)
-                vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
-
                 if client.server_capabilities.inlayHintProvider then
                     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 end
 
-                vim.keymap.set(
-                    "n",
-                    "gd",
-                    vim.lsp.buf.definition,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Got to declaration" }
-                )
-                vim.keymap.set(
-                    "n",
-                    "gi",
-                    vim.lsp.buf.implementation,
-                    { noremap = true, silent = true, buffer = bufnr, desc = "Go to implementation" }
-                )
                 vim.keymap.set(
                     "n",
                     "<leader>d",
@@ -438,6 +397,21 @@ return {
                     vim.lsp.buf.signature_help,
                     { noremap = true, silent = true, buffer = bufnr, desc = "Show signature help" }
                 )
+                vim.keymap.set("n", "<leader>r", function()
+                    require("snacks").input.input({
+                        prompt  = "Rename to: ",
+                        default = vim.fn.expand("<cword>"),
+                    }, function(new_name)
+                        if new_name and #new_name > 0 then
+                            vim.lsp.buf.rename(new_name)
+                        end
+                    end)
+                end, {
+                    noremap = true,
+                    silent  = true,
+                    buffer  = bufnr,
+                    desc    = "Rename symbol",
+                })
             end
 
             local mason = require("mason-lspconfig")

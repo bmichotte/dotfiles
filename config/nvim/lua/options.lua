@@ -46,25 +46,6 @@ opt.swapfile = false -- don't need no swap files!
 
 opt.winborder = "rounded" -- set window border to be a single line
 
---[[
-opt.exrc = true  -- exec a local vimrc (like direnv)
-opt.hidden = true -- allow hidden buffers
-opt.errorbells = false -- ding ding!
-opt.backup = false  -- ... or a backup!
-opt.undodir = "~/.nvim/undodir"  -- sets where undo files land
-opt.scrolloff = 8  -- scroll offwidth so it's not the very bottom
---opt.colorcolumn = "80"  -- bar at 80 chars width
--- opt.nocompatible = true
-
-opt.listchars = {  -- see hidden chars and their colors
-    tab = "| ",
-    -- eol = '¬',
-    -- trail = '·'
-}
-opt.list = true
-opt.updatetime = 100
-]]
-
 vim.filetype.add({
     extension = {
         -- conf = "conf",

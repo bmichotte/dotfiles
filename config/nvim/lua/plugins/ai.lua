@@ -6,20 +6,20 @@ return {
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },
-            copilot_model = "gpt-4o-copilot", -- default gpt-35-turbo
+            -- copilot_model = "gpt-4o-copilot", -- default gpt-35-turbo
         },
     },
     {
         "yetone/avante.nvim",
-        enabled = false,
+        -- enabled = false,
         event = { "VeryLazy" },
         lazy = false,
         version = false,
         opts = {
             provider = "openai",
-            openai = {
-                model = "gpt-4.1",
-            },
+            -- openai = {
+            --     model = "gpt-4.1",
+            -- },
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",

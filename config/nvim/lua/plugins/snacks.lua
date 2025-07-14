@@ -129,9 +129,25 @@ return {
             },
             styles = {
                 input = {
-                    border = vim.o.winborder,
+                    position  = "float",
+                    relative  = "editor",
+                    border    = "rounded",
                     title_pos = "center",
-                    relative = "editor",
+                    backdrop  = false,
+                    row       = math.floor(vim.o.lines / 2) - 2,
+                    noautocmd = true,
+                    wo        = {
+                        winhighlight =
+                        "NormalFloat:SnacksInputNormal,FloatBorder:SnacksInputBorder,FloatTitle:SnacksInputTitle",
+                        cursorline   = false,
+                    },
+                    bo        = {
+                        filetype = "snacks_input",
+                        buftype  = "prompt",
+                    },
+                    b         = {
+                        completion = false,
+                    },
                 },
             },
             words = { enabled = true },
@@ -176,13 +192,6 @@ return {
 
             -- pickers
             {
-                "<leader>,",
-                function()
-                    Snacks.picker.buffers()
-                end,
-                desc = "Buffers",
-            },
-            {
                 "<leader>fg",
                 function()
                     Snacks.picker.grep()
@@ -196,14 +205,6 @@ return {
                 end,
                 desc = "Command History",
             },
-            {
-                "<leader><space>",
-                function()
-                    Snacks.picker.files()
-                end,
-                desc = "Find Files",
-            },
-            -- find
             {
                 "<leader>fb",
                 function()
