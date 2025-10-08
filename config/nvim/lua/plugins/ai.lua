@@ -2,6 +2,7 @@
 return {
     {
         "zbirenbaum/copilot.lua",
+        enabled = false,
         event = { "InsertEnter" },
         opts = {
             suggestion = { enabled = false },
@@ -11,15 +12,33 @@ return {
     },
     {
         "yetone/avante.nvim",
-        -- enabled = false,
+        enabled = false,
         event = { "VeryLazy" },
         lazy = false,
         version = false,
         opts = {
-            provider = "openai",
+            provider = "claude-code",
             -- openai = {
             --     model = "gpt-4.1",
             -- },
+            acp_providers = {
+                ["gemini-cli"] = {
+                    command = "gemini",
+                    args = { "--experimental-acp" },
+                    env = {
+                        NODE_NO_WARNINGS = "1",
+                        GEMINI_API_KEY = os.getenv("GEMINI_API_KEY"),
+                    },
+                },
+                ["claude-code"] = {
+                    command = "npx",
+                    args = { "@zed-industries/claude-code-acp" },
+                    env = {
+                        NODE_NO_WARNINGS = "1",
+                        ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY"),
+                    },
+                },
+            },
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
@@ -180,6 +199,7 @@ return {
     },
     {
         "olimorris/codecompanion.nvim",
+        enabled = false,
         opts = {
             strategies = {
                 chat = {
@@ -192,17 +212,7 @@ return {
                     adapter = "openai",
                 },
             },
-            adapters = {
-                openai = function()
-                    return require("codecompanion.adapters").extend("openai", {
-                        schema = {
-                            model = {
-                                default = "o3-mini-2025-01-31",
-                            },
-                        },
-                    })
-                end,
-            },
+            adapters = {},
             opts = {
                 language = "Français",
             },
@@ -210,6 +220,33 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
+        },
+    },
+    {
+        "coder/claudecode.nvim",
+        dependencies = { "folke/snacks.nvim" },
+        config = true,
+        opts = {
+            terminal_cmd = "/Users/benjamin/Library/pnpm/claude",
+        },
+        keys = {
+            --{ "<leader>a",  nil,  desc = "AI/Claude Code" },
+            { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+            { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",  desc = "Focus Claude" },
+            { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+            { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+            { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+            { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",  desc = "Add current buffer" },
+            { "<leader>as", "<cmd>ClaudeCodeSend<cr>",  mode = "v",  desc = "Send to Claude" },
+            {
+                "<leader>as",
+                "<cmd>ClaudeCodeTreeAdd<cr>",
+                desc = "Add file",
+                ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
+            },
+            -- Diff management
+            { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+            { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",  desc = "Deny diff" },
         },
     },
 }

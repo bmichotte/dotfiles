@@ -1,7 +1,7 @@
 ---@type LazyPlugin[]
 return {
     {
-        "echasnovski/mini.icons",
+        "nvim-mini/mini.icons",
         opts = {
             file = {
                 ["tailwind.config.ts"] = { glyph = "󱏿", hl = "MiniIconsCyan" },

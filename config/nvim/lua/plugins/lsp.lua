@@ -42,6 +42,17 @@ local kind_icons = {
     OpenAI = "",
     Codestral = "",
     Bard = "",
+
+    -- LLM Provider icons
+    claude = '󰋦',
+    openai = '󱢆',
+    codestral = '󱎥',
+    gemini = '',
+    Groq = '',
+    Openrouter = '󱂇',
+    Ollama = '󰳆',
+    ['Llama.cpp'] = '󰳆',
+    Deepseek = ''
 }
 
 local servers = {
@@ -197,7 +208,7 @@ return {
 
                     draw = {
                         columns = {
-                            { "kind_icon", "label", gap = 1 },
+                            { "kind_icon", "label", "label_description", gap = 1 },
                             { "kind" },
                         },
                         components = {
@@ -238,6 +249,12 @@ return {
                                     return item.kind
                                 end,
                                 highlight = "CmpItemKind",
+                            },
+                            source_name = {
+                                text = function(ctx)
+                                    if ctx.source_id == 'cmdline' then return end
+                                    return ctx.source_name:sub(1, 4)
+                                end,
                             },
                         },
                     },
@@ -344,9 +361,17 @@ return {
                             vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
                         end
 
-                        -- if vim.fn.has("nvim-0.12") == 1 and client:supports_method("textDocument/documentColor") then
-                        --     vim.lsp.document_color.enable(true, args.buf)
+                        -- if client:supports_method("textDocument/codeLens") then
+                        --     vim.lsp.codelens.refresh()
+                        --     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                        --         buffer = buffer,
+                        --         callback = vim.lsp.codelens.refresh,
+                        --     })
                         -- end
+
+                        if vim.fn.has("nvim-0.12") == 1 and client:supports_method("textDocument/documentColor") then
+                            vim.lsp.document_color.enable(true, args.buf)
+                        end
                     end
                 end,
             })
@@ -417,16 +442,16 @@ return {
             local mason = require("mason-lspconfig")
             for _, server in pairs(mason.get_installed_servers()) do
                 if server ~= "lua_ls" and server ~= "ts_ls" and server ~= "vtsls" then
-                    lspconfig[server].setup({
+                    vim.lsp.config(server, {
                         capabilities = capabilities,
                         on_attach = on_attach,
                     })
+                    vim.lsp.enable(server)
                 end
             end
 
-            lspconfig.vtsls.setup({
+            vim.lsp.config('vtsls', {
                 capabilities = capabilities,
-                root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
                 settings = servers.vtsls.settings,
                 on_attach = function(client, bufnr)
                     require("twoslash-queries").attach(client, bufnr)
@@ -435,12 +460,14 @@ return {
                     on_attach(client, bufnr)
                 end,
             })
+            vim.lsp.enable('vtsls')
 
-            lspconfig.lua_ls.setup({
+            vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 settings = servers.lua_ls.settings,
                 on_attach = on_attach,
             })
+            vim.lsp.enable('lua_ls')
         end,
     },
 }
