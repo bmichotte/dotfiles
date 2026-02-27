@@ -9,6 +9,7 @@
     ~/.config/ghostty: config/ghostty
     ~/.config/fastfetch: config/fastfetch
     ~/.config/wezterm: config/wezterm
+    ~/.config/zellij: config/zellij
     ~/.config/starship.toml: config/starship.toml
     ~/.zshrc: zshrc
     ~/.zsh/git.plugin.zsh: zsh/git.plugin.zsh

@@ -53,3 +53,16 @@ vim.keymap.set(
     '<Cmd>%!jq --indent 4 \'def sort_keys: . as $in | if type == "object" then $in | to_entries | sort_by(.key | ascii_downcase) | from_entries | map_values(sort_keys) elif type == "array" then map(sort_keys) else . end; sort_keys\'<CR>',
     { noremap = true, silent = true, desc = "Format json file using jq" }
 )
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    callback = function()
+        vim.keymap.set("n", "dd", function()
+            local qflist = vim.fn.getqflist()
+            local line = vim.fn.line(".")
+            table.remove(qflist, line)
+            vim.fn.setqflist(qflist, "r")
+            vim.api.nvim_win_set_cursor(0, { line, 0 })
+        end, { buffer = true, desc = "Delete file from Quickfix" })
+    end,
+})

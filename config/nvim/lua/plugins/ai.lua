@@ -199,22 +199,34 @@ return {
     },
     {
         "olimorris/codecompanion.nvim",
-        enabled = false,
+        -- enabled = false,
         opts = {
             strategies = {
                 chat = {
-                    adapter = "openai",
+                    adapter = "ollama",
                 },
                 inline = {
-                    adapter = "copilot",
+                    adapter = "ollama",
                 },
                 cmd = {
-                    adapter = "openai",
+                    adapter = "ollama",
                 },
             },
-            adapters = {},
+            adapters = {
+                http = {
+                    ollama = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            env = {
+                                url = "http://localhost:1234",
+                                api_key = "lmstudio",
+                                chat_url = "/v1/chat/completions",
+                            },
+                        })
+                    end,
+                },
+            },
             opts = {
-                language = "Français",
+                language = "Francais",
             },
         },
         dependencies = {
@@ -230,14 +242,14 @@ return {
             terminal_cmd = "/Users/benjamin/Library/pnpm/claude",
         },
         keys = {
-            --{ "<leader>a",  nil,  desc = "AI/Claude Code" },
+            { "<leader>a", nil, desc = "AI/Claude Code" },
             { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-            { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",  desc = "Focus Claude" },
+            { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
             { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
             { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
             { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-            { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",  desc = "Add current buffer" },
-            { "<leader>as", "<cmd>ClaudeCodeSend<cr>",  mode = "v",  desc = "Send to Claude" },
+            { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+            { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
             {
                 "<leader>as",
                 "<cmd>ClaudeCodeTreeAdd<cr>",
@@ -246,7 +258,7 @@ return {
             },
             -- Diff management
             { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-            { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",  desc = "Deny diff" },
+            { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
         },
     },
 }

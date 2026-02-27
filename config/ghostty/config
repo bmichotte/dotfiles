@@ -13,10 +13,16 @@ window-height = 50
 window-width = 165
 
 copy-on-select = true
-shell-integration-features = cursor,sudo,title
+#shell-integration-features = cursor,sudo,title
 
 keybind = super+right=next_tab
 keybind = super+left=previous_tab
 
 window-inherit-working-directory=false
 keybind = shift+enter=text:\x1b\r
+
+
+# whatever opacity you like
+#background-opacity = 0.0
+# or you can do macos-glass-clear
+#background-blur = macos-glass-regular

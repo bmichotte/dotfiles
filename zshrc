@@ -190,10 +190,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 eval "$(starship init zsh)"
 #eval "$(zoxide init zsh --cmd cd)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -228,3 +224,10 @@ eval "$(pyenv virtualenv-init -)"
 export PATH="$PATH:/Users/benjamin/.cache/lm-studio/bin"
 # End of LM Studio CLI section
 
+# eval "$(zellij setup --generate-auto-start zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+alias tmux_restore="~/.config/tmux/plugins/tmux-resurrect/scripts/restore.sh"

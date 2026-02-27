@@ -77,6 +77,6 @@ git:
   disableForcePushing: true
   log:
     showGraph: always
-  paging:
-    colorArg: never
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: never
+      pager: delta --dark --paging=never
