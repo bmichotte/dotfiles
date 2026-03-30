@@ -1,6 +1,4 @@
----@type LazyPlugin[]
-return {
-    {
+--[[    {
         "zbirenbaum/copilot.lua",
         enabled = false,
         event = { "InsertEnter" },
@@ -9,7 +7,9 @@ return {
             panel = { enabled = false },
             -- copilot_model = "gpt-4o-copilot", -- default gpt-35-turbo
         },
-    },
+    }]]
+
+--[[
     {
         "yetone/avante.nvim",
         enabled = false,
@@ -69,8 +69,9 @@ return {
                 ft = { "markdown", "Avante" },
             },
         },
-    },
-    {
+    }]]
+
+--[[{
         "tzachar/cmp-ai",
         -- dir = "~/Developer/forks/cmp-ai",
         enabled = false,
@@ -176,8 +177,9 @@ return {
                 desc = "Edit current selection with ChatGPT",
             },
         },
-    },
-    {
+    }]]
+
+--[[{
         "CopilotC-Nvim/CopilotChat.nvim",
         enabled = false,
         build = "make tiktoken",
@@ -188,8 +190,9 @@ return {
         opts = {
             debug = false,
         },
-    },
-    {
+    }]]
+
+--[[{
         "olimorris/codecompanion.nvim",
         -- enabled = false,
         opts = {
@@ -225,32 +228,42 @@ return {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
         },
-    },
-    {
-        "coder/claudecode.nvim",
-        dependencies = { "folke/snacks.nvim" },
-        config = true,
-        opts = {
-            terminal_cmd = "/Users/benjamin/.local/bin/claude",
-        },
-        keys = {
-            { "<leader>a", nil, desc = "AI/Claude Code" },
-            { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-            { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-            { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-            { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-            { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-            { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-            { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
-            {
-                "<leader>as",
-                "<cmd>ClaudeCodeTreeAdd<cr>",
-                desc = "Add file",
-                ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
-            },
-            -- Diff management
-            { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-            { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
-        },
-    },
-}
+    }]]
+
+vim.pack.add({
+    "https://github.com/coder/claudecode.nvim",
+    -- dependencies
+    "https://github.com/folke/snacks.nvim",
+})
+require("claudecode").setup({
+    terminal_cmd = "/Users/benjamin/.local/bin/claude",
+})
+
+-- vim.keymap.set("n", "<leader>a",  nil,                              {desc = "AI/Claude Code", silent=true, noremap=true })
+vim.keymap.set("n", "<leader>ac", ":ClaudeCode<cr>", { desc = "Toggle Claude", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>af", ":ClaudeCodeFocus<cr>", { desc = "Focus Claude", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>ar", ":ClaudeCode --resume<cr>", { desc = "Resume Claude", silent = true, noremap = true })
+vim.keymap.set(
+    "n",
+    "<leader>aC",
+    ":ClaudeCode --continue<cr>",
+    { desc = "Continue Claude", silent = true, noremap = true }
+)
+vim.keymap.set(
+    "n",
+    "<leader>am",
+    ":ClaudeCodeSelectModel<cr>",
+    { desc = "Select Claude model", silent = true, noremap = true }
+)
+vim.keymap.set(
+    "n",
+    "<leader>ab",
+    ":ClaudeCodeAdd %<cr>",
+    { desc = "Add current buffer", silent = true, noremap = true }
+)
+vim.keymap.set("v", "<leader>as", ":ClaudeCodeSend<cr>", { desc = "Send to Claude", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>as", ":ClaudeCodeTreeAdd<cr>", { desc = "Add file", silent = true, noremap = true })
+
+-- Diff management
+vim.keymap.set("n", "<leader>aa", ":ClaudeCodeDiffAccept<cr>", { desc = "Accept diff", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>ad", ":ClaudeCodeDiffDeny<cr>", { desc = "Deny diff", silent = true, noremap = true })

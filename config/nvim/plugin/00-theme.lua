@@ -1,17 +1,9 @@
----@type LazyPlugin[]
-return {
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        opts = {
-            variant = 'moon'
-        },
-        config = function(_, opts)
-            require("rose-pine").setup(opts)
-            vim.cmd.colorscheme("rose-pine")
-        end,
-    },
-    {
+vim.pack.add({ "https://github.com/rose-pine/neovim" })
+
+require("rose-pine").setup({ variant = "moon" })
+vim.cmd.colorscheme("rose-pine")
+
+--[[{
         "catppuccin/nvim",
         name = "catppuccin",
         enabled = false,
@@ -49,5 +41,4 @@ return {
             require("catppuccin").setup(opts)
             vim.cmd.colorscheme("catppuccin")
         end,
-    },
-}
+    }]]

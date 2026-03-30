@@ -1,6 +1,0 @@
-vim.api.nvim_create_user_command("W", ":w", { desc = "I can't type :w without typing :W !" })
-vim.api.nvim_create_user_command("Wa", ":wa", { desc = "I can't type :wa without typing :Wa !" })
-vim.api.nvim_create_user_command("Wq", ":wq", { desc = "I can't type :wq without typing :Wq !" })
-vim.api.nvim_create_user_command("Wqa", ":wqa", { desc = "I can't type :wqa without typing :Waq !" })
-vim.api.nvim_create_user_command("Q", ":q", { desc = "I can't type :q without typing :Q !" })
-vim.api.nvim_create_user_command("Wall", ":wall", { desc = "I can't type :wall without typing :Wall !" })
