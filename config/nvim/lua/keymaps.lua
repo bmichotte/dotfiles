@@ -47,6 +47,7 @@ vim.keymap.set("i", "<A-S-c>", "<C-k>,C", { desc = "Accent Ç", noremap = true }
 -- vim.keymap.set("n", "<Right>", function() vim.notify("Use l instead of <Right>", "error") end,
 --     { desc = "Disable arrow right", silent = true })
 
+-- format json using jq
 vim.keymap.set(
     "n",
     "<Leader>fj",
@@ -54,6 +55,7 @@ vim.keymap.set(
     { noremap = true, silent = true, desc = "Format json file using jq" }
 )
 
+-- create a todo list like for cdo
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "qf",
     callback = function()

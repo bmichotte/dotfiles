@@ -13,42 +13,34 @@ return {
     {
         "yetone/avante.nvim",
         enabled = false,
+        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+        build = "make",
         event = { "VeryLazy" },
-        lazy = false,
+        -- lazy = false,
         version = false,
+        ---@module 'avante'
+        ---@type avante.Config
         opts = {
-            provider = "claude-code",
-            -- openai = {
-            --     model = "gpt-4.1",
-            -- },
-            acp_providers = {
-                ["gemini-cli"] = {
-                    command = "gemini",
-                    args = { "--experimental-acp" },
-                    env = {
-                        NODE_NO_WARNINGS = "1",
-                        GEMINI_API_KEY = os.getenv("GEMINI_API_KEY"),
-                    },
-                },
-                ["claude-code"] = {
-                    command = "npx",
-                    args = { "@zed-industries/claude-code-acp" },
-                    env = {
-                        NODE_NO_WARNINGS = "1",
-                        ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY"),
-                    },
+            provider = "claude",
+
+            providers = {
+                claude = {
+                    auth_type = "max",
                 },
             },
         },
-        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-        build = "make",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "stevearc/dressing.nvim",
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
-            "echasnovski/mini.icons",
-            "zbirenbaum/copilot.lua",
+            --- The below dependencies are optional,
+            "nvim-mini/mini.pick", -- for file_selector provider mini.pick
+            "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+            "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+            "ibhagwan/fzf-lua", -- for file_selector provider fzf
+            -- "stevearc/dressing.nvim", -- for input provider dressing
+            "folke/snacks.nvim", -- for input provider snacks
+            "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+            "zbirenbaum/copilot.lua", -- for providers='copilot'
             ---@diagnostic disable-next-line: assign-type-mismatch
             {
                 -- support for image pasting
@@ -239,7 +231,7 @@ return {
         dependencies = { "folke/snacks.nvim" },
         config = true,
         opts = {
-            terminal_cmd = "/Users/benjamin/Library/pnpm/claude",
+            terminal_cmd = "/Users/benjamin/.local/bin/claude",
         },
         keys = {
             { "<leader>a", nil, desc = "AI/Claude Code" },
