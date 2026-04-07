@@ -47,6 +47,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
+--- wraps message with tmux prefix so that the underlying terminal can interpret it correctly
+--- needs 'set-option -g allow-passthrough on' in tmux config
+---@param content string
+---@return string
+local function wrap_tmux(content) return string.format("\27Ptmux;\27%s\27\\", content) end
+
+local original_ui_send = vim.api.nvim_ui_send
+
+---@diagnostic disable-next-line: duplicate-set-field
+vim.api.nvim_ui_send = function(content)
+    -- wrap in TMUX passthrough if needed
+    if os.getenv("TMUX") then content = wrap_tmux(content) end
+    original_ui_send(content)
+end
+
 -- Show LSP progress
 vim.api.nvim_create_autocmd("LspProgress", {
     ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
@@ -66,23 +81,13 @@ vim.api.nvim_create_autocmd("LspProgress", {
             return
         end
 
-        -- Préparation des données
+        -- data
         local status = value.kind == "end" and 0 or 1 -- 0: success/hide, 1: running
         local percent = value.percentage or 0
 
-        -- Construction de la séquence OSC 9;4 (Ghostty progress)
+        -- Ghostty progress 9;4 (Ghostty progress)
         local osc_seq = string.format("\27]9;4;%d;%d\a", status, percent)
-
-        -- Si on est dans TMUX, on doit "emballer" la séquence
-        -- pour qu'elle soit transmise au terminal hôte (Ghostty)
-        if os.getenv("TMUX") then
-            -- Double ESC \27\27 pour Tmux passthrough
-            osc_seq = string.format("\27Ptmux;\27%s\27\\", osc_seq)
-        end
-
-        -- Envoi direct au terminal
-        io.stdout:write(osc_seq)
-        io.stdout:flush()
+        vim.api.nvim_ui_send(osc_seq)
     end,
 })
 
@@ -131,17 +136,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
         end
 
-        if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-        end
+        -- atm, nvim-highlight-colors has functionnalities neovim doesn't have (like tailwindcss colors)
+        -- if client.server_capabilities.inlayHintProvider then
+        --     vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+        -- end
 
         -- codelens
         -- if client:supports_method("textDocument/codeLens") then
-        --     vim.lsp.codelens.refresh()
-        --     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        --         buffer = buffer,
-        --         callback = vim.lsp.codelens.refresh,
-        --     })
+        --     vim.lsp.codelens.enable(true)
         -- end
 
         -- colors
