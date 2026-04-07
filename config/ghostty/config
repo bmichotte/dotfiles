@@ -18,7 +18,11 @@ copy-on-select = true
 keybind = super+right=next_tab
 keybind = super+left=previous_tab
 
-window-inherit-working-directory=false
+working-directory = home
+window-inherit-working-directory = false
+tab-inherit-working-directory = false
+split-inherit-working-directory = true
+
 keybind = shift+enter=text:\x1b\r
 
 
