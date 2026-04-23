@@ -126,9 +126,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end)
         end, opts)
 
-        opts.desc = "Show LSP references"
-        vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
-
         -- fold
         if client:supports_method("textDocument/foldingRange") then
             local win = vim.api.nvim_get_current_win()
