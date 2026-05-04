@@ -1,7 +1,23 @@
-vim.pack.add({ "https://github.com/rose-pine/neovim" })
+-- vim.pack.add({ "https://github.com/rose-pine/neovim" })
+--
+-- require("rose-pine").setup({ variant = "moon" })
+-- vim.cmd.colorscheme("rose-pine")
 
-require("rose-pine").setup({ variant = "moon" })
-vim.cmd.colorscheme("rose-pine")
+vim.pack.add({ "https://github.com/rmehri01/onenord.nvim" })
+
+local colors = require("onenord.colors").load()
+
+require("onenord").setup({
+    custom_highlights = {
+        -- used for highlighting "text" references
+        LspReferenceText = { bg = colors.none, style = colors.none },
+        -- used for highlighting "read" references
+        LspReferenceRead = { bg = colors.none, style = colors.none },
+        -- used for highlighting "write" references
+        LspReferenceWrite = { bg = colors.none, style = colors.none },
+    },
+})
+-- vim.cmd.colorscheme("rose-pine")
 
 --[[{
         "catppuccin/nvim",

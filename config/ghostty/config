@@ -4,7 +4,8 @@ adjust-underline-position = 4
 
 mouse-hide-while-typing = true
 
-theme = "catppuccin-mocha"
+#theme = "catppuccin-mocha"
+theme = onenord
 cursor-invert-fg-bg = true
 window-theme = ghostty
 
@@ -25,6 +26,7 @@ split-inherit-working-directory = true
 
 keybind = shift+enter=text:\x1b\r
 
+macos-option-as-alt = false
 
 # whatever opacity you like
 #background-opacity = 0.0
