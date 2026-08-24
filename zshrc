@@ -156,6 +156,8 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export PATH="$HOME/bin/sbx/bin:$PATH"
+export PATH="$HOME/bin/sbx/libexec:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.symfony5/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -224,10 +226,5 @@ eval "$(pyenv virtualenv-init -)"
 export PATH="$PATH:/Users/benjamin/.cache/lm-studio/bin"
 # End of LM Studio CLI section
 
-# eval "$(zellij setup --generate-auto-start zsh)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 alias tmux_restore="~/.config/tmux/plugins/tmux-resurrect/scripts/restore.sh"
+eval "$(/Users/benjamin/.local/bin/mise activate zsh)"
