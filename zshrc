@@ -95,8 +95,8 @@ alias hud_hide="/bin/launchctl setenv MTL_HUD_ENABLED 0"
 # pnpm
 export PNPM_HOME="/Users/benjamin/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
 
