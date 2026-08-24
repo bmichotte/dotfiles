@@ -113,6 +113,7 @@ actions[o]="outdated --long"
 actions[b]="run build"
 actions[d]="run dev"
 actions[w]="run watch"
+actions[t]="run test"
 
 # create aliases for tools and actions
 # like pi -> pnpm install or bw -> bun watch
