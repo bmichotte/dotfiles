@@ -24,6 +24,9 @@ require("mason-lspconfig").setup({
         "emmet_ls",
         "prismals",
         "biome",
-        "vtsls",
+        "tsc",
+        -- "ts_ls",
+        -- "vtsls",
     },
+    automatic_enable = { exclude = { "vtsls", "ts_ls" } },
 })

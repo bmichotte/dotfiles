@@ -63,7 +63,7 @@ vim.api.nvim_ui_send = function(content)
 end
 
 -- Show LSP progress
-vim.api.nvim_create_autocmd("LspProgress", {
+--[[vim.api.nvim_create_autocmd("LspProgress", {
     ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
     callback = function(ev)
         local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("LspProgress", {
         local osc_seq = string.format("\27]9;4;%d;%d\a", status, percent)
         vim.api.nvim_ui_send(osc_seq)
     end,
-})
+})]]
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -134,9 +134,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
 
         -- atm, nvim-highlight-colors has functionnalities neovim doesn't have (like tailwindcss colors)
-        -- if client.server_capabilities.inlayHintProvider then
-        --     vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-        -- end
+        if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+        end
 
         -- codelens
         -- if client:supports_method("textDocument/codeLens") then

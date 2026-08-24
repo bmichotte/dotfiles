@@ -230,6 +230,7 @@
         },
     }]]
 
+--[[
 vim.pack.add({
     "https://github.com/coder/claudecode.nvim",
     -- dependencies
@@ -267,3 +268,4 @@ vim.keymap.set("n", "<leader>as", ":ClaudeCodeTreeAdd<cr>", { desc = "Add file",
 -- Diff management
 vim.keymap.set("n", "<leader>aa", ":ClaudeCodeDiffAccept<cr>", { desc = "Accept diff", silent = true, noremap = true })
 vim.keymap.set("n", "<leader>ad", ":ClaudeCodeDiffDeny<cr>", { desc = "Deny diff", silent = true, noremap = true })
+]]

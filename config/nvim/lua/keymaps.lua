@@ -77,3 +77,8 @@ vim.api.nvim_create_user_command("Wqa", ":wqa", { desc = "I can't type :wqa with
 vim.api.nvim_create_user_command("Q", ":q", { desc = "I can't type :q without typing :Q !" })
 vim.api.nvim_create_user_command("Wall", ":wall", { desc = "I can't type :wall without typing :Wall !" })
 
+vim.keymap.set("n", "<leader>ty", function()
+    local path = vim.fn.expand("%:.")
+    vim.fn.setreg("+", path)
+    vim.notify('"' .. path .. '" added in clipboard')
+end, { desc = "Copy relative path to clipboard" })

@@ -172,19 +172,19 @@ ins_left({
     color = { fg = colors.green, gui = "bold" },
 })
 
-ins_left({
-    function()
-        local status = require("ollama").status()
-
-        if status == "IDLE" then
-            return ""
-        elseif status == "WORKING" then
-            return "󱚟"
-        end
-    end,
-    cond = conditions.ollama_is_running,
-    color = { fg = colors.yellow, gui = "bold" },
-})
+-- ins_left({
+--     function()
+--         local status = require("ollama").status()
+--
+--         if status == "IDLE" then
+--             return ""
+--         elseif status == "WORKING" then
+--             return "󱚟"
+--         end
+--     end,
+--     cond = conditions.ollama_is_running,
+--     color = { fg = colors.yellow, gui = "bold" },
+-- })
 
 ins_left({
     -- filesize component
@@ -253,7 +253,9 @@ ins_left({
         end
 
         local langs = {
-            ["ts_ls"] = "󰛦",
+            -- ["ts_ls"] = "󰛦",
+            -- ["vtsls"] = "󰛦",
+            ["tsc"] = "󰛦",
             ["cssls"] = "",
             ["tailwindcss"] = "󱏿",
             ["html"] = "",

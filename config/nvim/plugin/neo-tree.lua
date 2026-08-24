@@ -1,14 +1,14 @@
 vim.pack.add({
     {
         src = "https://github.com/nvim-neo-tree/neo-tree.nvim",
-        version = vim.version.range("3")
+        version = vim.version.range("3"),
     },
     -- dependencies
     "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/MunifTanjim/nui.nvim",
 })
 
-require('neo-tree').setup({
+require("neo-tree").setup({
     close_if_last_window = true,
     sort_case_insensitive = true,
     filesystem = {
@@ -31,9 +31,28 @@ require('neo-tree').setup({
     },
     window = {
         position = "right",
+        mappings = {
+            ["y"] = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                function(state)
+                    vim.fn.setreg("+", state.tree:get_node().path)
+                end,
+                desc = "copy path to clipboard",
+            },
+        },
     },
 })
 
-vim.keymap.set("n", "<leader>tt", ":Neotree toggle<CR>", { desc = "[T]oggle files [t]ree", noremap = true, silent = true })
+vim.keymap.set(
+    "n",
+    "<leader>tt",
+    ":Neotree toggle<CR>",
+    { desc = "[T]oggle files [t]ree", noremap = true, silent = true }
+)
 vim.keymap.set("n", "<leader>tf", ":Neotree<CR>", { desc = "[F]ocus files tree", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>ts", ":Neotree reveal<CR>", { desc = "Reveal current file", noremap = true, silent = true })
+vim.keymap.set(
+    "n",
+    "<leader>ts",
+    ":Neotree reveal<CR>",
+    { desc = "Reveal current file", noremap = true, silent = true }
+)
