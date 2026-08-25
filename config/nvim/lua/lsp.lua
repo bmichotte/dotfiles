@@ -51,14 +51,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --- needs 'set-option -g allow-passthrough on' in tmux config
 ---@param content string
 ---@return string
-local function wrap_tmux(content) return string.format("\27Ptmux;\27%s\27\\", content) end
+local function wrap_tmux(content)
+    return string.format("\27Ptmux;\27%s\27\\", content)
+end
 
 local original_ui_send = vim.api.nvim_ui_send
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.api.nvim_ui_send = function(content)
     -- wrap in TMUX passthrough if needed
-    if os.getenv("TMUX") then content = wrap_tmux(content) end
+    if os.getenv("TMUX") then
+        content = wrap_tmux(content)
+    end
     original_ui_send(content)
 end
 
@@ -168,3 +172,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.api.nvim_create_autocmd("LspDetach", { command = "setl foldexpr<" })
+
+vim.lsp.config("tsc", {
+    settings = {
+        ["js/ts"] = {
+            inlayHints = {
+                parameterTypes = { enabled = false },
+                variableTypes = { enabled = false },
+            },
+            preferences = {
+                importModuleSpecifier = "non-relative",
+                importModuleSpecifierPreference = "non-relative",
+                importModuleSpecifierEnding = "auto",
+                preferTypeOnlyAutoImports = true,
+                quoteStyle = "auto",
+            },
+        },
+    },
+})
