@@ -18,11 +18,6 @@ vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split horizontally", norem
 vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splitted windows same width", noremap = true })
 vim.keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close current split", noremap = true })
 
-vim.keymap.set("n", "<c-h>", ":wincmd h<cr>", { desc = "Move to left pane", silent = true, noremap = true })
-vim.keymap.set("n", "<c-j>", ":wincmd j<cr>", { desc = "Move to down pane", silent = true, noremap = true })
-vim.keymap.set("n", "<c-k>", ":wincmd k<cr>", { desc = "Move to top pane", silent = true, noremap = true })
-vim.keymap.set("n", "<c-l>", ":wincmd l<cr>", { desc = "Move to right pane", silent = true, noremap = true })
-
 -- move lines
 vim.keymap.set("n", "<A-Down>", ":m .+1<CR>==", { desc = "Move line up", silent = true, noremap = true })
 vim.keymap.set("n", "<A-Up>", ":m .-2<CR>==", { desc = "Move line down", silent = true, noremap = true })
