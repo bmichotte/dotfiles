@@ -144,44 +144,78 @@ end
 
 -- ── ui2 enable ──────────────────────────────────────────────────────
 
-ui2.enable {
-    enable = true,
-    msg = {
-        targets = {
-            [''] = 'msg',
-            empty = 'msg',
-            bufwrite = 'msg',
-            echo = 'msg',
-            echomsg = 'msg',
-            shell_ret = 'msg',
-            undo = 'msg',
-            wmsg = 'msg',
-            completion = 'msg',
-            confirm = 'dialog',
-            confirm_sub = 'dialog',
-            echoerr = 'msg',
-            emsg = 'msg',
-            list_cmd = 'pager',
-            lua_error = 'msg',
-            lua_print = 'msg',
-            progress = 'msg',
-            quickfix = 'msg',
-            rpc_error = 'msg',
-            search_cmd = 'msg',
-            search_count = 'msg',
-            shell_cmd = 'msg',
-            shell_err = 'msg',
-            shell_out = 'msg',
-            typed_cmd = 'msg',
-            verbose = 'pager',
-            wildlist = 'msg',
-        },
-        cmd = { height = 0.5 },
-        dialog = { height = 0.5 },
-        msg = { height = 0.5, timeout = 2000 },
-        pager = { height = 0.8 },
-    },
+-- nvim 0.13 (nightly) a retiré `msg.msg.timeout` et `msg.cmd.height` de la
+-- config ui2 au profit des items "timeout"/"maxheight" de 'messagesopt', et a
+-- remplacé `cfg.msg.target` par `cfg.msg.targets.default`.
+local ui2_messagesopt_cfg = ui2.cfg.msg.target == nil
+
+local MSG_TIMEOUT = 2000 -- ms d'affichage d'un message dans la fenêtre msg
+local CMD_MAX_HEIGHT = 0.5 -- hauteur max de la cmdline étendue
+
+local function set_messagesopt(items)
+    local kept = {}
+    for _, item in ipairs(vim.split(vim.o.messagesopt, ',', { trimempty = true })) do
+        if items[item:match '^[^:]+'] == nil then
+            kept[#kept + 1] = item
+        end
+    end
+    for key, value in pairs(items) do
+        kept[#kept + 1] = key .. ':' .. value
+    end
+    vim.o.messagesopt = table.concat(kept, ',')
+end
+
+local targets = {
+    empty = 'msg',
+    bufwrite = 'msg',
+    echo = 'msg',
+    echomsg = 'msg',
+    shell_ret = 'msg',
+    undo = 'msg',
+    wmsg = 'msg',
+    completion = 'msg',
+    confirm = 'dialog',
+    confirm_sub = 'dialog',
+    echoerr = 'msg',
+    emsg = 'msg',
+    list_cmd = 'pager',
+    lua_error = 'msg',
+    lua_print = 'msg',
+    progress = 'msg',
+    quickfix = 'msg',
+    rpc_error = 'msg',
+    search_cmd = 'msg',
+    search_count = 'msg',
+    shell_cmd = 'msg',
+    shell_err = 'msg',
+    shell_out = 'msg',
+    typed_cmd = 'msg',
+    verbose = 'pager',
+    wildlist = 'msg',
 }
+
+local msg_cfg = {
+    targets = targets,
+    dialog = { height = 0.5 },
+    msg = { height = 0.5 },
+    pager = { height = 0.8 },
+}
+
+if ui2_messagesopt_cfg then
+    set_messagesopt { timeout = MSG_TIMEOUT, maxheight = math.floor(CMD_MAX_HEIGHT * 100) }
+else
+    -- Sur 0.12 les clés de `targets` sont uniquement comparées au kind ; sur 0.13
+    -- elles servent aussi de motif Lua sur l'ID du message, où '' matche tout.
+    targets[''] = 'msg'
+    msg_cfg.cmd = { height = CMD_MAX_HEIGHT }
+    msg_cfg.msg.timeout = MSG_TIMEOUT
+end
+
+ui2.enable { enable = true, msg = msg_cfg }
+
+local function default_target()
+    return ui2.cfg.msg.targets.default or ui2.cfg.msg.target or 'cmd'
+end
 
 -- ── Wrap set_pos: the single source of truth for msg window placement ─
 
@@ -215,10 +249,9 @@ msgs.msg_show = function(kind, content, replace_last, history, append, id, trigg
     last_title, last_hl = title, hl
     -- orig_msg_show(kind, content, replace_last, history, append, id, trigger)
 
-    local tgt = ui2.cfg.msg.targets[kind]
+    local tgt = (kind ~= '' and ui2.cfg.msg.targets[kind])
         or (trigger ~= '' and ui2.cfg.msg.targets[trigger])
-        or ui2.cfg.msg.targets[trigger]
-        or ui2.cfg.msg.target
+        or default_target()
 
     msgs.show_msg(tgt, kind, content, replace_last, append, id)
     msgs.set_pos(tgt)
