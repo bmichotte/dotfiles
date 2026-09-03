@@ -179,6 +179,9 @@ vim.lsp.config("tsc", {
             inlayHints = {
                 parameterTypes = { enabled = false },
                 variableTypes = { enabled = false },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = false },
+                enumMemberValues = { enabled = true },
             },
             preferences = {
                 importModuleSpecifier = "non-relative",
